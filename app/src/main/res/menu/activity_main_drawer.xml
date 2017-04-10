@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_600_vocabulary"
+            android:icon="@drawable/ic_menu_600_vocabulary"
+            android:title="600 Từ vựng" />
+        <item
+            android:id="@+id/nav_grammar"
+            android:icon="@drawable/ic_menu_grammar"
+            android:title="Ngữ pháp" />
+        <item
+            android:id="@+id/nav_practice_toeic"
+            android:icon="@drawable/ic_menu_practice_toeic"
+            android:title="Luyện thi TOEIC" />
+        <item
+            android:id="@+id/nav_toeic_exam"
+            android:icon="@drawable/ic_menu_toeic_exam"
+            android:title="Đề thi TOEIC" />
+        <item
+            android:id="@+id/nav_toeic_exam_tips"
+            android:icon="@drawable/ic_menu_toeic_exam_tips"
+            android:title="Mẹo Thi TOEIC" />
+    </group>
+
+</menu>

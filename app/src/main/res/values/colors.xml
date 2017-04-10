@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Color primary 500 from palette colors -->
+    <color name="primary">#c62828 </color>
+    <!--Color primary
+    700 from palette colors -->
+    <color name="primaryDark">#b71c1c</color>
+    <color name="statusOrange">#FF9800</color>
+    <color name="statusGreen">#39B54A</color>
+    <color name="colorTextName">#6D5C7C</color>
+    <color name="background">#f0f1f3</color>
+    <color name="statusRed">#FF5A54</color>
+    <color name="simpleCheckinLabel">#808080</color>
+    <color name="selectedButtonText">#FFFFFF</color>
+    <color name="tabTitle">#FFFFFF</color>
+    <color name="defaultCheckInButtonText">#808080</color>
+    <color name="scroll_view_checkin_tab_background">#E1EEF7</color>
+    <color name="colorPrimary">#F0454B</color>
+    <color name="colorPrimaryDark">#EA3B40</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="red1">#fe0002</color>
+    <color name="white">#ffffff</color>
+    <color name="blue1">#3baeda</color>
+    <color name="brown1">#dddddd</color>
+    <color name="brown2">#8e9399</color>
+    <color name="black">#000000</color>
+    <color name="clr_coin">#ff0000</color>
+    <color name="clr_install">#ffffff</color>
+    <color name="clr_btn_share_fb">#3c599b</color>
+    <color name="clr_gray1">#8e9399</color>
+    <color name="dark">#FF222222</color>
+    <color name="clr_a0d468">#a0d468</color>
+    <color name="orange">#FBB03B</color>
+    <color name="blue_light">#03A9F4</color>
+    <color name="blue">#2A78C6</color>
+    <color name="grey_light">#E6E6E6</color>
+    <color name="yellow">#FBB03B</color>
+    <color name="red">#FF5A54</color>
+    <color name="green">#39B54A</color>
+    <color name="grey">#ACACAC</color>
+    <color name="blue_btn_login">#0080ff</color>
+    <color name="red_notification">#c1272d</color>
+    <color name="brown_checkin_item_sub">#6d6674</color>
+    <color name="blue_due_date">#2c8ae0</color>
+    <color name="section_title_color">#F0F1F2</color>
+    <color name="text_black_top">#565656</color>
+    <color name="text_gray_top">#9e9e9e</color>
+    <color name="text_header_guideline">#4f4f4f</color>
+    <color name="bg_gray_point">#e1e2e3</color>
+    <color name="text_hint_reason_gray">#abacb3</color>
+    <color name="divider_gray_line">#f0f0f0</color>
+    <color name="skyblue_guideline">#7cc8ea</color>
+    <color name="clr_blue_guideline">#84cbc5</color>
+    <color name="orange_guideline">#f9bc30</color>
+    <color name="red_guideline">#f47264</color>
+    <color name="blue_guideline">#1d69a5</color>
+    <color name="pink_guideline">#d55472</color>
+    <color name="clr_orange_guideline">#f49464</color>
+    <color name="green_guideline">#3cb878</color>
+    <color name="text_darker_gray">#606266</color>
+    <color name="text_color_email">#03A9F4</color>
+    <color name="login_text_hint">#f0c1c1</color>
+    <color name="bg_unread_notify">#eceef4</color>
+</resources>
