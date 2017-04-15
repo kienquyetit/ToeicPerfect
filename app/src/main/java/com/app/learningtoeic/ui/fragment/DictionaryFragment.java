@@ -9,8 +9,7 @@ import com.app.learningtoeic.contract.DictionaryContract;
 import com.app.learningtoeic.entity.Word;
 import com.app.learningtoeic.mvp.fragment.MVPFragment;
 import com.app.learningtoeic.presenter.DictionaryPresenter;
-import com.app.learningtoeic.ui.adapter.WordsAdapter;
-import com.app.learningtoeic.utils.DbHelper;
+import com.app.learningtoeic.ui.adapter.DictionaryAdapter;
 
 import java.util.ArrayList;
 
@@ -18,21 +17,19 @@ import java.util.ArrayList;
  * Created by dell on 3/31/2017.
  */
 
-public class DictionaryFragment extends MVPFragment<DictionaryContract.IPresenterViewOps> implements DictionaryContract.IViewOps,WordsAdapter.Callback
+public class DictionaryFragment extends MVPFragment<DictionaryContract.IPresenterViewOps> implements DictionaryContract.IViewOps,DictionaryAdapter.Callback
 {
     ProgressDialog progressDialog;
     private RecyclerView recyclerView;
-    public WordsAdapter adapter;
-    private DbHelper databaseHepler;
+    public DictionaryAdapter adapter;
 
     public DictionaryFragment() {
         // Required empty public constructor
     }
 
-
     @Override
     protected void OnViewCreated() {
-        adapter = new WordsAdapter();
+        adapter = new DictionaryAdapter();
         adapter.callback = this;
         recyclerView.setAdapter(adapter);
         getPresenter().ExcuteDictionaryTask();
@@ -77,7 +74,7 @@ public class DictionaryFragment extends MVPFragment<DictionaryContract.IPresente
     }
 
     @Override
-    public void OnClickDetailItem(ArrayList<Word> wordList, int wordId) {
-        SwitchFragment(new DetailWordFragment(wordList,wordId),true);
+    public void OnClickDetailItem(Word word) {
+        SwitchFragment(new DetailWordFragment(word, this),true);
     }
 }

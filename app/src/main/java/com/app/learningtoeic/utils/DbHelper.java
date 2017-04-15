@@ -3,7 +3,6 @@ package com.app.learningtoeic.utils;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseErrorHandler;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -132,14 +131,14 @@ public class DbHelper extends SQLiteOpenHelper{
 
     public void update(Word word){
         ContentValues values = new ContentValues();
-        values.put("topic", word.getTopic());
+        values.put("topicid", word.getTopic());
         values.put("id_temp", word.getId_temp());
         values.put("vocabulary", word.getVocabulary());
         values.put("vocalization", word.getVocalization());
         values.put("explanation", word.getExplanation());
         values.put("translate", word.getTranslate());
         values.put("example", word.getExample());
-        values.put("example_translate", word.getExample_translate());
+        values.put("example_translate", word.getExampleTranslate());
         values.put("favourite", word.getFavourite());
 
         int ret = myDataBase.update(TABLE_NAME, values, "id=?", new String[]{String.valueOf(word.getId())});

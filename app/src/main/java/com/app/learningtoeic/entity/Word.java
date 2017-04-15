@@ -13,7 +13,7 @@ public class Word implements Parcelable {
     private String explanation;
     private String translate;
     private String example;
-    private String example_translate;
+    private String exampleTranslate;
     private int favourite;
 
     protected Word(Parcel in) {
@@ -25,7 +25,7 @@ public class Word implements Parcelable {
         explanation = in.readString();
         translate = in.readString();
         example = in.readString();
-        example_translate = in.readString();
+        exampleTranslate = in.readString();
         favourite = in.readInt();
     }
 
@@ -105,12 +105,12 @@ public class Word implements Parcelable {
         this.example = example;
     }
 
-    public String getExample_translate() {
-        return example_translate;
+    public String getExampleTranslate() {
+        return exampleTranslate;
     }
 
-    public void setExample_translate(String example_translate) {
-        this.example_translate = example_translate;
+    public void setExampleTranslate(String exampleTranslate) {
+        this.exampleTranslate = exampleTranslate;
     }
 
     public int getFavourite() {
@@ -136,11 +136,11 @@ public class Word implements Parcelable {
         parcel.writeString(explanation);
         parcel.writeString(translate);
         parcel.writeString(example);
-        parcel.writeString(example_translate);
+        parcel.writeString(exampleTranslate);
         parcel.writeInt(favourite);
     }
 
-    public Word(int id, int topic, int id_temp, String vocabulary, String vocalization, String explanation, String translate, String example, String example_translate, int favourite) {
+    public Word(int id, int topic, int id_temp, String vocabulary, String vocalization, String explanation, String translate, String example, String exampleTranslate, int favourite) {
         this.id = id;
         this.topic = topic;
         this.id_temp = id_temp;
@@ -148,7 +148,7 @@ public class Word implements Parcelable {
         this.vocabulary = vocabulary;
         this.translate = translate;
         this.example = example;
-        this.example_translate = example_translate;
+        this.exampleTranslate = exampleTranslate;
         this.favourite = favourite;
         this.explanation = explanation;
     }

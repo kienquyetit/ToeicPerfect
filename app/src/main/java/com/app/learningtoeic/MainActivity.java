@@ -1,11 +1,9 @@
 package com.app.learningtoeic;
 
 import android.os.Build;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,23 +12,22 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.app.learningtoeic.base.BaseActivity;
 import com.app.learningtoeic.base.BaseFragment;
-import com.app.learningtoeic.ui.fragment.ChatFragment;
 import com.app.learningtoeic.ui.fragment.HomeFragment;
 import com.app.learningtoeic.utils.FragmentHelper;
 
 public class MainActivity extends BaseActivity
 {
 
-    View ImvBack;
-    TextView TvTitle;
+    View imvBack;
+    TextView tvTitle;
     android.support.v7.widget.Toolbar MainToolbar;
     FrameLayout ViewItemToolbar;
-    ImageView imgLike;
+    ImageView ivLike;
+    FloatingActionButton fabListening, fabRecording, fabSliding;
 
     boolean isMenuVisible;
     @Override
@@ -43,8 +40,13 @@ public class MainActivity extends BaseActivity
         ChangeStatusBar();
         MainToolbar = (Toolbar) findViewById(R.id.mainToolbar);
         ViewItemToolbar = (FrameLayout)findViewById(R.id.view_on_toolbar);
-        imgLike = (ImageView) findViewById(R.id.ivFavourite);
-        ImvBack.setOnClickListener(new View.OnClickListener() {
+        ivLike = (ImageView) findViewById(R.id.iv_favourite);
+        imvBack = findViewById(R.id.iv_back);
+        tvTitle = (TextView) findViewById(R.id.tv_title);
+        fabListening = (FloatingActionButton) findViewById(R.id.fab_listening);
+        fabRecording = (FloatingActionButton) findViewById(R.id.fab_recording);
+        fabSliding = (FloatingActionButton) findViewById(R.id.fab_sliding);
+        imvBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
@@ -56,14 +58,13 @@ public class MainActivity extends BaseActivity
 
     @Override
     protected void OnBindView() {
-        ImvBack = findViewById(R.id.imvBack);
-        TvTitle = (TextView) findViewById(R.id.tvTitle);
     }
 
     @Override
     protected int GetLayoutId() {
         return R.layout.activity_main;
     }
+
     public void ChangeStatusBar()
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -107,7 +108,7 @@ public class MainActivity extends BaseActivity
         {
             return;
         }
-        TvTitle.setText(title);
+        tvTitle.setText(title);
     }
 
     @Override
@@ -149,9 +150,9 @@ public class MainActivity extends BaseActivity
 
     public void setBackButtonVisible(boolean isVisible) {
         if (isVisible) {
-            ImvBack.setVisibility(View.VISIBLE);
+            imvBack.setVisibility(View.VISIBLE);
         } else {
-            ImvBack.setVisibility(View.GONE);
+            imvBack.setVisibility(View.GONE);
         }
     }
 
@@ -159,11 +160,71 @@ public class MainActivity extends BaseActivity
     {
         if(isVisible)
         {
-            imgLike.setVisibility(View.VISIBLE);
+            ivLike.setVisibility(View.VISIBLE);
         }
         else
         {
-            imgLike.setVisibility(View.GONE);
+            ivLike.setVisibility(View.GONE);
         }
+    }
+
+    public void setListeningButtonVisible(boolean isVisible)
+    {
+        if(isVisible)
+        {
+            fabListening.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            fabListening.setVisibility(View.GONE);
+        }
+    }
+
+    public void setRecordingButtonVisible(boolean isVisible)
+    {
+        if(isVisible)
+        {
+            fabRecording.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            fabRecording.setVisibility(View.GONE);
+        }
+    }
+
+    public void setSlidingButtonVisible(boolean isVisible)
+    {
+        if(isVisible)
+        {
+            fabSliding.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            fabSliding.setVisibility(View.GONE);
+        }
+    }
+
+    public View getImvBack() {
+        return imvBack;
+    }
+
+    public TextView getTvTitle() {
+        return tvTitle;
+    }
+
+    public ImageView getIvLike() {
+        return ivLike;
+    }
+
+    public FloatingActionButton getFabListening() {
+        return fabListening;
+    }
+
+    public FloatingActionButton getFabRecording() {
+        return fabRecording;
+    }
+
+    public FloatingActionButton getFabSliding() {
+        return fabSliding;
     }
 }

@@ -73,7 +73,9 @@ public abstract class BaseFragment extends Fragment {
             GetMainAcitivity().setBackButtonVisible(IsBackButtonVisible());
             GetMainAcitivity().setMenuVisible(IsMenuVisible());
             GetMainAcitivity().setImgLikeVisible(IsImgLikeVisible());
-
+            GetMainAcitivity().setListeningButtonVisible(IsListeningButtonVisible());
+            GetMainAcitivity().setRecordingButtonVisible(IsRecordingButtonVisible());
+            GetMainAcitivity().setSlidingButtonVisible(IsSlidingButtonVisible());
         }catch (Exception e)
         {
 
@@ -93,6 +95,19 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public boolean IsImgLikeVisible(){return false;}
+
+    public boolean IsListeningButtonVisible() {
+        return false;
+    }
+
+    public boolean IsRecordingButtonVisible() {
+        return false;
+    }
+
+    public boolean IsSlidingButtonVisible() {
+        return false;
+    }
+
     public boolean GetMenuVisible() {
         return false;
     }
@@ -104,4 +119,5 @@ public abstract class BaseFragment extends Fragment {
     public boolean OnBackPress() {
         return false;
     }
+
 }
