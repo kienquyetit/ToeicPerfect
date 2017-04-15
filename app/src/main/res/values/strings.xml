@@ -1,3 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <resources>
     <string name="app_name">ToeicPerfect</string>
+    <string-array name="topic_name">
+        <item>Pharmacy</item>
+        <item>Hospitals</item>
+        <item>Health</item>
+        <item>Dentist"'"s Office</item>
+        <item>Doctor"'"s Office</item>
+        <item>Media</item>
+        <item>Musseums</item>
+        <item>Music</item>
+        <item>Theater</item>
+        <item>Movies</item>
+        <item>Car Rentals</item>
+        <item>Hotels</item>
+        <item>Trains</item>
+        <item>Airlines</item>
+        <item>General Travel</item>
+        <item>Events</item>
+        <item>Cooking As A Career</item>
+        <item>Ordering Lunch</item>
+        <item>Eating Out</item>
+        <item>A Restaurant</item>
+        <item>Renting &amp; Leasing</item>
+        <item>Product Development</item>
+        <item>Quality Control</item>
+        <item>Board Meeting</item>
+        <item>Property &amp; Departments</item>
+        <item>Financial Statements</item>
+        <item>Taxes</item>
+        <item>Investments</item>
+        <item>Accounting</item>
+        <item>Banking</item>
+        <item>Inventory</item>
+        <item>Invoices</item>
+        <item>Shipping</item>
+        <item>Orrdering Supplies</item>
+        <item>Shopping</item>
+        <item>Promotions &amp; Awards</item>
+        <item>Salaries &amp; Benefits</item>
+        <item>Hiring And Training</item>
+        <item>Apply And Interview</item>
+        <item>Job ads and recruitment</item>
+        <item>Correspondence</item>
+        <item>Electronics</item>
+        <item>Office procedurces</item>
+        <item>Office technology</item>
+        <item>Computers and the Internet</item>
+        <item>Conferences</item>
+        <item>Business planning</item>
+        <item>Waranties</item>
+        <item>Marketing</item>
+        <item>Contracts</item>
+    </string-array>
 </resources>
