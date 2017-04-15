@@ -14,7 +14,7 @@ public class ToeicApplication extends Application {
     public void onCreate() {
         super.onCreate();
         try {
-            Config.wordDB = new WordDbHelper(getApplicationContext());
+            Config.wordDB = new DbHelper(getApplicationContext());
         } catch (IOException e) {
             e.printStackTrace();
         }

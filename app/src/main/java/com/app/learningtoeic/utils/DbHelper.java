@@ -20,7 +20,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 
 
-public class WordDbHelper extends SQLiteOpenHelper{
+public class DbHelper extends SQLiteOpenHelper{
 
     private Context mycontext;
     private String TABLE_NAME = "mytoeic600";
@@ -28,7 +28,7 @@ public class WordDbHelper extends SQLiteOpenHelper{
     private static String DB_NAME = "toeic600.db";
     public SQLiteDatabase myDataBase;
 
-    public WordDbHelper(Context context) throws IOException {
+    public DbHelper(Context context) throws IOException {
         super(context, DB_NAME, null, 1);
         this.mycontext = context;
         boolean dbexist = checkdatabase();
@@ -123,7 +123,7 @@ public class WordDbHelper extends SQLiteOpenHelper{
             Word word = new Word(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2),cursor.getString(3), cursor.getString(4),
                     cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getInt(9));
             listWord.add(word);
-            Log.d("WordDbHelper", word.getId() + "");
+            Log.d("DbHelper", word.getId() + "");
             cursor.moveToNext();
         }
         cursor.close();

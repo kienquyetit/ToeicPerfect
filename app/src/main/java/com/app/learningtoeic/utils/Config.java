@@ -9,5 +9,5 @@ public class Config {
     public static final String KEY_VOCABULARY_ID = "VOCABULARY_ID";
     public static final String KEY_VOCABULARY_DATA = "VOCABULARY_DATA";
 
-    public static WordDbHelper wordDB;
+    public static DbHelper wordDB;
 }
