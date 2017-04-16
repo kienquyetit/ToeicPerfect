@@ -1,7 +1,9 @@
 package com.app.learningtoeic.ui.adapter;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.telecom.Call;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +24,11 @@ import java.util.List;
  */
 
 public class TopicAdapter extends RecyclerView.Adapter {
+    Context mContext;
+    public Callback callback;
     public interface Callback
     {
+        void OnTopicItemClick(String topicId);
     }
     ArrayList<Topic> topicList;
 
@@ -45,7 +50,7 @@ public class TopicAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v;
         v = LayoutInflater.from(parent.getContext()).inflate(R.layout.topic_item, parent, false);
-        NormalViewHolder vh = new NormalViewHolder(v);
+        NormalViewHolder vh = new NormalViewHolder(v,callback);
         return vh;
     }
 
@@ -69,23 +74,30 @@ public class TopicAdapter extends RecyclerView.Adapter {
     public class NormalViewHolder extends RecyclerView.ViewHolder {
         ImageView imgTopic;
         TextView tvTopicName;
-        public NormalViewHolder(View itemView) {
+        View topicItemLayout;
+        Callback callback;
+        Topic topicItem;
+        public NormalViewHolder(View itemView, final Callback callback) {
             super(itemView);
+            this.callback = callback;
             imgTopic = (ImageView) itemView.findViewById(R.id.topic_img);
             tvTopicName = (TextView) itemView.findViewById(R.id.topic_name);
             tvTopicName.setSelected(true);
+            topicItemLayout = itemView.findViewById(R.id.wrap_topic_item);
+            topicItemLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    callback.OnTopicItemClick(topicItem.id+"");
+                }
+            });
         }
 
         public void BindView(Topic item)
         {
-            InputStream ims = null;
-            try {
-                ims = itemView.getContext().getAssets().open(item.topicImageName);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            Drawable drawable = Drawable.createFromStream(ims, null);
-            imgTopic.setImageResource(R.mipmap.ability);
+            topicItem = item;
+            String mImageName = item.topicImageName;
+            int resID = itemView.getResources().getIdentifier(mImageName ,"mipmap", itemView.getContext().getPackageName());
+            imgTopic.setImageResource(resID);
             tvTopicName.setText( item.id+". "+item.name );
         }
     }

@@ -133,7 +133,7 @@ public class DetailWordFragment extends MVPFragment<DetailWordContract.IPresente
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.tv_title:
+            case R.id.tvTitle:
                 break;
             case R.id.iv_favourite:
                 if(mWord.getFavourite() == 1){

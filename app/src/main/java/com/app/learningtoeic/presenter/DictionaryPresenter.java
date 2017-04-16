@@ -35,10 +35,11 @@ import java.util.ArrayList;
 public class DictionaryPresenter extends FragmentPresenter<DictionaryContract.IViewOps> implements DictionaryContract.IPresenterViewOps {
 
     public ArrayList<Word> wordsList;
-
+    String topicId = "";
 
     @Override
-    public void ExcuteDictionaryTask() {
+    public void ExcuteDictionaryTask(String topicId) {
+        this.topicId = topicId;
         new DictionaryPresenter.DictionaryAsyncTask().execute(100000);
     }
 
@@ -53,7 +54,13 @@ public class DictionaryPresenter extends FragmentPresenter<DictionaryContract.IV
         @Override
         protected Void doInBackground(Integer... params) {
 
-            wordsList = Config.wordDB.getListWord();
+            if(topicId.length()!=0)
+            {
+                wordsList=Config.wordDB.getListWordForTopic(topicId);
+            }
+            else {
+                wordsList = Config.wordDB.getListWord();
+            }
             return null;
         }
 

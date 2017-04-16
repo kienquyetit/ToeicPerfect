@@ -24,6 +24,7 @@ public class TopicFragment extends MVPFragment<TopicContract.IPresenterViewOps> 
     @Override
     protected void OnViewCreated() {
         mAdapter = new TopicAdapter();
+        mAdapter.callback = this;
         rcvTopic.setAdapter(mAdapter);
         getPresenter().InitListTopic();
     }
@@ -53,5 +54,10 @@ public class TopicFragment extends MVPFragment<TopicContract.IPresenterViewOps> 
     @Override
     public void InsertDataToAdapter(ArrayList<Topic> listItem) {
         mAdapter.InsertData(listItem);
+    }
+
+    @Override
+    public void OnTopicItemClick(String topicId) {
+        SwitchFragment(new DetailTopicFragment(topicId),true);
     }
 }

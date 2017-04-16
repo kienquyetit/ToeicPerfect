@@ -41,8 +41,8 @@ public class MainActivity extends BaseActivity
         MainToolbar = (Toolbar) findViewById(R.id.mainToolbar);
         ViewItemToolbar = (FrameLayout)findViewById(R.id.view_on_toolbar);
         ivLike = (ImageView) findViewById(R.id.iv_favourite);
-        imvBack = findViewById(R.id.iv_back);
-        tvTitle = (TextView) findViewById(R.id.tv_title);
+        imvBack = findViewById(R.id.imvBack);
+        tvTitle = (TextView) findViewById(R.id.tvTitle);
         fabListening = (FloatingActionButton) findViewById(R.id.fab_listening);
         fabRecording = (FloatingActionButton) findViewById(R.id.fab_recording);
         fabSliding = (FloatingActionButton) findViewById(R.id.fab_sliding);
