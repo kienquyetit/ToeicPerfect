@@ -6,7 +6,9 @@ import com.app.learningtoeic.R;
 import com.app.learningtoeic.contract.TopicContract;
 import com.app.learningtoeic.entity.Topic;
 import com.app.learningtoeic.mvp.fragment.FragmentPresenter;
+import com.app.learningtoeic.utils.DbHelper;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -22,13 +24,10 @@ public class TopicPresenter extends FragmentPresenter<TopicContract.IViewOps> im
     @Override
     public void InitListTopic() {
         ArrayList<Topic> topicList = new ArrayList<>();
-        for (int i =0;i<TOPIC_NUM;i++)
-        {
-            Topic topic = new Topic();
-            topic.id = i + 1;
-            topic.name = context.getResources().getStringArray(R.array.topic_name)[i];
-            topic.topicImageName = "ability.jpg";
-            topicList.add(topic);
+        try {
+            topicList = new DbHelper(getView().GetActivityContext()).getListTopic();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         getView().InsertDataToAdapter(topicList);
     }

@@ -10,6 +10,7 @@ import com.app.learningtoeic.entity.Word;
 import com.app.learningtoeic.mvp.fragment.MVPFragment;
 import com.app.learningtoeic.presenter.DictionaryPresenter;
 import com.app.learningtoeic.ui.adapter.DictionaryAdapter;
+import com.app.learningtoeic.utils.DbHelper;
 
 import java.util.ArrayList;
 
@@ -22,9 +23,16 @@ public class DictionaryFragment extends MVPFragment<DictionaryContract.IPresente
     ProgressDialog progressDialog;
     private RecyclerView recyclerView;
     public DictionaryAdapter adapter;
+    private DbHelper databaseHepler;
+    String topicId = "";
 
     public DictionaryFragment() {
         // Required empty public constructor
+    }
+
+    public DictionaryFragment(String topicId)
+    {
+        this.topicId = topicId;
     }
 
     @Override
@@ -32,7 +40,7 @@ public class DictionaryFragment extends MVPFragment<DictionaryContract.IPresente
         adapter = new DictionaryAdapter();
         adapter.callback = this;
         recyclerView.setAdapter(adapter);
-        getPresenter().ExcuteDictionaryTask();
+        getPresenter().ExcuteDictionaryTask(topicId);
     }
 
     @Override
@@ -76,5 +84,10 @@ public class DictionaryFragment extends MVPFragment<DictionaryContract.IPresente
     @Override
     public void OnClickDetailItem(Word word) {
         SwitchFragment(new DetailWordFragment(word, this),true);
+    }
+
+    @Override
+    public boolean IsBackButtonVisible() {
+        return true;
     }
 }

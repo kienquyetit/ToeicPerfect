@@ -11,4 +11,9 @@ public class Topic {
     public int id;
     public String name;
     public String topicImageName;
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

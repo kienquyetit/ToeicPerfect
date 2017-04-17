@@ -24,6 +24,6 @@ public class DictionaryContract {
     }
     public interface IPresenterViewOps extends IFragmentPresenterViewOps
     {
-        void ExcuteDictionaryTask();
+        void ExcuteDictionaryTask(String topicId);
     }
 }
