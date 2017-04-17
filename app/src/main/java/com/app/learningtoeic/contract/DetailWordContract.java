@@ -18,5 +18,6 @@ public class DetailWordContract {
     public interface IPresenterViewOps extends IFragmentPresenterViewOps
     {
         void UpdateLikeStatus(Word word);
+        void GetData();
     }
 }

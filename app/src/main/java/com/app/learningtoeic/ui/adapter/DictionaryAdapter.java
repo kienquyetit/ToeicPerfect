@@ -77,11 +77,11 @@ public class DictionaryAdapter extends RecyclerView.Adapter {
                 public void onClick(View v) {
                     if (word.getFavourite() == 0) {
                         word.setFavourite(1);
-                        Config.wordDB.update(word);
+                        Config.wordDB.updateWord(word);
                         ivFavourite.setImageResource(R.drawable.ic_favorite_red);
                     } else {
                         word.setFavourite(0);
-                        Config.wordDB.update(word);
+                        Config.wordDB.updateWord(word);
                         ivFavourite.setImageResource(R.drawable.ic_favorite_grey);
                     }
                 }

@@ -21,27 +21,27 @@ import java.util.ArrayList;
 
 public class DbHelper extends SQLiteOpenHelper{
 
-    private Context mycontext;
-    private String TABLE_NAME = "mytoeic600";
+    private Context mContext;
+    private String VOCABULARY_TABLE_NAME = "mytoeic600";
     private String DB_PATH =  "data/data/com.app.learningtoeic/databases/";
     private static String DB_NAME = "toeic600.db";
-    public SQLiteDatabase myDataBase;
+    public SQLiteDatabase mSqLiteDatabase;
 
     public DbHelper(Context context) throws IOException {
         super(context, DB_NAME, null, 1);
-        this.mycontext = context;
-        boolean dbexist = checkdatabase();
-        if (dbexist) {
-            opendatabase();
+        this.mContext = context;
+        boolean dbExist = CheckDatabase();
+        if (dbExist) {
+            OpenDatabase();
         } else {
             System.out.println("Database doesn't exist");
-            createdatabase();
+            CreateDatabase();
         }
     }
 
-    public void createdatabase() throws IOException {
-        boolean dbexist = checkdatabase();
-        if (dbexist) {
+    public void CreateDatabase() throws IOException {
+        boolean dbExist = CheckDatabase();
+        if (dbExist) {
             //System.out.println(" Database exists.");
         } else {
             this.getReadableDatabase();
@@ -53,51 +53,51 @@ public class DbHelper extends SQLiteOpenHelper{
         }
     }
 
-    private boolean checkdatabase() {
-        boolean checkdb = false;
+    private boolean CheckDatabase() {
+        boolean checkDB = false;
         try {
-            String myPath = DB_PATH + DB_NAME;
-            File dbfile = new File(myPath);
-            checkdb = dbfile.exists();
+            String path = DB_PATH + DB_NAME;
+            File dbFile = new File(path);
+            checkDB = dbFile.exists();
         } catch (SQLiteException e) {
             System.out.println("Database doesn't exist");
         }
-        return checkdb;
+        return checkDB;
     }
 
     private void copydatabase() throws IOException {
         //Open your local db as the input stream
-        InputStream myinput = mycontext.getAssets().open(DB_NAME);
+        InputStream is = mContext.getAssets().open(DB_NAME);
 
         // Path to the just created empty db
-        String outfilename = DB_PATH + DB_NAME;
+        String pathToFile = DB_PATH + DB_NAME;
 
         //Open the empty db as the output stream
-        OutputStream myoutput = new FileOutputStream(outfilename);
+        OutputStream os = new FileOutputStream(pathToFile);
 
-        // transfer byte to inputfile to outputfile
+        // transfer byte to is to os
         byte[] buffer = new byte[1024];
         int length;
-        while ((length = myinput.read(buffer)) > 0) {
-            myoutput.write(buffer, 0, length);
+        while ((length = is.read(buffer)) > 0) {
+            os.write(buffer, 0, length);
         }
 
         //Close the streams
-        myoutput.flush();
-        myoutput.close();
-        myinput.close();
+        os.flush();
+        os.close();
+        is.close();
         System.out.println("Database copy done");
     }
 
-    public void opendatabase() throws SQLException {
+    public void OpenDatabase() throws SQLException {
         //Open the database
-        String mypath = DB_PATH + DB_NAME;
-        myDataBase = SQLiteDatabase.openDatabase(mypath, null, SQLiteDatabase.OPEN_READWRITE);
+        String path = DB_PATH + DB_NAME;
+        mSqLiteDatabase = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READWRITE);
     }
 
     public synchronized void close() {
-        if (myDataBase != null) {
-            myDataBase.close();
+        if (mSqLiteDatabase != null) {
+            mSqLiteDatabase.close();
         }
         super.close();
     }
@@ -112,11 +112,14 @@ public class DbHelper extends SQLiteOpenHelper{
 
     }
 
-
+    /**
+     * get Data
+     * @return
+     */
     public ArrayList<Word> getListWord(){
-        opendatabase();
+        OpenDatabase();
         ArrayList<Word> listWord = new ArrayList<>();
-        Cursor cursor = myDataBase.rawQuery("SELECT * FROM mytoeic600", null);
+        Cursor cursor = mSqLiteDatabase.rawQuery("SELECT * FROM mytoeic600", null);
         cursor.moveToFirst();
         while(!cursor.isAfterLast()){
             Word word = new Word(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2),cursor.getString(3), cursor.getString(4),
@@ -129,7 +132,10 @@ public class DbHelper extends SQLiteOpenHelper{
         return listWord;
     }
 
-    public void update(Word word){
+    /**
+     * update
+     */
+    public void updateWord(Word word){
         ContentValues values = new ContentValues();
         values.put("topicid", word.getTopic());
         values.put("id_temp", word.getId_temp());
@@ -141,7 +147,11 @@ public class DbHelper extends SQLiteOpenHelper{
         values.put("example_translate", word.getExampleTranslate());
         values.put("favourite", word.getFavourite());
 
-        int ret = myDataBase.update(TABLE_NAME, values, "id=?", new String[]{String.valueOf(word.getId())});
+        update(values, word.getId());
+    }
+
+    public void update(ContentValues values, int id){
+        int ret = mSqLiteDatabase.update(VOCABULARY_TABLE_NAME, values, "id=?", new String[]{String.valueOf(id)});
         if(ret == 0){
 
         }
