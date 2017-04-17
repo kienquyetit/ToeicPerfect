@@ -7,15 +7,21 @@
     android:background="@color/primary"
     android:orientation="vertical">
     <android.support.design.widget.TabLayout
-        app:tabTextAppearance="@style/MyCustomTabLayout"
+        android:theme="@style/MyCustomTabLayout"
         android:id="@+id/tab_layout"
+        app:tabMaxWidth="0dp"
         android:layout_width="match_parent"
-        android:layout_height="30dip"
-        app:tabMode="scrollable"
+        android:layout_height="wrap_content"
+        app:tabMode="fixed"
         app:tabGravity="fill"
         app:tabTextColor="@color/white"
         app:tabSelectedTextColor="@color/black"
-        app:tabIndicatorColor="@android:color/white" />
+        app:tabIndicatorColor="@android:color/white"
+        app:tabPaddingStart="-2dp"
+        app:tabPaddingEnd="-2dp"
+        app:tabIndicatorHeight="5dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
     <include
         layout="@layout/content_main" />
 </LinearLayout>

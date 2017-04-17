@@ -113,7 +113,7 @@ public class HomeFragment extends MVPFragment<HomeContract.IPresenterViewOps> im
 
     @Override
     protected String GetScreenTitle() {
-        return "ToeicPerfect";
+        return "Toeic Perfect";
     }
 }
 

@@ -85,9 +85,4 @@ public class DictionaryFragment extends MVPFragment<DictionaryContract.IPresente
     public void OnClickDetailItem(Word word) {
         SwitchFragment(new DetailWordFragment(word, this),true);
     }
-
-    @Override
-    public boolean IsBackButtonVisible() {
-        return true;
-    }
 }

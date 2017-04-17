@@ -171,4 +171,9 @@ public class DetailWordFragment extends MVPFragment<DetailWordContract.IPresente
         callback.InsertData(Config.wordDB.getListWord());
         super.onDestroy();
     }
+
+    @Override
+    public boolean IsFooterVisible() {
+        return true;
+    }
 }

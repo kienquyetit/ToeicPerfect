@@ -76,10 +76,15 @@ public abstract class BaseFragment extends Fragment {
             GetMainAcitivity().setListeningButtonVisible(IsListeningButtonVisible());
             GetMainAcitivity().setRecordingButtonVisible(IsRecordingButtonVisible());
             GetMainAcitivity().setSlidingButtonVisible(IsSlidingButtonVisible());
+            GetMainAcitivity().setFooterVisible(IsFooterVisible());
         }catch (Exception e)
         {
 
         }
+    }
+
+    public boolean IsFooterVisible() {
+        return false;
     }
 
     public boolean IsMenuVisible() {

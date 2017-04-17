@@ -26,5 +26,4 @@ public class TestFragment extends BaseFragment {
     protected String GetScreenTitle() {
         return getString(R.string.app_name);
     }
-
 }

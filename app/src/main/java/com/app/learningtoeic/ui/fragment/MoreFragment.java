@@ -35,6 +35,6 @@ public class MoreFragment extends BaseFragment {
 
     @Override
     protected String GetScreenTitle() {
-        return "ToeicPerfect";
+        return "Toeic Perfect";
     }
 }

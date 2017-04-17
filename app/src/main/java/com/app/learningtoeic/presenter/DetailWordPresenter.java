@@ -14,7 +14,7 @@ public class DetailWordPresenter extends FragmentPresenter<DetailWordContract.IV
 
     @Override
     public void UpdateLikeStatus(Word word) {
-        Config.wordDB.updateWord(word);
+        Config.wordDB.update(word);
         getView().ChangeLikeStatus();
     }
 

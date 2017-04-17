@@ -204,6 +204,18 @@ public class MainActivity extends BaseActivity
         }
     }
 
+    public void setFooterVisible(boolean isVisible)
+    {
+        if(isVisible)
+        {
+            findViewById(R.id.bottomToolbar).setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            findViewById(R.id.bottomToolbar).setVisibility(View.GONE);
+        }
+    }
+
     public View getImvBack() {
         return imvBack;
     }

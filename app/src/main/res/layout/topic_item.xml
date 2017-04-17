@@ -23,8 +23,8 @@
         android:layout_gravity="center"
         >
 <ImageView
-    android:layout_width="90dp"
-    android:layout_height="60dp"
+    android:layout_width="100dp"
+    android:layout_height="70dp"
     android:id="@+id/topic_img"
     android:layout_gravity="top"
     android:src="@drawable/ic_menu_grammar"/>

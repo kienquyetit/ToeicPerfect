@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.app.learningtoeic.entity.Topic;
 import com.app.learningtoeic.entity.Word;
 
 import java.io.File;
@@ -148,5 +149,41 @@ public class DbHelper extends SQLiteOpenHelper{
         else{
 
         }
+    }
+
+    public ArrayList<Word> getListWordForTopic(String id)
+    {
+        opendatabase();
+        ArrayList<Word> listWord = new ArrayList<>();
+        Cursor cursor = myDataBase.rawQuery("SELECT * FROM mytoeic600 WHERE topicid='"+id+"'", null);
+        cursor.moveToFirst();
+        while(!cursor.isAfterLast()){
+            Word word = new Word(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2),cursor.getString(3), cursor.getString(4),
+                    cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getInt(9));
+            listWord.add(word);
+            Log.d("DbHelper", word.getId() + "");
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return listWord;
+    }
+
+    public ArrayList<Topic> getListTopic()
+    {
+        opendatabase();
+        ArrayList<Topic> listTopic = new ArrayList<>();
+        Cursor cursor = myDataBase.rawQuery("SELECT * FROM topic",null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast())
+        {
+            Topic topic = new Topic();
+            topic.id = cursor.getInt(0);
+            topic.name = cursor.getString(1);
+            topic.topicImageName = cursor.getString(2);
+            listTopic.add(topic);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return listTopic;
     }
 }
