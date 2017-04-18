@@ -1,10 +1,6 @@
 package com.app.learningtoeic.entity;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-
-public class Word implements Parcelable {
+public class Word {
     private int id;
     private int topic;
     private int id_temp;
@@ -16,30 +12,22 @@ public class Word implements Parcelable {
     private String exampleTranslate;
     private int favourite;
 
-    protected Word(Parcel in) {
-        id = in.readInt();
-        topic = in.readInt();
-        id_temp = in.readInt();
-        vocabulary = in.readString();
-        vocalization = in.readString();
-        explanation = in.readString();
-        translate = in.readString();
-        example = in.readString();
-        exampleTranslate = in.readString();
-        favourite = in.readInt();
+    public Word() {
+
     }
 
-    public static final Creator<Word> CREATOR = new Creator<Word>() {
-        @Override
-        public Word createFromParcel(Parcel in) {
-            return new Word(in);
-        }
-
-        @Override
-        public Word[] newArray(int size) {
-            return new Word[size];
-        }
-    };
+    public Word(int id, int topic, int id_temp, String vocabulary, String vocalization, String explanation, String translate, String example, String exampleTranslate, int favourite) {
+        this.id = id;
+        this.topic = topic;
+        this.id_temp = id_temp;
+        this.vocalization = vocalization;
+        this.vocabulary = vocabulary;
+        this.translate = translate;
+        this.example = example;
+        this.exampleTranslate = exampleTranslate;
+        this.favourite = favourite;
+        this.explanation = explanation;
+    }
 
     public int getId() {
         return id;
@@ -119,41 +107,5 @@ public class Word implements Parcelable {
 
     public void setFavourite(int favourite) {
         this.favourite = favourite;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(id);
-        parcel.writeInt(topic);
-        parcel.writeInt(id_temp);
-        parcel.writeString(vocabulary);
-        parcel.writeString(vocalization);
-        parcel.writeString(explanation);
-        parcel.writeString(translate);
-        parcel.writeString(example);
-        parcel.writeString(exampleTranslate);
-        parcel.writeInt(favourite);
-    }
-
-    public Word(int id, int topic, int id_temp, String vocabulary, String vocalization, String explanation, String translate, String example, String exampleTranslate, int favourite) {
-        this.id = id;
-        this.topic = topic;
-        this.id_temp = id_temp;
-        this.vocalization = vocalization;
-        this.vocabulary = vocabulary;
-        this.translate = translate;
-        this.example = example;
-        this.exampleTranslate = exampleTranslate;
-        this.favourite = favourite;
-        this.explanation = explanation;
-    }
-
-    public Word() {
-
     }
 }

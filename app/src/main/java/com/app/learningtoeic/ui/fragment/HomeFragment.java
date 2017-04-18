@@ -4,8 +4,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 
-import com.app.learningtoeic.contract.HomeContract;
-import com.app.learningtoeic.mvp.fragment.MVPFragment;
 import com.app.learningtoeic.R;
 import com.app.learningtoeic.contract.HomeContract;
 import com.app.learningtoeic.mvp.fragment.MVPFragment;
@@ -19,7 +17,7 @@ import com.app.learningtoeic.ui.adapter.HomePagerAdapter;
 public class HomeFragment extends MVPFragment<HomeContract.IPresenterViewOps> implements HomeContract.IViewOps, ViewPager.OnPageChangeListener, TabLayout.OnTabSelectedListener {
     TabLayout tabLayout;
     ViewPager mainViewPager;
-    DictionaryFragment dictionaryFragment;
+
     @Override
     protected HomeContract.IPresenterViewOps OnRegisterPresenter() {
         return new HomePresenter();

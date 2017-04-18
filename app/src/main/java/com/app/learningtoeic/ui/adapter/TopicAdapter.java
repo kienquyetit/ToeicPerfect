@@ -1,10 +1,6 @@
 package com.app.learningtoeic.ui.adapter;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
-import android.telecom.Call;
-import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,21 +10,19 @@ import android.widget.TextView;
 import com.app.learningtoeic.R;
 import com.app.learningtoeic.entity.Topic;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by dell on 4/10/2017.
  */
 
 public class TopicAdapter extends RecyclerView.Adapter {
-    Context mContext;
+
     public Callback callback;
+
     public interface Callback
     {
-        void OnTopicItemClick(String topicId);
+        void OnTopicItemClick(Topic topic);
     }
     ArrayList<Topic> topicList;
 
@@ -87,7 +81,7 @@ public class TopicAdapter extends RecyclerView.Adapter {
             topicItemLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    callback.OnTopicItemClick(topicItem.id+"");
+                    callback.OnTopicItemClick(topicItem);
                 }
             });
         }

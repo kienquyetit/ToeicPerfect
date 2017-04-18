@@ -1,16 +1,15 @@
 package com.app.learningtoeic.ui.fragment;
 
-import android.app.ProgressDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.app.learningtoeic.R;
 import com.app.learningtoeic.contract.DictionaryContract;
+import com.app.learningtoeic.entity.Topic;
 import com.app.learningtoeic.entity.Word;
 import com.app.learningtoeic.mvp.fragment.MVPFragment;
 import com.app.learningtoeic.presenter.DictionaryPresenter;
 import com.app.learningtoeic.ui.adapter.DictionaryAdapter;
-import com.app.learningtoeic.utils.DbHelper;
 
 import java.util.ArrayList;
 
@@ -18,21 +17,18 @@ import java.util.ArrayList;
  * Created by dell on 3/31/2017.
  */
 
-public class DictionaryFragment extends MVPFragment<DictionaryContract.IPresenterViewOps> implements DictionaryContract.IViewOps,DictionaryAdapter.Callback
-{
-    ProgressDialog progressDialog;
+public class DictionaryFragment extends MVPFragment<DictionaryContract.IPresenterViewOps> implements DictionaryContract.IViewOps, DictionaryAdapter.Callback {
+
     private RecyclerView recyclerView;
     public DictionaryAdapter adapter;
-    private DbHelper databaseHepler;
-    String topicId = "";
+    Topic mTopic;
 
     public DictionaryFragment() {
         // Required empty public constructor
     }
 
-    public DictionaryFragment(String topicId)
-    {
-        this.topicId = topicId;
+    public DictionaryFragment(Topic topic) {
+        this.mTopic = topic;
     }
 
     @Override
@@ -40,14 +36,23 @@ public class DictionaryFragment extends MVPFragment<DictionaryContract.IPresente
         adapter = new DictionaryAdapter();
         adapter.callback = this;
         recyclerView.setAdapter(adapter);
-        getPresenter().ExcuteDictionaryTask(topicId);
     }
 
     @Override
     protected void OnBindView() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView = (RecyclerView)FindViewById(R.id.recycle_view_vocabulary);
+        recyclerView = (RecyclerView) FindViewById(R.id.recycle_view_vocabulary);
         recyclerView.setLayoutManager(linearLayoutManager);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mTopic != null) {
+            getPresenter().ExcuteDictionaryTask(String.valueOf(mTopic.id));
+        } else {
+            getPresenter().ExcuteDictionaryTask("");
+        }
     }
 
     @Override
@@ -72,17 +77,11 @@ public class DictionaryFragment extends MVPFragment<DictionaryContract.IPresente
     }
 
     @Override
-    public void ShowProgressDialog() {
-        progressDialog = ProgressDialog.show(getContext(), "", "File loading ...",false, false);
-    }
-
-    @Override
-    public void HideProgessDialog() {
-        progressDialog.dismiss();
-    }
-
-    @Override
-    public void OnClickDetailItem(Word word) {
-        SwitchFragment(new DetailWordFragment(word, this),true);
+    public void OnClickDetailItem(Word word, int adapterPosition) {
+        if (mTopic != null) {
+            SwitchFragment(new DetailWordOfTopicFragment(mTopic, adapterPosition), true);
+        } else {
+            SwitchFragment(new DetailWordFragment(word), true);
+        }
     }
 }

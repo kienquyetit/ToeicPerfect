@@ -6,7 +6,7 @@ import android.support.v4.view.ViewPager;
 
 import com.app.learningtoeic.R;
 import com.app.learningtoeic.contract.DetailTopicContract;
-import com.app.learningtoeic.contract.HomeContract;
+import com.app.learningtoeic.entity.Topic;
 import com.app.learningtoeic.mvp.fragment.MVPFragment;
 import com.app.learningtoeic.presenter.DetailTopicPresenter;
 import com.app.learningtoeic.ui.adapter.HomePagerAdapter;
@@ -16,12 +16,14 @@ import com.app.learningtoeic.ui.adapter.HomePagerAdapter;
  */
 
 public class DetailTopicFragment extends MVPFragment<DetailTopicContract.IPresenterViewOps> implements DetailTopicContract.IViewOps,ViewPager.OnPageChangeListener, TabLayout.OnTabSelectedListener {
+
     TabLayout mTabLayout;
     ViewPager mViewPager;
-    String topicId;
-    public DetailTopicFragment(String topicId)
+    Topic mTopic;
+
+    public DetailTopicFragment(Topic topic)
     {
-        this.topicId = topicId;
+        this.mTopic = topic;
     }
 
     @Override
@@ -50,7 +52,7 @@ public class DetailTopicFragment extends MVPFragment<DetailTopicContract.IPresen
     private void setUpViewPager() {
         mViewPager.setOffscreenPageLimit(1);
         HomePagerAdapter homePagerAdapter = new HomePagerAdapter(getChildFragmentManager());
-        homePagerAdapter.addFrag(new DictionaryFragment(topicId),"Self Study");
+        homePagerAdapter.addFrag(new DictionaryFragment(mTopic),"Self Study");
         homePagerAdapter.addFrag(new HomeworkFragment(),"Homework");
         mViewPager.setAdapter(homePagerAdapter);
     }
@@ -73,7 +75,7 @@ public class DetailTopicFragment extends MVPFragment<DetailTopicContract.IPresen
 
     @Override
     protected String GetScreenTitle() {
-        return "Contracts";
+        return mTopic.name;
     }
 
     @Override

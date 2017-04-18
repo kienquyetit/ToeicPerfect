@@ -4,7 +4,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.app.learningtoeic.R;
-import com.app.learningtoeic.base.BaseFragment;
 import com.app.learningtoeic.contract.TopicContract;
 import com.app.learningtoeic.entity.Topic;
 import com.app.learningtoeic.mvp.fragment.MVPFragment;
@@ -57,7 +56,7 @@ public class TopicFragment extends MVPFragment<TopicContract.IPresenterViewOps> 
     }
 
     @Override
-    public void OnTopicItemClick(String topicId) {
-        SwitchFragment(new DetailTopicFragment(topicId),true);
+    public void OnTopicItemClick(Topic topic) {
+        SwitchFragment(new DetailTopicFragment(topic),true);
     }
 }

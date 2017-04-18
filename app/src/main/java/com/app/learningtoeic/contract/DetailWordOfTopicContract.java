@@ -4,19 +4,19 @@ import com.app.learningtoeic.entity.Word;
 import com.app.learningtoeic.mvp.fragment.IFragmentPresenterViewOps;
 import com.app.learningtoeic.mvp.fragment.IFragmentViewOps;
 
+import java.util.ArrayList;
+
 /**
- * Created by dell on 4/8/2017.
+ * Created by QUYET on 4/17/2017.
  */
 
-public class DetailWordContract {
-
+public class DetailWordOfTopicContract {
     public interface IViewOps extends IFragmentViewOps
     {
-        void ChangeLikeStatus();
+        void InsertData(ArrayList<Word> listItem);
     }
-
     public interface IPresenterViewOps extends IFragmentPresenterViewOps
     {
-        void UpdateLikeStatus(Word word);
+        void ExcuteDictionaryTask(String topicId);
     }
 }

@@ -18,8 +18,4 @@ public class DetailWordPresenter extends FragmentPresenter<DetailWordContract.IV
         getView().ChangeLikeStatus();
     }
 
-    @Override
-    public void GetData() {
-        Config.wordDB.getListWord();
-    }
 }

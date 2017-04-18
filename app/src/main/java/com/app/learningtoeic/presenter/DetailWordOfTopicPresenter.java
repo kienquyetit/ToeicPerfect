@@ -2,7 +2,7 @@ package com.app.learningtoeic.presenter;
 
 import android.os.AsyncTask;
 
-import com.app.learningtoeic.contract.DictionaryContract;
+import com.app.learningtoeic.contract.DetailWordOfTopicContract;
 import com.app.learningtoeic.entity.Word;
 import com.app.learningtoeic.mvp.fragment.FragmentPresenter;
 import com.app.learningtoeic.utils.Config;
@@ -10,10 +10,10 @@ import com.app.learningtoeic.utils.Config;
 import java.util.ArrayList;
 
 /**
- * Created by dell on 4/7/2017.
+ * Created by QUYET on 4/17/2017.
  */
 
-public class DictionaryPresenter extends FragmentPresenter<DictionaryContract.IViewOps> implements DictionaryContract.IPresenterViewOps {
+public class DetailWordOfTopicPresenter extends FragmentPresenter<DetailWordOfTopicContract.IViewOps> implements DetailWordOfTopicContract.IPresenterViewOps {
 
     public ArrayList<Word> wordsList;
     String topicId = "";
@@ -21,10 +21,10 @@ public class DictionaryPresenter extends FragmentPresenter<DictionaryContract.IV
     @Override
     public void ExcuteDictionaryTask(String topicId) {
         this.topicId = topicId;
-        new DictionaryPresenter.DictionaryAsyncTask().execute(100000);
+        new DetailWordOfTopicPresenter.DetailWordOfTopicAsyncTask().execute(100000);
     }
 
-    private class DictionaryAsyncTask extends AsyncTask<Integer, Integer, Void> {
+    private class DetailWordOfTopicAsyncTask extends AsyncTask<Integer, Integer, Void> {
 
         @Override
         protected void onPreExecute() {

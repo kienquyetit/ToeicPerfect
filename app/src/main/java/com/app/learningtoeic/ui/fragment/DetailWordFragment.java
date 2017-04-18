@@ -8,11 +8,10 @@ import android.widget.TextView;
 
 import com.app.learningtoeic.R;
 import com.app.learningtoeic.contract.DetailWordContract;
-import com.app.learningtoeic.contract.DictionaryContract;
+import com.app.learningtoeic.entity.Topic;
 import com.app.learningtoeic.entity.Word;
 import com.app.learningtoeic.mvp.fragment.MVPFragment;
 import com.app.learningtoeic.presenter.DetailWordPresenter;
-import com.app.learningtoeic.utils.Config;
 
 import java.io.IOException;
 
@@ -20,20 +19,22 @@ import java.io.IOException;
  * Created by dell on 4/8/2017.
  */
 
-public class DetailWordFragment extends MVPFragment<DetailWordContract.IPresenterViewOps> implements DetailWordContract.IViewOps, View.OnClickListener
-{
+public class DetailWordFragment extends MVPFragment<DetailWordContract.IPresenterViewOps> implements DetailWordContract.IViewOps, View.OnClickListener{
 
     private Word mWord;
 
     private ImageView ivDescriptivePicture;
     private TextView tvVocabulary, tvVocalization, tvExplanation, tvTranslate, tvExample, tvExampleTranslate;
 
-    private DictionaryContract.IViewOps callback;
+    private Topic mTopic;
 
-    public DetailWordFragment(Word word, DictionaryContract.IViewOps callback)
-    {
+    public DetailWordFragment(Word word) {
         this.mWord = word;
-        this.callback = callback;
+    }
+
+    public DetailWordFragment(Word word, Topic topic) {
+        this.mWord = word;
+        this.mTopic = topic;
     }
 
     @Override
@@ -46,7 +47,7 @@ public class DetailWordFragment extends MVPFragment<DetailWordContract.IPresente
         FetchData();
     }
 
-    private void FetchData(){
+    private void FetchData() {
         String namePicture = mWord.getVocabulary().replace(' ', '_');
         ivDescriptivePicture.setImageResource(getContext().getResources().getIdentifier(namePicture, "mipmap", getContext().getPackageName()));
         tvVocabulary.setText(mWord.getVocabulary());
@@ -55,13 +56,7 @@ public class DetailWordFragment extends MVPFragment<DetailWordContract.IPresente
         tvTranslate.setText(mWord.getTranslate());
         tvExample.setText(mWord.getExample());
         tvExampleTranslate.setText(mWord.getExampleTranslate());
-        GetMainAcitivity().getTvTitle().setText(mWord.getVocabulary());
-        if(mWord.getFavourite() == 1){
-            GetMainAcitivity().getIvLike().setImageResource(R.drawable.ic_favorite_red);
-        }
-        else{
-            GetMainAcitivity().getIvLike().setImageResource(R.drawable.ic_favorite_white);
-        }
+        GetLikeStatus(mWord);
 
         // --------------------------
         GetMainAcitivity().getIvLike().setOnClickListener(this);
@@ -70,12 +65,20 @@ public class DetailWordFragment extends MVPFragment<DetailWordContract.IPresente
         GetMainAcitivity().getFabSliding().setOnClickListener(this);
     }
 
+    public void GetLikeStatus(Word word){
+        if (word.getFavourite() == 1) {
+            GetMainAcitivity().getIvLike().setImageResource(R.drawable.ic_favorite_red);
+        } else {
+            GetMainAcitivity().getIvLike().setImageResource(R.drawable.ic_favorite_white);
+        }
+    }
+
     @Override
     protected void OnBindView() {
         BindView();
     }
 
-    private void BindView(){
+    private void BindView() {
         ivDescriptivePicture = (ImageView) FindViewById(R.id.iv_descriptivePicture);
         tvVocabulary = (TextView) FindViewById(R.id.tv_vocabulary);
         tvVocalization = (TextView) FindViewById(R.id.tv_vocalization);
@@ -92,12 +95,16 @@ public class DetailWordFragment extends MVPFragment<DetailWordContract.IPresente
 
     @Override
     protected String GetScreenTitle() {
-        return "Detail Word";
+        if (mTopic != null) {
+            return mTopic.name;
+        } else {
+            return mWord.getVocabulary();
+        }
     }
 
     @Override
     public boolean IsImgLikeVisible() {
-        return  true;
+        return true;
     }
 
     @Override
@@ -121,35 +128,18 @@ public class DetailWordFragment extends MVPFragment<DetailWordContract.IPresente
     }
 
     @Override
-    public void ChangeLikeStatus() {
-        if(mWord.getFavourite() == 1){
-            GetMainAcitivity().getIvLike().setImageResource(R.drawable.ic_favorite_red);
-        }
-        else{
-            GetMainAcitivity().getIvLike().setImageResource(R.drawable.ic_favorite_white);
-        }
-    }
-
-    @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.tvTitle:
                 break;
             case R.id.iv_favourite:
-                if(mWord.getFavourite() == 1){
-                    mWord.setFavourite(0);
-                    getPresenter().UpdateLikeStatus(mWord);
-                }
-                else{
-                    mWord.setFavourite(1);
-                    getPresenter().UpdateLikeStatus(mWord);
-                }
+                setLikeStatus(mWord);
                 break;
             case R.id.fab_listening:
                 MediaPlayer player = new MediaPlayer();
                 AssetFileDescriptor afd = null;
                 try {
-                    afd = GetMainAcitivity().getAssets().openFd("vocabulary/"+mWord.getVocabulary()+".mp3");
+                    afd = GetMainAcitivity().getAssets().openFd("vocabulary/" + mWord.getVocabulary() + ".mp3");
                     player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
                     player.prepare();
                 } catch (IOException e) {
@@ -166,14 +156,28 @@ public class DetailWordFragment extends MVPFragment<DetailWordContract.IPresente
         }
     }
 
+    public void setLikeStatus(Word word) {
+        if (word.getFavourite() == 1) {
+            word.setFavourite(0);
+            getPresenter().UpdateLikeStatus(word);
+        } else {
+            word.setFavourite(1);
+            getPresenter().UpdateLikeStatus(word);
+        }
+    }
+
     @Override
     public void onDestroy() {
-        callback.InsertData(Config.wordDB.getListWord());
         super.onDestroy();
     }
 
     @Override
     public boolean IsFooterVisible() {
         return true;
+    }
+
+    @Override
+    public void ChangeLikeStatus() {
+        GetLikeStatus(mWord);
     }
 }
