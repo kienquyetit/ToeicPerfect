@@ -7,27 +7,34 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.app.learningtoeic.R;
-import com.app.learningtoeic.base.BaseFragment;
 import com.app.learningtoeic.contract.GrammarContract;
 import com.app.learningtoeic.mvp.fragment.MVPFragment;
 import com.app.learningtoeic.presenter.GrammarPresenter;
+
+import java.util.ArrayList;
 
 /**
  * Created by dell on 4/8/2017.
  */
 
 public class GrammarFragment extends MVPFragment<GrammarContract.IPresenterViewOps> implements GrammarContract.IViewOps {
+
     ListView lvGrammar;
     ProgressDialog progressDialog;
+    ArrayList<String> mListTitle;
+
+    public GrammarFragment(){
+        mListTitle = new ArrayList();
+    }
+
     @Override
     protected void OnViewCreated() {
         getPresenter().excuteGramarTask();
         lvGrammar.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent intent = new Intent(getContext(), DetailGrammarActivity.class);
-//                intent.putExtra("Key", position + 1);
-//                startActivity(intent);
+                String title = mListTitle.get(position);
+                SwitchFragment(new DetailGrammarFragment(String.valueOf(position+1), title), true);
             }
         });
     }
@@ -60,6 +67,11 @@ public class GrammarFragment extends MVPFragment<GrammarContract.IPresenterViewO
     }
 
     @Override
+    public void GetTitle(ArrayList<String> listTitle) {
+        mListTitle = listTitle;
+    }
+
+    @Override
     protected GrammarContract.IPresenterViewOps OnRegisterPresenter() {
         return new GrammarPresenter();
     }
@@ -67,5 +79,10 @@ public class GrammarFragment extends MVPFragment<GrammarContract.IPresenterViewO
     @Override
     protected String GetScreenTitle() {
         return "Grammar";
+    }
+
+    @Override
+    public boolean IsBackButtonVisible() {
+        return super.IsBackButtonVisible();
     }
 }

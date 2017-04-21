@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.widget.ArrayAdapter;
 
 import com.app.learningtoeic.R;
-import com.app.learningtoeic.contract.DictionaryContract;
 import com.app.learningtoeic.contract.GrammarContract;
 import com.app.learningtoeic.mvp.fragment.FragmentPresenter;
 
@@ -29,8 +28,7 @@ import java.util.ArrayList;
 
 public class GrammarPresenter extends FragmentPresenter<GrammarContract.IViewOps> implements GrammarContract.IPresenterViewOps {
 
-    ArrayList arr = new ArrayList();
-    StringBuffer buffer = new StringBuffer();
+    ArrayList<String> arr = new ArrayList();
     Document doc = null;
 
     @Override
@@ -39,7 +37,6 @@ public class GrammarPresenter extends FragmentPresenter<GrammarContract.IViewOps
 
     }
 
-    @Override
     public void getTitle() {
         AssetManager am = getView().GetActivityContext().getAssets();
         String htmlContentInStringFormat = null;
@@ -80,6 +77,7 @@ public class GrammarPresenter extends FragmentPresenter<GrammarContract.IViewOps
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            getView().GetTitle(arr);
             ArrayAdapter adapter = new ArrayAdapter(getView().GetActivityContext(), R.layout.grammar_item, arr);
             getView().SetAdapter(adapter);
             getView().HideProgessDialog();
