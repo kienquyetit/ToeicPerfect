@@ -5,7 +5,7 @@
     android:background="@color/primary"
     android:orientation="vertical">
 
-    <android.support.v4.view.ViewPager
+    <com.app.learningtoeic.utils.CustomViewPager
         android:id="@+id/detail_word_of_topic_vp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

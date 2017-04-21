@@ -1,7 +1,10 @@
 package com.app.learningtoeic.ui.fragment;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
+import android.speech.RecognizerIntent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,6 +17,10 @@ import com.app.learningtoeic.mvp.fragment.MVPFragment;
 import com.app.learningtoeic.presenter.DetailWordPresenter;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Locale;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by dell on 4/8/2017.
@@ -28,13 +35,22 @@ public class DetailWordFragment extends MVPFragment<DetailWordContract.IPresente
 
     private Topic mTopic;
 
+    private final int REQ_CODE_SPEECH_OUTPUT = 113;
+
+    private CallBack callback;
+
+    public interface CallBack{
+        void setSlidingViewPager();
+    }
+
     public DetailWordFragment(Word word) {
         this.mWord = word;
     }
 
-    public DetailWordFragment(Word word, Topic topic) {
+    public DetailWordFragment(Word word, Topic topic, CallBack callback) {
         this.mWord = word;
         this.mTopic = topic;
+        this.callback = callback;
     }
 
     @Override
@@ -124,36 +140,70 @@ public class DetailWordFragment extends MVPFragment<DetailWordContract.IPresente
 
     @Override
     public boolean IsSlidingButtonVisible() {
-        return true;
+        if(mTopic != null){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tvTitle:
-                break;
             case R.id.iv_favourite:
                 setLikeStatus(mWord);
                 break;
             case R.id.fab_listening:
-                MediaPlayer player = new MediaPlayer();
-                AssetFileDescriptor afd = null;
-                try {
-                    afd = GetMainAcitivity().getAssets().openFd("vocabulary/" + mWord.getVocabulary() + ".mp3");
-                    player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-                    player.prepare();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                player.start();
+                startListening();
                 break;
             case R.id.fab_recording:
+                startRecording();
                 break;
             case R.id.fab_sliding:
+                callback.setSlidingViewPager();
                 break;
             default:
                 break;
         }
+    }
+
+    private void startRecording() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Hi, Speak now ...");
+
+        try{
+            startActivityForResult(intent, REQ_CODE_SPEECH_OUTPUT);
+        } catch (ActivityNotFoundException ex){
+
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case REQ_CODE_SPEECH_OUTPUT:
+                if(resultCode == RESULT_OK && data != null){
+                    ArrayList<String> voiceText = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                }
+                break;
+        }
+    }
+
+    private void startListening() {
+        MediaPlayer player = new MediaPlayer();
+        AssetFileDescriptor afd = null;
+        try {
+            afd = GetMainAcitivity().getAssets().openFd("vocabulary/" + mWord.getVocabulary() + ".mp3");
+            player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+            player.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        player.start();
     }
 
     public void setLikeStatus(Word word) {

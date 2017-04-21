@@ -10,6 +10,7 @@ import com.app.learningtoeic.entity.Word;
 import com.app.learningtoeic.mvp.fragment.MVPFragment;
 import com.app.learningtoeic.presenter.DetailWordOfTopicPresenter;
 import com.app.learningtoeic.ui.adapter.HomePagerAdapter;
+import com.app.learningtoeic.utils.CustomViewPager;
 
 import java.util.ArrayList;
 
@@ -17,13 +18,15 @@ import java.util.ArrayList;
  * Created by QUYET on 4/17/2017.
  */
 
-public class DetailWordOfTopicFragment extends MVPFragment<DetailWordOfTopicContract.IPresenterViewOps> implements DetailWordOfTopicContract.IViewOps,ViewPager.OnPageChangeListener, TabLayout.OnTabSelectedListener{
+public class DetailWordOfTopicFragment extends MVPFragment<DetailWordOfTopicContract.IPresenterViewOps> implements DetailWordOfTopicContract.IViewOps,ViewPager.OnPageChangeListener, TabLayout.OnTabSelectedListener, DetailWordFragment.CallBack{
 
-    ViewPager mViewPager;
+    CustomViewPager mViewPager;
     Topic mTopic;
     Integer mPosition;
     HomePagerAdapter homePagerAdapter;
     ArrayList<Word> listWord;
+
+    private boolean isPagingEnabled = true;
 
     public DetailWordOfTopicFragment(Topic topic, int position)
     {
@@ -51,7 +54,7 @@ public class DetailWordOfTopicFragment extends MVPFragment<DetailWordOfTopicCont
 
     @Override
     protected void OnBindView() {
-        mViewPager = (ViewPager) FindViewById(R.id.detail_word_of_topic_vp);
+        mViewPager = (CustomViewPager) FindViewById(R.id.detail_word_of_topic_vp);
     }
 
     @Override
@@ -103,7 +106,7 @@ public class DetailWordOfTopicFragment extends MVPFragment<DetailWordOfTopicCont
     public void InsertData(ArrayList<Word> listItem) {
         this.listWord = listItem;
         for (int i = 0; i < listItem.size(); i++){
-            homePagerAdapter.addFrag(new DetailWordFragment(listItem.get(i), mTopic), "");
+            homePagerAdapter.addFrag(new DetailWordFragment(listItem.get(i), mTopic, this), "");
         }
         homePagerAdapter.notifyDataSetChanged();
         mViewPager.setCurrentItem(mPosition, true);
@@ -114,4 +117,8 @@ public class DetailWordOfTopicFragment extends MVPFragment<DetailWordOfTopicCont
         super.onDestroy();
     }
 
+    @Override
+    public void setSlidingViewPager() {
+        mViewPager.setPagingEnabled(isPagingEnabled = !isPagingEnabled);
+    }
 }
