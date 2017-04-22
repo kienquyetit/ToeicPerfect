@@ -1,27 +1,22 @@
 package com.app.learningtoeic.contract;
 
-import com.app.learningtoeic.entity.Word;
+import com.app.learningtoeic.entity.MoreItem;
 import com.app.learningtoeic.mvp.fragment.IFragmentPresenterViewOps;
 import com.app.learningtoeic.mvp.fragment.IFragmentViewOps;
 
 import java.util.ArrayList;
 
 /**
- * Created by QUYET on 4/17/2017.
+ * Created by QUYET on 4/22/2017.
  */
 
-public class DetailWordOfTopicContract {
+public class MoreContact {
     public interface IViewOps extends IFragmentViewOps
     {
-        void InsertData(ArrayList<Word> listItem);
+        void InsertDataToAdapter(ArrayList<MoreItem> listItem);
     }
     public interface IPresenterViewOps extends IFragmentPresenterViewOps
     {
-        void ExcuteDictionaryTask(String topicId);
+        void InitListItem();
     }
-
-    public interface CallBack{
-        void setSlidingViewPager();
-    }
-
 }

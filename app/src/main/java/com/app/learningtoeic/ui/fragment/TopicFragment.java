@@ -57,6 +57,6 @@ public class TopicFragment extends MVPFragment<TopicContract.IPresenterViewOps> 
 
     @Override
     public void OnTopicItemClick(Topic topic) {
-        SwitchFragment(new DetailTopicFragment(topic),true);
+        SwitchFragment(new DetailTopicFragment(topic), true);
     }
 }

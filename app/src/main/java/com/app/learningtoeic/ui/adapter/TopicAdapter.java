@@ -24,8 +24,8 @@ public class TopicAdapter extends RecyclerView.Adapter {
     {
         void OnTopicItemClick(Topic topic);
     }
-    ArrayList<Topic> topicList;
 
+    ArrayList<Topic> topicList;
 
     public void InsertData(ArrayList<Topic> listItem)
     {
@@ -40,6 +40,7 @@ public class TopicAdapter extends RecyclerView.Adapter {
     {
         topicList = new ArrayList<>();
     }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v;
@@ -71,6 +72,7 @@ public class TopicAdapter extends RecyclerView.Adapter {
         View topicItemLayout;
         Callback callback;
         Topic topicItem;
+
         public NormalViewHolder(View itemView, final Callback callback) {
             super(itemView);
             this.callback = callback;

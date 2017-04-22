@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * Created by QUYET on 4/17/2017.
  */
 
-public class DetailWordOfTopicFragment extends MVPFragment<DetailWordOfTopicContract.IPresenterViewOps> implements DetailWordOfTopicContract.IViewOps,ViewPager.OnPageChangeListener, TabLayout.OnTabSelectedListener, DetailWordFragment.CallBack{
+public class DetailWordOfTopicFragment extends MVPFragment<DetailWordOfTopicContract.IPresenterViewOps> implements DetailWordOfTopicContract.IViewOps,ViewPager.OnPageChangeListener, TabLayout.OnTabSelectedListener, DetailWordOfTopicContract.CallBack{
 
     CustomViewPager mViewPager;
     Topic mTopic;
@@ -46,7 +46,7 @@ public class DetailWordOfTopicFragment extends MVPFragment<DetailWordOfTopicCont
     }
 
     private void setUpViewPager() {
-        mViewPager.setOffscreenPageLimit(1);
+        mViewPager.setOffscreenPageLimit(0);
         homePagerAdapter = new HomePagerAdapter(getChildFragmentManager());
         mViewPager.setAdapter(homePagerAdapter);
         getPresenter().ExcuteDictionaryTask(String.valueOf(mTopic.id));
@@ -94,7 +94,7 @@ public class DetailWordOfTopicFragment extends MVPFragment<DetailWordOfTopicCont
 
     @Override
     public void onPageSelected(int position) {
-        this.mPosition = position;
+//        this.mPosition = position;
     }
 
     @Override

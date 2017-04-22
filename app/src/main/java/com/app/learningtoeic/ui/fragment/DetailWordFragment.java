@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.app.learningtoeic.R;
 import com.app.learningtoeic.contract.DetailWordContract;
+import com.app.learningtoeic.contract.DetailWordOfTopicContract.CallBack;
 import com.app.learningtoeic.entity.Topic;
 import com.app.learningtoeic.entity.Word;
 import com.app.learningtoeic.mvp.fragment.MVPFragment;
@@ -38,10 +39,6 @@ public class DetailWordFragment extends MVPFragment<DetailWordContract.IPresente
     private final int REQ_CODE_SPEECH_OUTPUT = 113;
 
     private CallBack callback;
-
-    public interface CallBack{
-        void setSlidingViewPager();
-    }
 
     public DetailWordFragment(Word word) {
         this.mWord = word;
@@ -72,21 +69,12 @@ public class DetailWordFragment extends MVPFragment<DetailWordContract.IPresente
         tvTranslate.setText(mWord.getTranslate());
         tvExample.setText(mWord.getExample());
         tvExampleTranslate.setText(mWord.getExampleTranslate());
-        GetLikeStatus(mWord);
 
         // --------------------------
         GetMainAcitivity().getIvLike().setOnClickListener(this);
         GetMainAcitivity().getFabListening().setOnClickListener(this);
         GetMainAcitivity().getFabRecording().setOnClickListener(this);
         GetMainAcitivity().getFabSliding().setOnClickListener(this);
-    }
-
-    public void GetLikeStatus(Word word){
-        if (word.getFavourite() == 1) {
-            GetMainAcitivity().getIvLike().setImageResource(R.drawable.ic_favorite_red);
-        } else {
-            GetMainAcitivity().getIvLike().setImageResource(R.drawable.ic_favorite_white);
-        }
     }
 
     @Override
@@ -102,6 +90,20 @@ public class DetailWordFragment extends MVPFragment<DetailWordContract.IPresente
         tvTranslate = (TextView) FindViewById(R.id.tv_translate);
         tvExample = (TextView) FindViewById(R.id.tv_example);
         tvExampleTranslate = (TextView) FindViewById(R.id.tv_exampleTranslate);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        GetLikeStatus(mWord);
+    }
+
+    public void GetLikeStatus(Word word){
+        if (word.getFavourite() == 1) {
+            GetMainAcitivity().getIvLike().setImageResource(R.drawable.ic_favorite_red);
+        } else {
+            GetMainAcitivity().getIvLike().setImageResource(R.drawable.ic_favorite_white);
+        }
     }
 
     @Override

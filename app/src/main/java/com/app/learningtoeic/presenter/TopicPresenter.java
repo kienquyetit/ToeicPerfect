@@ -2,7 +2,6 @@ package com.app.learningtoeic.presenter;
 
 import android.content.Context;
 
-import com.app.learningtoeic.R;
 import com.app.learningtoeic.contract.TopicContract;
 import com.app.learningtoeic.entity.Topic;
 import com.app.learningtoeic.mvp.fragment.FragmentPresenter;
@@ -16,8 +15,9 @@ import java.util.ArrayList;
  */
 
 public class TopicPresenter extends FragmentPresenter<TopicContract.IViewOps> implements TopicContract.IPresenterViewOps {
-     private static final int TOPIC_NUM  = 50;
+
     Context context;
+
     public TopicPresenter(Context context){
         this.context = context;
     }

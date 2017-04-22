@@ -19,4 +19,5 @@ public class DetailWordContract {
     {
         void UpdateLikeStatus(Word word);
     }
+
 }

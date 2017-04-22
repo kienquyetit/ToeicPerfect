@@ -1,31 +1,45 @@
 package com.app.learningtoeic.ui.fragment;
 
-import android.view.View;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import com.app.learningtoeic.R;
-import com.app.learningtoeic.base.BaseFragment;
+import com.app.learningtoeic.contract.MoreContact;
+import com.app.learningtoeic.entity.MoreItem;
+import com.app.learningtoeic.mvp.fragment.MVPFragment;
+import com.app.learningtoeic.presenter.MorePresenter;
+import com.app.learningtoeic.ui.adapter.MoreAdapter;
+
+import java.util.ArrayList;
 
 /**
  * Created by dell on 4/7/2017.
  */
 
-public class MoreFragment extends BaseFragment {
+public class MoreFragment extends MVPFragment<MoreContact.IPresenterViewOps> implements MoreContact.IViewOps, MoreAdapter.Callback {
 
-    View wrapGrammarLayout;
+    private RecyclerView recyclerView;
+
+    private ArrayList<MoreItem> mMoreList;
+    private MoreAdapter adapter;
+
+    public MoreFragment(){
+        mMoreList = new ArrayList<>();
+    }
+
     @Override
     protected void OnViewCreated() {
-
+        adapter = new MoreAdapter();
+        adapter.callback = this;
+        recyclerView.setAdapter(adapter);
+        getPresenter().InitListItem();
     }
 
     @Override
     protected void OnBindView() {
-        wrapGrammarLayout = FindViewById(R.id.wrap_grammar);
-        wrapGrammarLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SwitchFragment(new GrammarFragment(),true);
-            }
-        });
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView = (RecyclerView) FindViewById(R.id.rcv_more);
+        recyclerView.setLayoutManager(linearLayoutManager);
     }
 
     @Override
@@ -36,5 +50,20 @@ public class MoreFragment extends BaseFragment {
     @Override
     protected String GetScreenTitle() {
         return "Toeic Perfect";
+    }
+
+    @Override
+    protected MoreContact.IPresenterViewOps OnRegisterPresenter() {
+        return new MorePresenter();
+    }
+
+    @Override
+    public void InsertDataToAdapter(ArrayList<MoreItem> listItem) {
+        adapter.InsertData(listItem);
+    }
+
+    @Override
+    public void OnMoreItemClick() {
+        SwitchFragment(new GrammarFragment(),true);
     }
 }
