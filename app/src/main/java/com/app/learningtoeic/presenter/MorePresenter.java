@@ -1,7 +1,7 @@
 package com.app.learningtoeic.presenter;
 
 import com.app.learningtoeic.R;
-import com.app.learningtoeic.contract.MoreContact;
+import com.app.learningtoeic.contract.MoreContract;
 import com.app.learningtoeic.entity.MoreItem;
 import com.app.learningtoeic.mvp.fragment.FragmentPresenter;
 
@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * Created by QUYET on 4/22/2017.
  */
 
-public class MorePresenter extends FragmentPresenter<MoreContact.IViewOps> implements MoreContact.IPresenterViewOps {
+public class MorePresenter extends FragmentPresenter<MoreContract.IViewOps> implements MoreContract.IPresenterViewOps {
 
     ArrayList<MoreItem> itemList;
 

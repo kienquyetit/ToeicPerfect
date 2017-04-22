@@ -4,11 +4,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.app.learningtoeic.R;
-import com.app.learningtoeic.contract.MoreContact;
+import com.app.learningtoeic.contract.MoreContract;
 import com.app.learningtoeic.entity.MoreItem;
 import com.app.learningtoeic.mvp.fragment.MVPFragment;
 import com.app.learningtoeic.presenter.MorePresenter;
 import com.app.learningtoeic.ui.adapter.MoreAdapter;
+import com.app.learningtoeic.ui.fragment.chat.ChatFragment;
+import com.app.learningtoeic.ui.fragment.grammar.GrammarFragment;
 
 import java.util.ArrayList;
 
@@ -16,7 +18,7 @@ import java.util.ArrayList;
  * Created by dell on 4/7/2017.
  */
 
-public class MoreFragment extends MVPFragment<MoreContact.IPresenterViewOps> implements MoreContact.IViewOps, MoreAdapter.Callback {
+public class MoreFragment extends MVPFragment<MoreContract.IPresenterViewOps> implements MoreContract.IViewOps, MoreAdapter.Callback {
 
     private RecyclerView recyclerView;
 
@@ -53,7 +55,7 @@ public class MoreFragment extends MVPFragment<MoreContact.IPresenterViewOps> imp
     }
 
     @Override
-    protected MoreContact.IPresenterViewOps OnRegisterPresenter() {
+    protected MoreContract.IPresenterViewOps OnRegisterPresenter() {
         return new MorePresenter();
     }
 
@@ -63,7 +65,16 @@ public class MoreFragment extends MVPFragment<MoreContact.IPresenterViewOps> imp
     }
 
     @Override
-    public void OnMoreItemClick() {
-        SwitchFragment(new GrammarFragment(),true);
+    public void OnMoreItemClick(int position) {
+        switch (position){
+            case 0:
+                SwitchFragment(new GrammarFragment(),true);
+                break;
+            case 1:
+                SwitchFragment(new ChatFragment(),true);
+                break;
+            default:
+                break;
+        }
     }
 }

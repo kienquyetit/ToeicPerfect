@@ -24,7 +24,7 @@ public class MoreAdapter extends RecyclerView.Adapter {
 
     public interface Callback
     {
-        void OnMoreItemClick();
+        void OnMoreItemClick(int position);
     }
 
     public MoreAdapter(){
@@ -74,7 +74,7 @@ public class MoreAdapter extends RecyclerView.Adapter {
             moreRowLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    callback.OnMoreItemClick();
+                    callback.OnMoreItemClick(getAdapterPosition());
                 }
             });
         }

@@ -9,6 +9,9 @@ import com.app.learningtoeic.contract.HomeContract;
 import com.app.learningtoeic.mvp.fragment.MVPFragment;
 import com.app.learningtoeic.presenter.HomePresenter;
 import com.app.learningtoeic.ui.adapter.HomePagerAdapter;
+import com.app.learningtoeic.ui.fragment.dictionary.DictionaryFragment;
+import com.app.learningtoeic.ui.fragment.test.TestFragment;
+import com.app.learningtoeic.ui.fragment.topic.TopicFragment;
 
 /**
  * Created by dell on 3/31/2017.
