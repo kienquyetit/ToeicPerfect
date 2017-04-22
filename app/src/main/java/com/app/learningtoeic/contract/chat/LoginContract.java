@@ -10,8 +10,12 @@ import com.app.learningtoeic.mvp.fragment.IFragmentViewOps;
 public class LoginContract {
     public interface IViewOps extends IFragmentViewOps
     {
+        void onLoginSuccess();
+        void showAlertDialog(String message, boolean isCancelable);
+        void dismissAlertDialog();
     }
     public interface IPresenterViewOps extends IFragmentPresenterViewOps
     {
+        void handleLogin(String userEmail, String userPassword);
     }
 }

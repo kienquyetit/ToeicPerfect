@@ -10,8 +10,12 @@ import com.app.learningtoeic.mvp.fragment.IFragmentViewOps;
 public class RegisterContract {
     public interface IViewOps extends IFragmentViewOps
     {
+        void onSignUpSuccess();
+        void showAlertDialog(String message, boolean isCancelable);
+        void dismissAlertDialog();
     }
     public interface IPresenterViewOps extends IFragmentPresenterViewOps
     {
+        void handleSignUp(String userDisplayName, String userEmailRegister, String userPasswordRegister);
     }
 }
