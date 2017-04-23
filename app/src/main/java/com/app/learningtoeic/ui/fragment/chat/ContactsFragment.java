@@ -116,8 +116,13 @@ public class ContactsFragment extends MVPFragment<ContactsContract.IPresenterVie
 
     @Override
     public void goToLogin() {
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
         logout();
-        GetMainAcitivity().onBackPressed();
     }
 
     private void logout() {
