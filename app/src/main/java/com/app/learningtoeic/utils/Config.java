@@ -5,5 +5,6 @@ package com.app.learningtoeic.utils;
  */
 
 public class Config {
+
     public static DbHelper wordDB;
 }

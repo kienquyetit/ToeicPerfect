@@ -1,5 +1,6 @@
 package com.app.learningtoeic.contract.chat;
 
+import com.app.learningtoeic.entity.User;
 import com.app.learningtoeic.mvp.fragment.IFragmentPresenterViewOps;
 import com.app.learningtoeic.mvp.fragment.IFragmentViewOps;
 
@@ -10,8 +11,17 @@ import com.app.learningtoeic.mvp.fragment.IFragmentViewOps;
 public class ContactsContract {
     public interface IViewOps extends IFragmentViewOps
     {
+        void hideProgressBarForUsers();
+        void setCurrentUserInfo(String userUid, String email, long createdAt);
+        void refill(User users);
+        void changeUser(int index, User user);
+        void goToLogin();
     }
     public interface IPresenterViewOps extends IFragmentPresenterViewOps
     {
+        void setUserOffline();
+        void addAuthStateListener();
+        void clearCurrentUsers();
+        void removeListener();
     }
 }
