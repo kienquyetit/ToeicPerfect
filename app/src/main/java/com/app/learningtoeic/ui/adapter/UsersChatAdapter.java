@@ -31,9 +31,16 @@ public class UsersChatAdapter extends RecyclerView.Adapter<UsersChatAdapter.View
     private Long mCurrentUserCreatedAt;
     private String mCurrentUserId;
 
-    public UsersChatAdapter(Context context, List<User> fireChatUsers) {
+    public Callback callback;
+
+    public interface Callback{
+        void OnClickDetailItem(String currentUserId, String recipientId, String chatRef);
+    }
+
+    public UsersChatAdapter(Context context, List<User> fireChatUsers, UsersChatAdapter.Callback callback) {
         mUsers = fireChatUsers;
         mContext = context;
+        this.callback = callback;
     }
 
     @Override
@@ -132,14 +139,7 @@ public class UsersChatAdapter extends RecyclerView.Adapter<UsersChatAdapter.View
 
             String chatRef = user.createUniqueChatRef(mCurrentUserCreatedAt, mCurrentUserEmail);
 
-//            Intent chatIntent = new Intent(mContextViewHolder, ChatActivity.class);
-//            chatIntent.putExtra(ExtraIntent.EXTRA_CURRENT_USER_ID, mCurrentUserId);
-//            chatIntent.putExtra(ExtraIntent.EXTRA_RECIPIENT_ID, user.getRecipientId());
-//            chatIntent.putExtra(ExtraIntent.EXTRA_CHAT_REF, chatRef);
-//
-//            // Start new activity
-//            mContextViewHolder.startActivity(chatIntent);
-
+            callback.OnClickDetailItem(mCurrentUserId, user.getRecipientId(), chatRef);
         }
     }
 

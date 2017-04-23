@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * Created by QUYET on 4/22/2017.
  */
 
-public class ContactsFragment extends MVPFragment<ContactsContract.IPresenterViewOps> implements ContactsContract.IViewOps  {
+public class ContactsFragment extends MVPFragment<ContactsContract.IPresenterViewOps> implements ContactsContract.IViewOps, UsersChatAdapter.Callback  {
 
     private ProgressBar mProgressBarForUsers;
     private RecyclerView mUsersRecyclerView;
@@ -46,7 +46,7 @@ public class ContactsFragment extends MVPFragment<ContactsContract.IPresenterVie
     }
 
     private void setUserRecyclerView() {
-        mUsersChatAdapter = new UsersChatAdapter(GetMainAcitivity(), new ArrayList<User>());
+        mUsersChatAdapter = new UsersChatAdapter(GetMainAcitivity(), new ArrayList<User>(), this);
         mUsersRecyclerView.setLayoutManager(new LinearLayoutManager(GetMainAcitivity()));
         mUsersRecyclerView.setHasFixedSize(true);
         mUsersRecyclerView.setAdapter(mUsersChatAdapter);
@@ -138,5 +138,10 @@ public class ContactsFragment extends MVPFragment<ContactsContract.IPresenterVie
     @Override
     public boolean IsHeaderVisible() {
         return true;
+    }
+
+    @Override
+    public void OnClickDetailItem(String currentUserId, String recipientId, String chatRef) {
+        SwitchFragment(new ChatFragment(currentUserId, recipientId, chatRef), true);
     }
 }
