@@ -128,6 +128,7 @@ public class ContactsFragment extends MVPFragment<ContactsContract.IPresenterVie
     private void logout() {
         showProgressBarForUsers();
         getPresenter().setUserOffline();
+
     }
 
     @Override
