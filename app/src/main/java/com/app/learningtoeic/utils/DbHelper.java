@@ -186,4 +186,20 @@ public class DbHelper extends SQLiteOpenHelper{
         cursor.close();
         return listTopic;
     }
+
+    public Word getWord(String wordId)
+    {
+        opendatabase();
+        Word word = new Word();
+        Cursor cursor = myDataBase.rawQuery("SELECT * FROM mytoeic600 WHERE id='"+wordId+"'", null);
+        cursor.moveToFirst();
+        while(!cursor.isAfterLast()){
+            word = new Word(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2),cursor.getString(3), cursor.getString(4),
+                    cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getInt(9));
+            Log.d("DbHelper", word.getId() + "");
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return word;
+    }
 }
