@@ -61,4 +61,5 @@
     <color name="text_color_email">#03A9F4</color>
     <color name="login_text_hint">#f0c1c1</color>
     <color name="bg_unread_notify">#eceef4</color>
+    <color name="text_color_icon">#212121</color>
 </resources>

@@ -151,11 +151,20 @@ public class DbHelper extends SQLiteOpenHelper{
         }
     }
 
-    public ArrayList<Word> getListWordForTopic(String id)
+    public Topic getTopic(String topicId){
+        opendatabase();
+        Cursor cursor = myDataBase.rawQuery("SELECT * FROM topic WHERE topicid='"+topicId+"'", null);
+        cursor.moveToFirst();
+        Topic topic = new Topic(cursor.getInt(0), cursor.getString(1), cursor.getString(2));
+        cursor.close();
+        return topic;
+    }
+
+    public ArrayList<Word> getListWordForTopic(String topicId)
     {
         opendatabase();
         ArrayList<Word> listWord = new ArrayList<>();
-        Cursor cursor = myDataBase.rawQuery("SELECT * FROM mytoeic600 WHERE topicid='"+id+"'", null);
+        Cursor cursor = myDataBase.rawQuery("SELECT * FROM mytoeic600 WHERE topicid='"+topicId+"'", null);
         cursor.moveToFirst();
         while(!cursor.isAfterLast()){
             Word word = new Word(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2),cursor.getString(3), cursor.getString(4),

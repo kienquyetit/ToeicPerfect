@@ -22,7 +22,7 @@ public class DictionaryAdapter extends RecyclerView.Adapter {
     public Callback callback;
 
     public interface Callback{
-        void OnClickDetailItem(Word word);
+        void OnClickDetailItem(Word word, int adapterPosition);
     }
 
     private ArrayList<Word> mWordsList;
@@ -48,7 +48,7 @@ public class DictionaryAdapter extends RecyclerView.Adapter {
 
     public void InsertData(ArrayList<Word> listItem)
     {
-        mWordsList.addAll(listItem);
+        this.mWordsList = listItem;
     }
 
     @Override
@@ -89,14 +89,14 @@ public class DictionaryAdapter extends RecyclerView.Adapter {
             ivDetail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    callback.OnClickDetailItem(word);
+                    callback.OnClickDetailItem(word, getAdapterPosition());
                 }
             });
         }
 
         public void BindView(Word word)
         {
-            this.word =word;
+            this.word = word;
             String namePicture = word.getVocabulary().replace(' ', '_');
             ivDescriptivePicture.setImageResource(itemView.getContext().getResources().getIdentifier(namePicture, "mipmap", itemView.getContext().getPackageName()));
             tvVocabulary.setText(word.getVocabulary().toString());
