@@ -4,6 +4,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.app.learningtoeic.R;
+import com.app.learningtoeic.base.BaseFragment;
 import com.app.learningtoeic.contract.dictionary.DictionaryContract;
 import com.app.learningtoeic.entity.Topic;
 import com.app.learningtoeic.entity.Word;
@@ -79,10 +80,15 @@ public class DictionaryFragment extends MVPFragment<DictionaryContract.IPresente
 
     @Override
     public void OnClickDetailItem(Word word, int adapterPosition) {
+        BaseFragment fragment;
         if (mTopic != null) {
-            SwitchFragment(new DetailWordOfTopicFragment(mTopic, adapterPosition), true);
+            fragment = new DetailWordOfTopicFragment(mTopic, adapterPosition);
+            SwitchFragment(fragment, true);
         } else {
-            SwitchFragment(new DetailWordFragment(word), true);
+            fragment = new DetailWordFragment(word);
+            SwitchFragment(fragment, true);
+            //((DetailWordFragment) fragment).ChangeLikeStatus();
         }
+
     }
 }

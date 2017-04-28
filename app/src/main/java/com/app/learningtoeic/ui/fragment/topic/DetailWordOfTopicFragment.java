@@ -33,6 +33,7 @@ public class DetailWordOfTopicFragment extends MVPFragment<DetailWordOfTopicCont
     {
         this.mTopic = topic;
         this.mPosition = position;
+        homePagerAdapter = null;
     }
 
     @Override
@@ -95,7 +96,8 @@ public class DetailWordOfTopicFragment extends MVPFragment<DetailWordOfTopicCont
 
     @Override
     public void onPageSelected(int position) {
-//        this.mPosition = position;
+       this.mPosition = position;
+        ((DetailWordFragment)homePagerAdapter.getItem(mPosition)).ChangeLikeStatus();
     }
 
     @Override
@@ -111,6 +113,7 @@ public class DetailWordOfTopicFragment extends MVPFragment<DetailWordOfTopicCont
         }
         homePagerAdapter.notifyDataSetChanged();
         mViewPager.setCurrentItem(mPosition, true);
+        ((DetailWordFragment)homePagerAdapter.getItem(mPosition)).ChangeLikeStatus();
     }
 
     @Override
@@ -122,4 +125,5 @@ public class DetailWordOfTopicFragment extends MVPFragment<DetailWordOfTopicCont
     public void setSlidingViewPager() {
         mViewPager.setPagingEnabled(isPagingEnabled = !isPagingEnabled);
     }
+
 }

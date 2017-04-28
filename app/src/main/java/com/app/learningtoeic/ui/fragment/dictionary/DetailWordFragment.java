@@ -69,6 +69,7 @@ public class DetailWordFragment extends MVPFragment<DetailWordContract.IPresente
         tvTranslate.setText(mWord.getTranslate());
         tvExample.setText(mWord.getExample());
         tvExampleTranslate.setText(mWord.getExampleTranslate());
+        GetLikeStatus(mWord);
 
         // --------------------------
         GetMainAcitivity().getIvLike().setOnClickListener(this);
@@ -90,12 +91,6 @@ public class DetailWordFragment extends MVPFragment<DetailWordContract.IPresente
         tvTranslate = (TextView) FindViewById(R.id.tv_translate);
         tvExample = (TextView) FindViewById(R.id.tv_example);
         tvExampleTranslate = (TextView) FindViewById(R.id.tv_exampleTranslate);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        GetLikeStatus(mWord);
     }
 
     public void GetLikeStatus(Word word){
