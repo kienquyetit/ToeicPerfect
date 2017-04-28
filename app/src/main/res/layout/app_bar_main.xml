@@ -19,7 +19,7 @@
         app:tabIndicatorColor="@android:color/white"
         app:tabPaddingStart="-2dp"
         app:tabPaddingEnd="-2dp"
-        app:tabIndicatorHeight="5dp"
+        app:tabIndicatorHeight="2dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"/>
     <include

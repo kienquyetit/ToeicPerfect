@@ -53,8 +53,8 @@ public class DetailTopicFragment extends MVPFragment<DetailTopicContract.IPresen
     private void setUpViewPager() {
         mViewPager.setOffscreenPageLimit(1);
         HomePagerAdapter homePagerAdapter = new HomePagerAdapter(getChildFragmentManager());
-        homePagerAdapter.addFrag(new DictionaryFragment(mTopic),"Self Study");
-        homePagerAdapter.addFrag(new HomeworkFragment(),"Homework");
+        homePagerAdapter.addFrag(new DictionaryFragment(topicId),"Self Study");
+        homePagerAdapter.addFrag(new HomeworkFragment(topicId),"Homework");
         mViewPager.setAdapter(homePagerAdapter);
     }
 
