@@ -1,4 +1,4 @@
-package com.app.learningtoeic.presenter;
+package com.app.learningtoeic.presenter.topic;
 import android.util.Log;
 import com.app.learningtoeic.contract.HomeworkContract;
 import com.app.learningtoeic.entity.Word;

@@ -8,8 +8,10 @@ import android.widget.TextView;
 
 import com.app.learningtoeic.R;
 import com.app.learningtoeic.contract.HomeworkContract;
+import com.app.learningtoeic.contract.topic.HomeworkContract;
 import com.app.learningtoeic.entity.Word;
 import com.app.learningtoeic.mvp.fragment.MVPFragment;
+import com.app.learningtoeic.presenter.HomeworkPresenter;
 import com.app.learningtoeic.presenter.topic.HomeworkPresenter;
 
 import java.util.ArrayList;
