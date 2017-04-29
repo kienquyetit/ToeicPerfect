@@ -1,6 +1,5 @@
 package com.app.learningtoeic.presenter.topic;
 import android.util.Log;
-import com.app.learningtoeic.contract.HomeworkContract;
 import com.app.learningtoeic.entity.Word;
 import com.app.learningtoeic.contract.topic.HomeworkContract;
 import com.app.learningtoeic.mvp.fragment.FragmentPresenter;

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "600691541587",
+    "firebase_url": "https://toeicperfectchatroom.firebaseio.com",
+    "project_id": "toeicperfectchatroom",
+    "storage_bucket": "toeicperfectchatroom.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:600691541587:android:dfc3b639efa59a88",
+        "android_client_info": {
+          "package_name": "com.app.learningtoeic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "600691541587-vfo183dr2ldo36m8av2obfa52d510ddl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpCZoqR22WmCxjqvjf98FiNCSofh_FaiM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

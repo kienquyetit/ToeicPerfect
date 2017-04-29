@@ -1,17 +1,20 @@
 package com.app.learningtoeic.ui.fragment.topic;
 
+import android.os.Handler;
+import android.support.design.widget.BottomSheetBehavior;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.learningtoeic.R;
-import com.app.learningtoeic.contract.HomeworkContract;
 import com.app.learningtoeic.contract.topic.HomeworkContract;
 import com.app.learningtoeic.entity.Word;
 import com.app.learningtoeic.mvp.fragment.MVPFragment;
-import com.app.learningtoeic.presenter.HomeworkPresenter;
 import com.app.learningtoeic.presenter.topic.HomeworkPresenter;
 
 import java.util.ArrayList;
@@ -32,6 +35,8 @@ public class HomeworkFragment extends MVPFragment<HomeworkContract.IPresenterVie
     TextView submitTv;
     String topicId;
     int indexRadio = -1;
+    private BottomSheetBehavior mBottomSheetBehavior;
+    View bottomSheet;
     public HomeworkFragment(String topicId) {
         this.topicId = topicId;
     }
@@ -43,11 +48,15 @@ public class HomeworkFragment extends MVPFragment<HomeworkContract.IPresenterVie
 
     @Override
     protected void OnViewCreated() {
+        setupUI(FindViewById(R.id.homework_layout));
         getPresenter().ImplementQuestion();
     }
 
     @Override
     protected void OnBindView() {
+        bottomSheet = FindViewById(R.id.bottom_sheet1);
+        mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+        mBottomSheetBehavior.setPeekHeight(0);
         wrapRadio = (RadioGroup) FindViewById(R.id.wrap_radio_btn);
         tvTrueCount = (TextView) FindViewById(R.id.true_count);
         tvFalseCount = (TextView) FindViewById(R.id.false_count);
@@ -72,8 +81,36 @@ public class HomeworkFragment extends MVPFragment<HomeworkContract.IPresenterVie
                 if (indexRadio != -1) {
                     getPresenter().PostAnswer(indexRadio);
                 }
+                if(mBottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
+                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                }
+                else {
+                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
             }
         });
+
+    }
+
+    public void setupUI(View view) {
+
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (!(view.getId() == R.id.bottom_sheet1)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    return false;
+                }
+            });
+        }
+
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
+        }
     }
 
     public void SetWordImgate(String wordName) {
