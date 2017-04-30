@@ -1,5 +1,7 @@
 package com.app.learningtoeic.presenter.topic;
 import android.util.Log;
+
+import com.app.learningtoeic.entity.Question;
 import com.app.learningtoeic.entity.Word;
 import com.app.learningtoeic.contract.topic.HomeworkContract;
 import com.app.learningtoeic.mvp.fragment.FragmentPresenter;
@@ -49,15 +51,8 @@ public class HomeworkPresenter extends FragmentPresenter<HomeworkContract.IViewO
     }
 
     public void ImplementQuestion() {
-       /* if (getView().GetQuestionCount() != 1) {
-            if (userAnswer.equals(correctAnswer)) {
-                // TODO: 4/24/2017
-            } else {
-                return;
-            }
-        }*/
         listAnswer = new ArrayList<>();
-        if (getView().GetQuestionCount() > 32) {
+        if (getView().GetQuestionCount() >= 32) {
             return;
         }
         for (int i = 0; i < getView().getAnsweredQuestionList().size(); i++) {
@@ -173,12 +168,17 @@ public class HomeworkPresenter extends FragmentPresenter<HomeworkContract.IViewO
         getView().SetTvAnswer3(listAnswer.get(2));
         getView().SetTvAnswer4(listAnswer.get(3));
         correctAnswerIndex = listAnswer.indexOf(correctAnswer);
-        //increase count question
-        getView().IncreaseCountQuestion();
     }
 
     @Override
     public void PostAnswer(int indexRadio) {
+        if (getView().GetQuestionCount() >= 32) {
+            getView().disableQuestion();
+            getView().showReviewAnswer();
+            return;
+        }
+        Question question = new Question(getView().GetQuestionCount(),questionText,listAnswer,correctAnswerIndex,indexRadio,this.question.getVocabulary());
+        getView().AddQuestionToCache(question);
         if (indexRadio == correctAnswerIndex) {
             trueCount++;
             getView().SetTvTrueCount(trueCount + "");
@@ -187,6 +187,7 @@ public class HomeworkPresenter extends FragmentPresenter<HomeworkContract.IViewO
             getView().SetTvFalseCount(falseCount + "");
         }
         getView().SetColorAnswer(correctAnswerIndex);
+
         final android.os.Handler handler = new android.os.Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -195,6 +196,21 @@ public class HomeworkPresenter extends FragmentPresenter<HomeworkContract.IViewO
                 ImplementQuestion();
             }
         }, 500);
+        //increase count question
+        getView().IncreaseCountQuestion();
+    }
+
+    @Override
+    public void GoToReviewQuestion(Question question) {
+        getView().disableQuestion();
+        getView().SetWordImgate(question.imageName.replace(' ', '_'));
+        getView().SetTvQuestionNum((question.getQuestionIndex() + 1) + "");
+        getView().SetTvQuestion(question.getQuestion());
+        getView().SetTvAnswer1(question.getAnswer().get(0));
+        getView().SetTvAnswer2(question.getAnswer().get(1));
+        getView().SetTvAnswer3(question.getAnswer().get(2));
+        getView().SetTvAnswer4(question.getAnswer().get(3));
+        getView().SetColorAnswer(question.getRightIndex());
     }
 
     public void InitQuestion(String topicId) {

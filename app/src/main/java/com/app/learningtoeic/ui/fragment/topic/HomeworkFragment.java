@@ -2,6 +2,8 @@ package com.app.learningtoeic.ui.fragment.topic;
 
 import android.os.Handler;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +15,11 @@ import android.widget.Toast;
 
 import com.app.learningtoeic.R;
 import com.app.learningtoeic.contract.topic.HomeworkContract;
+import com.app.learningtoeic.entity.Question;
 import com.app.learningtoeic.entity.Word;
 import com.app.learningtoeic.mvp.fragment.MVPFragment;
 import com.app.learningtoeic.presenter.topic.HomeworkPresenter;
+import com.app.learningtoeic.ui.adapter.ReviewQuestionAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +28,9 @@ import java.util.List;
  * Created by dell on 4/15/2017.
  */
 
-public class HomeworkFragment extends MVPFragment<HomeworkContract.IPresenterViewOps> implements HomeworkContract.IViewOps, View.OnClickListener {
+public class HomeworkFragment extends MVPFragment<HomeworkContract.IPresenterViewOps> implements HomeworkContract.IViewOps, View.OnClickListener,ReviewQuestionAdapter.CallBack {
     int questionCount = 0;
+    List<Question> listCacheAllQuestion = new ArrayList<>();
     List<Word> listAnsweredQuestion = new ArrayList<>();
     ArrayList<Integer> listTypeAnswerId = new ArrayList<>();
     TextView tvTrueCount, tvFalseCount, tvQuestionNum, tvQuestion;
@@ -37,6 +42,8 @@ public class HomeworkFragment extends MVPFragment<HomeworkContract.IPresenterVie
     int indexRadio = -1;
     private BottomSheetBehavior mBottomSheetBehavior;
     View bottomSheet;
+    RecyclerView rcvReview;
+    ReviewQuestionAdapter reviewQuestionAdapter;
     public HomeworkFragment(String topicId) {
         this.topicId = topicId;
     }
@@ -50,10 +57,15 @@ public class HomeworkFragment extends MVPFragment<HomeworkContract.IPresenterVie
     protected void OnViewCreated() {
         setupUI(FindViewById(R.id.homework_layout));
         getPresenter().ImplementQuestion();
+        reviewQuestionAdapter = new ReviewQuestionAdapter();
+        reviewQuestionAdapter.callBack = this;
+        rcvReview.setAdapter(reviewQuestionAdapter);
     }
 
     @Override
     protected void OnBindView() {
+        rcvReview = (RecyclerView) FindViewById(R.id.homework_rcv);
+        rcvReview.setLayoutManager(new GridLayoutManager(getContext(),8));
         bottomSheet = FindViewById(R.id.bottom_sheet1);
         mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
         mBottomSheetBehavior.setPeekHeight(0);
@@ -80,22 +92,46 @@ public class HomeworkFragment extends MVPFragment<HomeworkContract.IPresenterVie
             public void onClick(View v) {
                 if (indexRadio != -1) {
                     getPresenter().PostAnswer(indexRadio);
+                    indexRadio = -1;
+                    submitTv.setEnabled(false);
+                    if(questionCount>=32)
+                    {
+                        submitTv.setEnabled(true);
+                    }
                 }
-                if(mBottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
-                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                }
-                else {
-                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                if(questionCount>=32)
+                {
+                    if(mBottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
+                        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    }
+                    else {
+                        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    }
                 }
             }
         });
+    }
 
+    public void disableQuestion()
+    {
+        for (int i = 0; i < wrapRadio.getChildCount(); i++) {
+            wrapRadio.getChildAt(i).setEnabled(false);
+        }
+    }
+
+    public void showReviewAnswer()
+    {
+        submitTv.setText("Review");
+    }
+
+    public void AddQuestionToCache(Question item)
+    {
+        reviewQuestionAdapter.InsertData(item);
     }
 
     public void setupUI(View view) {
-
         // Set up touch listener for non-text box views to hide keyboard.
-        if (!(view.getId() == R.id.bottom_sheet1)) {
+        if (!(view == bottomSheet)) {
             view.setOnTouchListener(new View.OnTouchListener() {
                 public boolean onTouch(View v, MotionEvent event) {
                     mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
@@ -167,7 +203,7 @@ public class HomeworkFragment extends MVPFragment<HomeworkContract.IPresenterVie
     }
 
     public void ResetQuestionAndAnswer() {
-        indexRadio = -1;
+        submitTv.setEnabled(true);
         submitTv.setAlpha(0.7f);
         tvAnswer1.setTextColor(getResources().getColor(R.color.black));
         tvAnswer2.setTextColor(getResources().getColor(R.color.black));
@@ -236,5 +272,10 @@ public class HomeworkFragment extends MVPFragment<HomeworkContract.IPresenterVie
                 indexRadio = 3;
                 break;
         }
+    }
+
+    @Override
+    public void GoToQuestion(Question question) {
+        getPresenter().GoToReviewQuestion(question);
     }
 }
