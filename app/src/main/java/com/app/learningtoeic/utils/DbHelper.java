@@ -189,6 +189,7 @@ public class DbHelper extends SQLiteOpenHelper{
             topic.id = cursor.getInt(0);
             topic.name = cursor.getString(1);
             topic.topicImageName = cursor.getString(2);
+            //topic.translateVie = cursor.getString(3);
             listTopic.add(topic);
             cursor.moveToNext();
         }
