@@ -35,12 +35,14 @@ public class HomeworkContract {
         void ResetQuestionAndAnswer();
         void showReviewAnswer();
         void disableQuestion();
+        void SetCheckRadio(int indexRadio);
     }
     public interface IPresenterViewOps extends IFragmentPresenterViewOps
     {
         void ImplementQuestion();
         void PostAnswer(int indexRadio);
         void GoToReviewQuestion(Question question);
+        String getTitle();
         void InitQuestion(String topicId);
     }
 }

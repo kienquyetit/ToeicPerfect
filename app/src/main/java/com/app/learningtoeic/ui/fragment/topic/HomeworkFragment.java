@@ -28,7 +28,7 @@ import java.util.List;
  * Created by dell on 4/15/2017.
  */
 
-public class HomeworkFragment extends MVPFragment<HomeworkContract.IPresenterViewOps> implements HomeworkContract.IViewOps, View.OnClickListener,ReviewQuestionAdapter.CallBack {
+public class HomeworkFragment extends MVPFragment<HomeworkContract.IPresenterViewOps> implements HomeworkContract.IViewOps, View.OnClickListener, ReviewQuestionAdapter.CallBack {
     int questionCount = 0;
     List<Question> listCacheAllQuestion = new ArrayList<>();
     List<Word> listAnsweredQuestion = new ArrayList<>();
@@ -44,6 +44,7 @@ public class HomeworkFragment extends MVPFragment<HomeworkContract.IPresenterVie
     View bottomSheet;
     RecyclerView rcvReview;
     ReviewQuestionAdapter reviewQuestionAdapter;
+
     public HomeworkFragment(String topicId) {
         this.topicId = topicId;
     }
@@ -65,7 +66,7 @@ public class HomeworkFragment extends MVPFragment<HomeworkContract.IPresenterVie
     @Override
     protected void OnBindView() {
         rcvReview = (RecyclerView) FindViewById(R.id.homework_rcv);
-        rcvReview.setLayoutManager(new GridLayoutManager(getContext(),8));
+        rcvReview.setLayoutManager(new GridLayoutManager(getContext(), 8));
         bottomSheet = FindViewById(R.id.bottom_sheet1);
         mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
         mBottomSheetBehavior.setPeekHeight(0);
@@ -94,17 +95,14 @@ public class HomeworkFragment extends MVPFragment<HomeworkContract.IPresenterVie
                     getPresenter().PostAnswer(indexRadio);
                     indexRadio = -1;
                     submitTv.setEnabled(false);
-                    if(questionCount>=32)
-                    {
+                    if (questionCount >= 32) {
                         submitTv.setEnabled(true);
                     }
                 }
-                if(questionCount>=32)
-                {
-                    if(mBottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
+                if (questionCount >= 32) {
+                    if (mBottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
                         mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                    }
-                    else {
+                    } else {
                         mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                     }
                 }
@@ -112,20 +110,17 @@ public class HomeworkFragment extends MVPFragment<HomeworkContract.IPresenterVie
         });
     }
 
-    public void disableQuestion()
-    {
+    public void disableQuestion() {
         for (int i = 0; i < wrapRadio.getChildCount(); i++) {
             wrapRadio.getChildAt(i).setEnabled(false);
         }
     }
 
-    public void showReviewAnswer()
-    {
+    public void showReviewAnswer() {
         submitTv.setText("Review");
     }
 
-    public void AddQuestionToCache(Question item)
-    {
+    public void AddQuestionToCache(Question item) {
         reviewQuestionAdapter.InsertData(item);
     }
 
@@ -139,7 +134,6 @@ public class HomeworkFragment extends MVPFragment<HomeworkContract.IPresenterVie
                 }
             });
         }
-
         //If a layout container, iterate over children and seed recursion.
         if (view instanceof ViewGroup) {
             for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
@@ -185,6 +179,25 @@ public class HomeworkFragment extends MVPFragment<HomeworkContract.IPresenterVie
         tvAnswer4.setText(answer);
     }
 
+    public void SetCheckRadio(int indexRadio) {
+        switch (indexRadio){
+            case 0:
+                tvAnswer1.setChecked(true);
+                break;
+            case 1:
+                tvAnswer2.setChecked(true);
+                break;
+            case 2:
+                tvAnswer3.setChecked(true);
+                break;
+            case 3:
+                tvAnswer4.setChecked(true);
+                break;
+        }
+    }
+
+
+
     public void SetColorAnswer(int indexRadio) {
         switch (indexRadio) {
             case 0:
@@ -224,7 +237,7 @@ public class HomeworkFragment extends MVPFragment<HomeworkContract.IPresenterVie
 
     @Override
     protected String GetScreenTitle() {
-        return "Contracts";
+        return getPresenter().getTitle();
     }
 
     @Override

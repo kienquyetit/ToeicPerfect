@@ -1,4 +1,5 @@
 package com.app.learningtoeic.presenter.topic;
+
 import android.util.Log;
 
 import com.app.learningtoeic.entity.Question;
@@ -34,10 +35,10 @@ public class HomeworkPresenter extends FragmentPresenter<HomeworkContract.IViewO
     Word question = new Word();
     int typeIndex = 1;
     String questionText = "";
-    List<String> listAnswer ;
+    List<String> listAnswer;
     String topicId = "";
     String userAnswer = "";
-    String correctAnswer="";
+    String correctAnswer = "";
     int correctAnswerIndex = 0;
     int trueCount = 0;
     int falseCount = 0;
@@ -62,10 +63,6 @@ public class HomeworkPresenter extends FragmentPresenter<HomeworkContract.IViewO
                 }
             }
         }
-        //random question
-        //List<Word> listAnsweredQuestion = getView().getAnsweredQuestionList();
-        //listQuestion.removeAll(listAnsweredQuestion);
-
         SuffleHelper.shuffleWordArray(listQuestion);
         if (listQuestion.size() != 0) {
             getView().AddAnsweredQuestionId(listQuestion.get(0));
@@ -177,7 +174,7 @@ public class HomeworkPresenter extends FragmentPresenter<HomeworkContract.IViewO
             getView().showReviewAnswer();
             return;
         }
-        Question question = new Question(getView().GetQuestionCount(),questionText,listAnswer,correctAnswerIndex,indexRadio,this.question.getVocabulary());
+        Question question = new Question(getView().GetQuestionCount(), questionText, listAnswer, correctAnswerIndex, indexRadio, this.question.getVocabulary());
         getView().AddQuestionToCache(question);
         if (indexRadio == correctAnswerIndex) {
             trueCount++;
@@ -189,19 +186,26 @@ public class HomeworkPresenter extends FragmentPresenter<HomeworkContract.IViewO
         getView().SetColorAnswer(correctAnswerIndex);
 
         final android.os.Handler handler = new android.os.Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                getView().ResetQuestionAndAnswer();
-                ImplementQuestion();
-            }
-        }, 500);
+        if (getView().GetQuestionCount() < 31) {
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    getView().ResetQuestionAndAnswer();
+                    ImplementQuestion();
+                }
+            }, 500);
+        }
+        else {
+            getView().disableQuestion();
+            getView().showReviewAnswer();
+        }
         //increase count question
         getView().IncreaseCountQuestion();
     }
 
     @Override
     public void GoToReviewQuestion(Question question) {
+        getView().ResetQuestionAndAnswer();
         getView().disableQuestion();
         getView().SetWordImgate(question.imageName.replace(' ', '_'));
         getView().SetTvQuestionNum((question.getQuestionIndex() + 1) + "");
@@ -210,6 +214,7 @@ public class HomeworkPresenter extends FragmentPresenter<HomeworkContract.IViewO
         getView().SetTvAnswer2(question.getAnswer().get(1));
         getView().SetTvAnswer3(question.getAnswer().get(2));
         getView().SetTvAnswer4(question.getAnswer().get(3));
+        getView().SetCheckRadio(question.getFalseIndex());
         getView().SetColorAnswer(question.getRightIndex());
     }
 
@@ -350,4 +355,8 @@ public class HomeworkPresenter extends FragmentPresenter<HomeworkContract.IViewO
         return Config.wordDB.getWord(wordId);
     }
 
+    public String getTitle()
+    {
+        return Config.wordDB.getTopic(topicId).name;
+    }
 }
