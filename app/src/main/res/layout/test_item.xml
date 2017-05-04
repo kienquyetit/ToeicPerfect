@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_marginTop="5dp"
+    android:elevation="2dp"
+    >
+
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:elevation="4dp"
+                card_view:cardPreventCornerOverlap="false"
+                android:layout_margin="10dp"
+                android:id="@+id/wrap_img"
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/abide_by"
+                    android:layout_gravity="fill"
+                    android:scaleType="fitXY"
+                    android:id="@+id/topic_img"/>
+            </android.support.v7.widget.CardView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="asdasdasdasd"
+            android:textColor="@color/primary"
+            android:textSize="16sp"
+            android:layout_alignTop="@+id/wrap_img"
+            android:layout_toRightOf="@+id/wrap_img"
+            android:id="@+id/description_eng"
+            android:layout_marginTop="5dp"
+            />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="asdasdasdasd"
+                android:textColor="@color/text_darker_gray"
+                android:textSize="15sp"
+                android:layout_alignBottom="@+id/wrap_img"
+                android:layout_toRightOf="@+id/wrap_img"
+                android:id="@+id/description_vie"
+                android:layout_marginBottom="5dp"
+                />
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:id="@+id/topic_cb"
+                />
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+</RelativeLayout>
