@@ -23,12 +23,11 @@ public class TestAdapter extends RecyclerView.Adapter {
     public CallBack callBack;
 
     public interface CallBack {
-
+        void HandlingCheckBox(Topic topic);
     }
 
-    public void InsertData(ArrayList<Topic> listItem)
-    {
-        if(listItem.size()==0) {
+    public void InsertData(ArrayList<Topic> listItem) {
+        if (listItem.size() == 0) {
             return;
         }
         topicList.addAll(listItem);
@@ -63,18 +62,27 @@ public class TestAdapter extends RecyclerView.Adapter {
         ImageView imgTopic;
         TextView tvTopicEng, tvTopicVie;
         CheckBox cbTopic;
+        Topic topic;
 
-        public NormalViewHolder(View itemView, CallBack callBack) {
+        public NormalViewHolder(View itemView, final CallBack callBack) {
             super(itemView);
             this.callBack = callBack;
             imgTopic = (ImageView) itemView.findViewById(R.id.topic_img);
             tvTopicEng = (TextView) itemView.findViewById(R.id.description_eng);
             tvTopicVie = (TextView) itemView.findViewById(R.id.description_vie);
             cbTopic = (CheckBox) itemView.findViewById(R.id.topic_cb);
-
+            cbTopic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    topic.isChecked = true;
+                    callBack.HandlingCheckBox(topic);
+                }
+            });
         }
 
         public void BindView(Topic item) {
+            topic = item;
+            cbTopic.setChecked(item.isChecked);
             String mImageName = item.topicImageName;
             int resID = itemView.getResources().getIdentifier(mImageName, "mipmap", itemView.getContext().getPackageName());
             imgTopic.setImageResource(resID);

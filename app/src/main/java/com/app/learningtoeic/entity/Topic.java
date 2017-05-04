@@ -9,6 +9,7 @@ public class Topic {
     public String name;
     public String topicImageName;
     public String translateVie;
+    public boolean isChecked;
 
     public Topic() {
     }

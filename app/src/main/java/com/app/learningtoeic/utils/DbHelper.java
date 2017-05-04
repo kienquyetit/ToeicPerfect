@@ -20,11 +20,11 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 
 
-public class DbHelper extends SQLiteOpenHelper{
+public class DbHelper extends SQLiteOpenHelper {
 
     private Context mycontext;
     private String TABLE_NAME = "mytoeic600";
-    private String DB_PATH =  "data/data/com.app.learningtoeic/databases/";
+    private String DB_PATH = "data/data/com.app.learningtoeic/databases/";
     private static String DB_NAME = "toeic600.db";
     public SQLiteDatabase myDataBase;
 
@@ -114,13 +114,13 @@ public class DbHelper extends SQLiteOpenHelper{
     }
 
 
-    public ArrayList<Word> getListWord(){
+    public ArrayList<Word> getListWord() {
         opendatabase();
         ArrayList<Word> listWord = new ArrayList<>();
         Cursor cursor = myDataBase.rawQuery("SELECT * FROM mytoeic600", null);
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
-            Word word = new Word(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2),cursor.getString(3), cursor.getString(4),
+        while (!cursor.isAfterLast()) {
+            Word word = new Word(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2), cursor.getString(3), cursor.getString(4),
                     cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getInt(9));
             listWord.add(word);
             Log.d("DbHelper", word.getId() + "");
@@ -130,7 +130,7 @@ public class DbHelper extends SQLiteOpenHelper{
         return listWord;
     }
 
-    public void update(Word word){
+    public void update(Word word) {
         ContentValues values = new ContentValues();
         values.put("topicid", word.getTopic());
         values.put("id_temp", word.getId_temp());
@@ -143,31 +143,29 @@ public class DbHelper extends SQLiteOpenHelper{
         values.put("favourite", word.getFavourite());
 
         int ret = myDataBase.update(TABLE_NAME, values, "id=?", new String[]{String.valueOf(word.getId())});
-        if(ret == 0){
+        if (ret == 0) {
 
-        }
-        else{
+        } else {
 
         }
     }
 
-    public Topic getTopic(String topicId){
+    public Topic getTopic(String topicId) {
         opendatabase();
-        Cursor cursor = myDataBase.rawQuery("SELECT * FROM topic WHERE topicid='"+topicId+"'", null);
+        Cursor cursor = myDataBase.rawQuery("SELECT * FROM topic WHERE topicid='" + topicId + "'", null);
         cursor.moveToFirst();
         Topic topic = new Topic(cursor.getInt(0), cursor.getString(1), cursor.getString(2));
         cursor.close();
         return topic;
     }
 
-    public ArrayList<Word> getListWordForTopic(String topicId)
-    {
+    public ArrayList<Word> getListWordForTopic(String topicId) {
         opendatabase();
         ArrayList<Word> listWord = new ArrayList<>();
-        Cursor cursor = myDataBase.rawQuery("SELECT * FROM mytoeic600 WHERE topicid='"+topicId+"'", null);
+        Cursor cursor = myDataBase.rawQuery("SELECT * FROM mytoeic600 WHERE topicid='" + topicId + "'", null);
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
-            Word word = new Word(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2),cursor.getString(3), cursor.getString(4),
+        while (!cursor.isAfterLast()) {
+            Word word = new Word(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2), cursor.getString(3), cursor.getString(4),
                     cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getInt(9));
             listWord.add(word);
             Log.d("DbHelper", word.getId() + "");
@@ -177,19 +175,17 @@ public class DbHelper extends SQLiteOpenHelper{
         return listWord;
     }
 
-    public ArrayList<Topic> getListTopic()
-    {
+    public ArrayList<Topic> getListTopic() {
         opendatabase();
         ArrayList<Topic> listTopic = new ArrayList<>();
-        Cursor cursor = myDataBase.rawQuery("SELECT * FROM topic",null);
+        Cursor cursor = myDataBase.rawQuery("SELECT * FROM topic", null);
         cursor.moveToFirst();
-        while (!cursor.isAfterLast())
-        {
+        while (!cursor.isAfterLast()) {
             Topic topic = new Topic();
             topic.id = cursor.getInt(0);
             topic.name = cursor.getString(1);
             topic.topicImageName = cursor.getString(2);
-            //topic.translateVie = cursor.getString(3);
+            topic.translateVie = cursor.getString(3);
             listTopic.add(topic);
             cursor.moveToNext();
         }
@@ -197,14 +193,13 @@ public class DbHelper extends SQLiteOpenHelper{
         return listTopic;
     }
 
-    public Word getWord(String wordId)
-    {
+    public Word getWord(String wordId) {
         opendatabase();
         Word word = new Word();
-        Cursor cursor = myDataBase.rawQuery("SELECT * FROM mytoeic600 WHERE id='"+wordId+"'", null);
+        Cursor cursor = myDataBase.rawQuery("SELECT * FROM mytoeic600 WHERE id='" + wordId + "'", null);
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
-            word = new Word(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2),cursor.getString(3), cursor.getString(4),
+        while (!cursor.isAfterLast()) {
+            word = new Word(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2), cursor.getString(3), cursor.getString(4),
                     cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getInt(9));
             Log.d("DbHelper", word.getId() + "");
             cursor.moveToNext();

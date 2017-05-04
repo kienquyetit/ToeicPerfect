@@ -2,6 +2,8 @@ package com.app.learningtoeic.ui.fragment.test;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.TextView;
 
 import com.app.learningtoeic.R;
 import com.app.learningtoeic.base.BaseFragment;
@@ -12,17 +14,23 @@ import com.app.learningtoeic.presenter.test.TestPresenter;
 import com.app.learningtoeic.ui.adapter.TestAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by dell on 4/1/2017.
  */
 
-public class TestFragment extends MVPFragment<TestContract.IPresenterViewOps> implements TestContract.IViewOps {
+public class TestFragment extends MVPFragment<TestContract.IPresenterViewOps> implements TestContract.IViewOps,TestAdapter.CallBack {
     RecyclerView rcvTest;
     TestAdapter adapterTest;
+    TextView btnStart;
+    TextView btnCheckAll;
+
+    protected List<Topic> topicList = new ArrayList<>();
     @Override
     protected void OnViewCreated() {
         adapterTest = new TestAdapter();
+        adapterTest.callBack = this;
         rcvTest.setAdapter(adapterTest);
         getPresenter().InitListTopic();
     }
@@ -31,6 +39,14 @@ public class TestFragment extends MVPFragment<TestContract.IPresenterViewOps> im
     protected void OnBindView() {
         rcvTest = (RecyclerView) FindViewById(R.id.rcv_test);
         rcvTest.setLayoutManager(new LinearLayoutManager(getContext()));
+        btnStart = (TextView) FindViewById(R.id.start_btn);
+        btnStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SwitchFragment(new ShowQuestionFragment(topicList),true);
+            }
+        });
+        btnCheckAll = (TextView) FindViewById(R.id.checkall_btn);
     }
 
     @Override
@@ -51,5 +67,17 @@ public class TestFragment extends MVPFragment<TestContract.IPresenterViewOps> im
     @Override
     public void InsertDataToAdapter(ArrayList<Topic> listItem) {
         adapterTest.InsertData(listItem);
+    }
+
+    @Override
+    public void HandlingCheckBox(Topic topic) {
+        if(topicList.indexOf(topic) == -1)
+        {
+            topicList.add(topic);
+        }
+        else
+        {
+            topicList.remove(topic);
+        }
     }
 }
