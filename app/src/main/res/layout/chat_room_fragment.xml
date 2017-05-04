@@ -6,21 +6,21 @@
 
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_chat"
+        android:id="@+id/recycler_view_chat_room"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/divider_chat" />
+        android:layout_above="@+id/divider" />
 
     <View
-        android:id="@+id/divider_chat"
+        android:id="@+id/divider_chat_room"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_above="@+id/senderContainer_chat"
+        android:layout_above="@+id/senderContainer_chat_room"
         android:layout_gravity="bottom"
         android:background="@color/grey" />
 
     <RelativeLayout
-        android:id="@+id/senderContainer_chat"
+        android:id="@+id/senderContainer_chat_room"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -31,18 +31,18 @@
         android:paddingTop="8dp">
 
         <EditText
-            android:id="@+id/edit_text_message_chat"
+            android:id="@+id/edit_text_message_chat_room"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:layout_toLeftOf="@+id/btn_send_message_chat"
+            android:layout_toLeftOf="@+id/btn_send_message_chat_room"
             android:gravity="top"
             android:hint="Type your message"
             android:textColor="#555555"
             android:textSize="14sp" />
 
         <Button
-            android:id="@+id/btn_send_message_chat"
+            android:id="@+id/btn_send_message_chat_room"
             android:layout_width="72dp"
             android:layout_height="40dp"
             android:layout_alignParentRight="true"
@@ -53,7 +53,7 @@
     </RelativeLayout>
 
     <ProgressBar
-        android:id="@+id/progress_for_chat"
+        android:id="@+id/progress_for_chat_room"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"

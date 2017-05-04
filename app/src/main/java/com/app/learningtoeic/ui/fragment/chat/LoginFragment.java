@@ -105,7 +105,7 @@ public class LoginFragment extends MVPFragment<LoginContract.IPresenterViewOps> 
 
     @Override
     public void onLoginSuccess() {
-        SwitchFragment(new ContactsFragment(), true);
+        SwitchFragment(new OptionsFragment(), true);
     }
 
     @Override

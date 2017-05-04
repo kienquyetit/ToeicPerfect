@@ -28,24 +28,17 @@ public class User {
     }
 
 
-    public String createUniqueChatRef(long createdAtCurrentUser, String currentUserEmail){
-        String uniqueChatRef="";
-        if(createdAtCurrentUser > getCreatedAt()){
-            uniqueChatRef = cleanEmailAddress(currentUserEmail)+"-"+cleanEmailAddress(getUserEmail());
-        }else {
-
-            uniqueChatRef=cleanEmailAddress(getUserEmail())+"-"+cleanEmailAddress(currentUserEmail);
-        }
-        return uniqueChatRef;
+    public String createUniqueChatRef(String currentUserEmail) {
+        return cleanEmailAddress(currentUserEmail) + "-" + cleanEmailAddress(getUserEmail());
     }
 
     public long getCreatedAt() {
         return createdAt;
     }
 
-    private String cleanEmailAddress(String email){
+    private String cleanEmailAddress(String email) {
         //replace dot with comma since firebase does not allow dot
-        return email.replace(".","-");
+        return email.replace(".", "-");
     }
 
     private String getUserEmail() {

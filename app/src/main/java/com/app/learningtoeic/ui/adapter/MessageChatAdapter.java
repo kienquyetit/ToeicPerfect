@@ -15,7 +15,7 @@ import java.util.List;
  * Created by QUYET on 4/23/2017.
  */
 
-public class MessageChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class MessageChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<ChatMessage> mChatList;
     public static final int SENDER = 0;
@@ -27,9 +27,9 @@ public class MessageChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemViewType(int position) {
-        if(mChatList.get(position).getRecipientOrSenderStatus()==SENDER){
+        if (mChatList.get(position).getRecipientOrSenderStatus() == SENDER) {
             return SENDER;
-        }else {
+        } else {
             return RECIPIENT;
         }
     }
@@ -42,15 +42,15 @@ public class MessageChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         switch (viewType) {
             case SENDER:
                 View viewSender = inflater.inflate(R.layout.layout_sender_message, viewGroup, false);
-                viewHolder= new ViewHolderSender(viewSender);
+                viewHolder = new ViewHolderSender(viewSender);
                 break;
             case RECIPIENT:
                 View viewRecipient = inflater.inflate(R.layout.layout_recipient_message, viewGroup, false);
-                viewHolder=new ViewHolderRecipient(viewRecipient);
+                viewHolder = new ViewHolderRecipient(viewRecipient);
                 break;
             default:
                 View viewSenderDefault = inflater.inflate(R.layout.layout_sender_message, viewGroup, false);
-                viewHolder= new ViewHolderSender(viewSenderDefault);
+                viewHolder = new ViewHolderSender(viewSenderDefault);
                 break;
         }
         return viewHolder;
@@ -58,23 +58,20 @@ public class MessageChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-
-        switch (viewHolder.getItemViewType()){
+        switch (viewHolder.getItemViewType()) {
             case SENDER:
-                ViewHolderSender viewHolderSender=(ViewHolderSender)viewHolder;
-                configureSenderView(viewHolderSender,position);
+                ViewHolderSender viewHolderSender = (ViewHolderSender) viewHolder;
+                configureSenderView(viewHolderSender, position);
                 break;
             case RECIPIENT:
-                ViewHolderRecipient viewHolderRecipient=(ViewHolderRecipient)viewHolder;
-                configureRecipientView(viewHolderRecipient,position);
+                ViewHolderRecipient viewHolderRecipient = (ViewHolderRecipient) viewHolder;
+                configureRecipientView(viewHolderRecipient, position);
                 break;
         }
-
-
     }
 
     private void configureSenderView(ViewHolderSender viewHolderSender, int position) {
-        ChatMessage senderFireMessage= mChatList.get(position);
+        ChatMessage senderFireMessage = mChatList.get(position);
         viewHolderSender.getSenderMessageTextView().setText(senderFireMessage.getMessage());
     }
 
@@ -89,13 +86,13 @@ public class MessageChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
 
-    public void refillAdapter(ChatMessage newFireChatMessage){
+    public void refillAdapter(ChatMessage newFireChatMessage) {
 
         /*add new message chat to list*/
         mChatList.add(newFireChatMessage);
 
         /*refresh view*/
-        notifyItemInserted(getItemCount()-1);
+        notifyItemInserted(getItemCount() - 1);
     }
 
 
@@ -114,7 +111,7 @@ public class MessageChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         public ViewHolderSender(View itemView) {
             super(itemView);
-            mSenderMessageTextView =(TextView)itemView.findViewById(R.id.text_view_sender_message);
+            mSenderMessageTextView = (TextView) itemView.findViewById(R.id.text_view_sender_message);
         }
 
         public TextView getSenderMessageTextView() {
@@ -131,7 +128,7 @@ public class MessageChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         public ViewHolderRecipient(View itemView) {
             super(itemView);
-            mRecipientMessageTextView=(TextView)itemView.findViewById(R.id.text_view_recipient_message);
+            mRecipientMessageTextView = (TextView) itemView.findViewById(R.id.text_view_recipient_message);
         }
 
         public TextView getRecipientMessageTextView() {

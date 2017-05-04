@@ -1,5 +1,7 @@
 package com.app.learningtoeic.ui.fragment.chat;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +17,7 @@ import com.app.learningtoeic.entity.User;
 import com.app.learningtoeic.mvp.fragment.MVPFragment;
 import com.app.learningtoeic.presenter.chat.ContactsPresenter;
 import com.app.learningtoeic.ui.adapter.UsersChatAdapter;
+import com.app.learningtoeic.utils.Config;
 
 import java.util.ArrayList;
 
@@ -100,8 +103,17 @@ public class ContactsFragment extends MVPFragment<ContactsContract.IPresenterVie
     }
 
     @Override
-    public void setCurrentUserInfo(String userUid, String email, long createdAt) {
-        mUsersChatAdapter.setCurrentUserInfo(userUid, email, createdAt);
+    public void setCurrentUserInfo(String userId, String email) {
+        saveSharedPreferences(userId, email);
+        mUsersChatAdapter.setCurrentUserInfo(email);
+    }
+
+    private void saveSharedPreferences(String userId, String email) {
+        SharedPreferences pref = GetMainAcitivity().getSharedPreferences(Config.PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString(Config.KEY_USER_ID, userId);
+        editor.putString(Config.KEY_EMAIL, email);
+        editor.commit();
     }
 
     @Override
@@ -128,7 +140,6 @@ public class ContactsFragment extends MVPFragment<ContactsContract.IPresenterVie
     private void logout() {
         showProgressBarForUsers();
         getPresenter().setUserOffline();
-
     }
 
     @Override
@@ -147,7 +158,7 @@ public class ContactsFragment extends MVPFragment<ContactsContract.IPresenterVie
     }
 
     @Override
-    public void OnClickDetailItem(String currentUserId, String recipientId, String chatRef) {
-        SwitchFragment(new ChatFragment(currentUserId, recipientId, chatRef), true);
+    public void OnClickDetailItem(String recipientId, String chatRef) {
+        SwitchFragment(new ChatFragment(recipientId, chatRef), true);
     }
 }

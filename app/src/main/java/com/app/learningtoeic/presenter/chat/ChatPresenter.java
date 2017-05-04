@@ -38,7 +38,6 @@ public class ChatPresenter extends FragmentPresenter<ChatContract.IViewOps> impl
         messageChatListener = messageChatDatabase.limitToFirst(20).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildKey) {
-
                 if(dataSnapshot.exists()){
                     ChatMessage newMessage = dataSnapshot.getValue(ChatMessage.class);
                     if(newMessage.getSender().equals(currentUserId)){
@@ -48,7 +47,6 @@ public class ChatPresenter extends FragmentPresenter<ChatContract.IViewOps> impl
                     }
                     getView().notifyMessageChatAdapter(newMessage);
                 }
-
             }
 
             @Override

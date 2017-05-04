@@ -21,11 +21,11 @@ public class LoginPresenter extends FragmentPresenter<LoginContract.IViewOps> im
     private FirebaseAuth mAuth;
     private Activity mActivity;
 
-    public LoginPresenter(){
+    public LoginPresenter() {
         setAuthInstance();
     }
 
-    public LoginPresenter(Activity activity){
+    public LoginPresenter(Activity activity) {
         setAuthInstance();
         this.mActivity = activity;
     }
@@ -36,7 +36,7 @@ public class LoginPresenter extends FragmentPresenter<LoginContract.IViewOps> im
 
     @Override
     public void handleLogin(String userEmail, String userPassword) {
-        getView().showAlertDialog("Log In...",false);
+        getView().showAlertDialog("Log In...", false);
 
         mAuth.signInWithEmailAndPassword(userEmail, userPassword).addOnCompleteListener(mActivity, new OnCompleteListener<AuthResult>() {
             @Override
@@ -44,18 +44,18 @@ public class LoginPresenter extends FragmentPresenter<LoginContract.IViewOps> im
 
                 getView().dismissAlertDialog();
 
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     setUserOnline();
                     getView().onLoginSuccess();
-                }else {
-                    getView().showAlertDialog(task.getException().getMessage(),true);
+                } else {
+                    getView().showAlertDialog(task.getException().getMessage(), true);
                 }
             }
         });
     }
 
     private void setUserOnline() {
-        if(mAuth.getCurrentUser()!=null ) {
+        if (mAuth.getCurrentUser() != null) {
             String userId = mAuth.getCurrentUser().getUid();
             FirebaseDatabase.getInstance()
                     .getReference().

@@ -17,12 +17,16 @@ public class ChatMessage {
     public ChatMessage() {
     }
 
+    public ChatMessage(String message, String sender) {
+        this.message = message;
+        this.sender = sender;
+    }
+
     public ChatMessage(String message, String sender, String recipient) {
         this.message = message;
         this.recipient = recipient;
         this.sender = sender;
     }
-
 
     public void setRecipientOrSenderStatus(int recipientOrSenderStatus) {
         this.mRecipientOrSenderStatus = recipientOrSenderStatus;

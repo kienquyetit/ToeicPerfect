@@ -120,7 +120,7 @@ public class ContactsPresenter extends FragmentPresenter<ContactsContract.IViewO
 
                     if(dataSnapshot.getKey().equals(mCurrentUserUid)){
                         User currentUser = dataSnapshot.getValue(User.class);
-                        getView().setCurrentUserInfo(userUid, currentUser.getEmail(), currentUser.getCreatedAt());
+                        getView().setCurrentUserInfo(userUid, currentUser.getEmail());
                     }else {
                         User recipient = dataSnapshot.getValue(User.class);
                         recipient.setRecipientId(userUid);
@@ -144,7 +144,6 @@ public class ContactsPresenter extends FragmentPresenter<ContactsContract.IViewO
                             getView().changeUser(index, user);
                         }
                     }
-
                 }
             }
 

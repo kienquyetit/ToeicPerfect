@@ -239,4 +239,5 @@ public class MainActivity extends BaseActivity
     public FloatingActionButton getFabSliding() {
         return fabSliding;
     }
+
 }

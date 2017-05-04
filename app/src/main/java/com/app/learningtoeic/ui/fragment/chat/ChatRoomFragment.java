@@ -9,52 +9,43 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.app.learningtoeic.R;
-import com.app.learningtoeic.contract.chat.ChatContract;
+import com.app.learningtoeic.contract.chat.ChatRoomContract;
 import com.app.learningtoeic.entity.ChatMessage;
 import com.app.learningtoeic.mvp.fragment.MVPFragment;
-import com.app.learningtoeic.presenter.chat.ChatPresenter;
+import com.app.learningtoeic.presenter.chat.ChatRoomPresenter;
 import com.app.learningtoeic.ui.adapter.MessageChatAdapter;
 import com.app.learningtoeic.utils.Config;
 
 import java.util.ArrayList;
 
 /**
- * Created by dell on 4/1/2017.
+ * Created by QUYET on 4/27/2017.
  */
 
-public class ChatFragment extends MVPFragment<ChatContract.IPresenterViewOps> implements ChatContract.IViewOps, View.OnClickListener
-{
+public class ChatRoomFragment extends MVPFragment<ChatRoomContract.IPresenterViewOps> implements ChatRoomContract.IViewOps, View.OnClickListener {
 
-    private RecyclerView mChatRecyclerView;
+    private RecyclerView mChatRoomRecyclerView;
     private EditText mUserMessageChatText;
     private Button btnSendMessage;
 
-    private String mRecipientId;
-    private String chatRef;
-
     private MessageChatAdapter messageChatAdapter;
-
-    public ChatFragment(String recipientId, String chatRef){
-        this.mRecipientId = recipientId;
-        this.chatRef = chatRef;
-    }
 
     @Override
     protected void OnViewCreated() {
         setDatabaseInstance();
-        setChatRecyclerView();
+        setChatRoomRecyclerView();
         btnSendMessage.setOnClickListener(this);
     }
 
-    private void setChatRecyclerView() {
-        mChatRecyclerView.setLayoutManager(new LinearLayoutManager(GetMainAcitivity()));
-        mChatRecyclerView.setHasFixedSize(true);
-        messageChatAdapter = new MessageChatAdapter(new ArrayList<ChatMessage>());
-        mChatRecyclerView.setAdapter(messageChatAdapter);
+    private void setDatabaseInstance() {
+        getPresenter().createMessageChatRoomDatabase(Config.KEY_ROOM_ONE);
     }
 
-    private void setDatabaseInstance() {
-        getPresenter().createMessageChatDatabase(chatRef);
+    private void setChatRoomRecyclerView() {
+        mChatRoomRecyclerView.setLayoutManager(new LinearLayoutManager(GetMainAcitivity()));
+        mChatRoomRecyclerView.setHasFixedSize(true);
+        messageChatAdapter = new MessageChatAdapter(new ArrayList<ChatMessage>());
+        mChatRoomRecyclerView.setAdapter(messageChatAdapter);
     }
 
     @Override
@@ -62,16 +53,16 @@ public class ChatFragment extends MVPFragment<ChatContract.IPresenterViewOps> im
         BindView();
     }
 
-    private void BindView() {
-        mChatRecyclerView = (RecyclerView) FindViewById(R.id.recycler_view_chat);
-        mUserMessageChatText = (EditText) FindViewById(R.id.edit_text_message_chat);
-        btnSendMessage = (Button) FindViewById(R.id.btn_send_message_chat);
+    public void BindView(){
+        mChatRoomRecyclerView = (RecyclerView) FindViewById(R.id.recycler_view_chat_room);
+        mUserMessageChatText = (EditText) FindViewById(R.id.edit_text_message_chat_room);
+        btnSendMessage = (Button) FindViewById(R.id.btn_send_message_chat_room);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        getPresenter().onMessageChatListener(getCurrentUserId());
+        getPresenter().onMessageChatRoomListener(getCurrentUserId());
     }
 
     private String getCurrentUserId() {
@@ -88,23 +79,18 @@ public class ChatFragment extends MVPFragment<ChatContract.IPresenterViewOps> im
 
     @Override
     public int GetLayoutId() {
-        return R.layout.chat_fragment;
+        return R.layout.chat_room_fragment;
     }
 
     @Override
-    protected ChatContract.IPresenterViewOps OnRegisterPresenter() {
-        return new ChatPresenter();
-    }
-
-    @Override
-    protected String GetScreenTitle() {
-        return "Chat Room";
+    protected ChatRoomContract.IPresenterViewOps OnRegisterPresenter() {
+        return new ChatRoomPresenter();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.btn_send_message_chat:
+            case R.id.btn_send_message_chat_room:
                 handleSendMessage();
                 break;
             default:
@@ -115,21 +101,20 @@ public class ChatFragment extends MVPFragment<ChatContract.IPresenterViewOps> im
     public void handleSendMessage(){
         String senderMessage = mUserMessageChatText.getText().toString().trim();
         if(!senderMessage.isEmpty()){
-            ChatMessage newMessage = new ChatMessage(senderMessage, getCurrentUserId(), mRecipientId);
+            ChatMessage newMessage = new ChatMessage(senderMessage, getCurrentUserId());
             getPresenter().pushMessageChatDatabase(newMessage);
             mUserMessageChatText.setText("");
         }
     }
 
     @Override
-    public void notifyMessageChatAdapter(ChatMessage newMessage) {
+    public void notifyMessageChatRoomAdapter(ChatMessage newMessage) {
         messageChatAdapter.refillAdapter(newMessage);
-        mChatRecyclerView.scrollToPosition(messageChatAdapter.getItemCount()-1);
+        mChatRoomRecyclerView.scrollToPosition(messageChatAdapter.getItemCount()-1);
     }
 
     @Override
     public boolean IsBackButtonVisible() {
         return true;
     }
-
 }

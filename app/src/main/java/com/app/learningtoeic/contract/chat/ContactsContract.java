@@ -12,7 +12,7 @@ public class ContactsContract {
     public interface IViewOps extends IFragmentViewOps
     {
         void hideProgressBarForUsers();
-        void setCurrentUserInfo(String userUid, String email, long createdAt);
+        void setCurrentUserInfo(String userUid, String email);
         void refill(User users);
         void changeUser(int index, User user);
         void goToLogin();

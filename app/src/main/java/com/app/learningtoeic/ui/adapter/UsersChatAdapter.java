@@ -28,13 +28,11 @@ public class UsersChatAdapter extends RecyclerView.Adapter<UsersChatAdapter.View
     private List<User> mUsers;
     private Context mContext;
     private String mCurrentUserEmail;
-    private Long mCurrentUserCreatedAt;
-    private String mCurrentUserId;
 
     public Callback callback;
 
     public interface Callback{
-        void OnClickDetailItem(String currentUserId, String recipientId, String chatRef);
+        void OnClickDetailItem(String recipientId, String chatRef);
     }
 
     public UsersChatAdapter(Context context, List<User> fireChatUsers, UsersChatAdapter.Callback callback) {
@@ -90,10 +88,8 @@ public class UsersChatAdapter extends RecyclerView.Adapter<UsersChatAdapter.View
         notifyDataSetChanged();
     }
 
-    public void setCurrentUserInfo(String userUid, String email, long createdAt) {
-        mCurrentUserId = userUid;
+    public void setCurrentUserInfo(String email) {
         mCurrentUserEmail = email;
-        mCurrentUserCreatedAt = createdAt;
     }
 
     public void clear() {
@@ -137,9 +133,9 @@ public class UsersChatAdapter extends RecyclerView.Adapter<UsersChatAdapter.View
 
             User user = mUsers.get(getLayoutPosition());
 
-            String chatRef = user.createUniqueChatRef(mCurrentUserCreatedAt, mCurrentUserEmail);
+            String chatRef = user.createUniqueChatRef(mCurrentUserEmail);
 
-            callback.OnClickDetailItem(mCurrentUserId, user.getRecipientId(), chatRef);
+            callback.OnClickDetailItem(user.getRecipientId(), chatRef);
         }
     }
 
