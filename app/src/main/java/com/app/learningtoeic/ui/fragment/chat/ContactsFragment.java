@@ -81,7 +81,6 @@ public class ContactsFragment extends MVPFragment<ContactsContract.IPresenterVie
         super.onStop();
         mUsersChatAdapter.clear();
         getPresenter().clearCurrentUsers();
-
         getPresenter().removeListener();
     }
 
@@ -103,16 +102,20 @@ public class ContactsFragment extends MVPFragment<ContactsContract.IPresenterVie
     }
 
     @Override
-    public void setCurrentUserInfo(String userId, String email) {
-        saveSharedPreferences(userId, email);
-        mUsersChatAdapter.setCurrentUserInfo(email);
+    public void setCurrentUserInfo(String userId, User currentUser) {
+        saveSharedPreferencesOfUser(userId, currentUser);
+        mUsersChatAdapter.setCurrentUserInfo(currentUser);
     }
 
-    private void saveSharedPreferences(String userId, String email) {
-        SharedPreferences pref = GetMainAcitivity().getSharedPreferences(Config.PREF_NAME, Context.MODE_PRIVATE);
+    private void saveSharedPreferencesOfUser(String userId, User user) {
+        SharedPreferences pref = GetMainAcitivity().getSharedPreferences(Config.KEY_USER_INFO, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.putString(Config.KEY_USER_ID, userId);
-        editor.putString(Config.KEY_EMAIL, email);
+        editor.putInt(Config.KEY_AVATAR_ID, user.getAvatarId());
+        editor.putString(Config.KEY_CONNECTION, user.getConnection());
+        editor.putString(Config.KEY_DISPLAY_NAME, user.getDisplayName());
+        editor.putString(Config.KEY_EMAIL, user.getEmail());
+        editor.putLong(Config.KEY_TIME_STAMP, user.getTimeStamp());
         editor.commit();
     }
 
@@ -158,7 +161,7 @@ public class ContactsFragment extends MVPFragment<ContactsContract.IPresenterVie
     }
 
     @Override
-    public void OnClickDetailItem(String recipientId, String chatRef) {
-        SwitchFragment(new ChatFragment(recipientId, chatRef), true);
+    public void OnClickDetailItem(String recipientUserId, String chatRef) {
+        SwitchFragment(new ChatFragment(recipientUserId, chatRef), true);
     }
 }

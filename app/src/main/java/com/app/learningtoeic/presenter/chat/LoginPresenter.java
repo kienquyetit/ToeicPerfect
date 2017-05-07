@@ -37,13 +37,10 @@ public class LoginPresenter extends FragmentPresenter<LoginContract.IViewOps> im
     @Override
     public void handleLogin(String userEmail, String userPassword) {
         getView().showAlertDialog("Log In...", false);
-
         mAuth.signInWithEmailAndPassword(userEmail, userPassword).addOnCompleteListener(mActivity, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-
                 getView().dismissAlertDialog();
-
                 if (task.isSuccessful()) {
                     setUserOnline();
                     getView().onLoginSuccess();

@@ -12,28 +12,34 @@ public class User {
     private String email;
     private String connection;
     private int avatarId;
-    private long createdAt;
+    private long timeStamp;
 
     private String mRecipientId;
 
     public User() {
     }
 
-    public User(String displayName, String email, String connection, int avatarId, long createdAt) {
+    public User(int avatarId, String connection, String displayName, String email, long timeStamp){
+        this.avatarId = avatarId;
+        this.connection = connection;
         this.displayName = displayName;
         this.email = email;
-        this.connection = connection;
-        this.avatarId = avatarId;
-        this.createdAt = createdAt;
+        this.timeStamp = timeStamp;
     }
 
+    public String createUniqueChatRef(long createdAtCurrentUser, String currentUserEmail) {
+        String uniqueChatRef="";
+        if(createdAtCurrentUser > getTimeStamp()){
+            uniqueChatRef = cleanEmailAddress(currentUserEmail)+"-"+cleanEmailAddress(getUserEmail());
+        }else {
 
-    public String createUniqueChatRef(String currentUserEmail) {
-        return cleanEmailAddress(currentUserEmail) + "-" + cleanEmailAddress(getUserEmail());
+            uniqueChatRef=cleanEmailAddress(getUserEmail())+"-"+cleanEmailAddress(currentUserEmail);
+        }
+        return uniqueChatRef;
     }
 
-    public long getCreatedAt() {
-        return createdAt;
+    public long getTimeStamp() {
+        return timeStamp;
     }
 
     private String cleanEmailAddress(String email) {

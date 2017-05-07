@@ -28,8 +28,8 @@ public class ContactsPresenter extends FragmentPresenter<ContactsContract.IViewO
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private DatabaseReference mUserRefDatabase;
-    private ChildEventListener mChildEventListener;
+    private DatabaseReference mUserRefDatabase, messageChatDatabase;
+    private ChildEventListener mChildEventListener, messageChatListener;
 
     public ContactsPresenter(){
         setAuthInstance();
@@ -120,7 +120,7 @@ public class ContactsPresenter extends FragmentPresenter<ContactsContract.IViewO
 
                     if(dataSnapshot.getKey().equals(mCurrentUserUid)){
                         User currentUser = dataSnapshot.getValue(User.class);
-                        getView().setCurrentUserInfo(userUid, currentUser.getEmail());
+                        getView().setCurrentUserInfo(userUid, currentUser);
                     }else {
                         User recipient = dataSnapshot.getValue(User.class);
                         recipient.setRecipientId(userUid);
@@ -128,7 +128,6 @@ public class ContactsPresenter extends FragmentPresenter<ContactsContract.IViewO
                         getView().refill(recipient);
                     }
                 }
-
             }
 
             @Override

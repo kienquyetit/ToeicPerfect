@@ -11,12 +11,14 @@ import android.widget.EditText;
 import com.app.learningtoeic.R;
 import com.app.learningtoeic.contract.chat.ChatContract;
 import com.app.learningtoeic.entity.ChatMessage;
+import com.app.learningtoeic.entity.User;
 import com.app.learningtoeic.mvp.fragment.MVPFragment;
 import com.app.learningtoeic.presenter.chat.ChatPresenter;
 import com.app.learningtoeic.ui.adapter.MessageChatAdapter;
 import com.app.learningtoeic.utils.Config;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by dell on 4/1/2017.
@@ -29,13 +31,13 @@ public class ChatFragment extends MVPFragment<ChatContract.IPresenterViewOps> im
     private EditText mUserMessageChatText;
     private Button btnSendMessage;
 
-    private String mRecipientId;
+    private String mRecipientUserId;
     private String chatRef;
 
     private MessageChatAdapter messageChatAdapter;
 
-    public ChatFragment(String recipientId, String chatRef){
-        this.mRecipientId = recipientId;
+    public ChatFragment(String recipientUserId, String chatRef){
+        this.mRecipientUserId = recipientUserId;
         this.chatRef = chatRef;
     }
 
@@ -49,8 +51,18 @@ public class ChatFragment extends MVPFragment<ChatContract.IPresenterViewOps> im
     private void setChatRecyclerView() {
         mChatRecyclerView.setLayoutManager(new LinearLayoutManager(GetMainAcitivity()));
         mChatRecyclerView.setHasFixedSize(true);
-        messageChatAdapter = new MessageChatAdapter(new ArrayList<ChatMessage>());
+        messageChatAdapter = new MessageChatAdapter(GetActivityContext(), new ArrayList<ChatMessage>());
         mChatRecyclerView.setAdapter(messageChatAdapter);
+    }
+
+    private User getCurrentUserInfo() {
+        SharedPreferences sharedPreferences = GetMainAcitivity().getSharedPreferences(Config.KEY_USER_INFO, Context.MODE_PRIVATE);
+        int avatarId = sharedPreferences.getInt(Config.KEY_AVATAR_ID, 0);
+        String connection = sharedPreferences.getString(Config.KEY_CONNECTION, "");
+        String displayName = sharedPreferences.getString(Config.KEY_DISPLAY_NAME, "");
+        String email = sharedPreferences.getString(Config.KEY_EMAIL, "");
+        long timeStamp = sharedPreferences.getLong(Config.KEY_TIME_STAMP, 0);
+        return new User(avatarId, connection, displayName, email, timeStamp);
     }
 
     private void setDatabaseInstance() {
@@ -75,7 +87,7 @@ public class ChatFragment extends MVPFragment<ChatContract.IPresenterViewOps> im
     }
 
     private String getCurrentUserId() {
-        SharedPreferences pref = GetMainAcitivity().getSharedPreferences(Config.PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences pref = GetMainAcitivity().getSharedPreferences(Config.KEY_USER_INFO, Context.MODE_PRIVATE);
         return pref.getString(Config.KEY_USER_ID, "");
     }
 
@@ -115,7 +127,8 @@ public class ChatFragment extends MVPFragment<ChatContract.IPresenterViewOps> im
     public void handleSendMessage(){
         String senderMessage = mUserMessageChatText.getText().toString().trim();
         if(!senderMessage.isEmpty()){
-            ChatMessage newMessage = new ChatMessage(senderMessage, getCurrentUserId(), mRecipientId);
+            ChatMessage newMessage = new ChatMessage(senderMessage, getCurrentUserId(), mRecipientUserId, getCurrentUserInfo().getDisplayName(),
+                    getCurrentUserInfo().getAvatarId(), Calendar.getInstance().getTime().getTime()+"");
             getPresenter().pushMessageChatDatabase(newMessage);
             mUserMessageChatText.setText("");
         }
@@ -131,5 +144,4 @@ public class ChatFragment extends MVPFragment<ChatContract.IPresenterViewOps> im
     public boolean IsBackButtonVisible() {
         return true;
     }
-
 }

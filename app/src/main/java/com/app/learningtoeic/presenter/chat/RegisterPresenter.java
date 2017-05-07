@@ -16,7 +16,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.Date;
+import java.util.Calendar;
 
 /**
  * Created by QUYET on 4/22/2017.
@@ -57,9 +57,7 @@ public class RegisterPresenter extends FragmentPresenter<RegisterContract.IViewO
         mAuth.createUserWithEmailAndPassword(userEmailRegister, userPasswordRegister).addOnCompleteListener(mActivity, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-
                 getView().dismissAlertDialog();
-
                 if(task.isSuccessful()){
                     onAuthSuccess(task.getResult().getUser());
                 }else {
@@ -81,11 +79,11 @@ public class RegisterPresenter extends FragmentPresenter<RegisterContract.IViewO
 
     private User buildNewUser() {
         return new User(
+                ChatHelper.generateRandomAvatarForUser(),
+                UsersChatAdapter.ONLINE,
                 mUserDisplayName,
                 mUserEmailRegister,
-                UsersChatAdapter.ONLINE,
-                ChatHelper.generateRandomAvatarForUser(),
-                new Date().getTime()
+                Calendar.getInstance().getTime().getTime()
         );
     }
 }

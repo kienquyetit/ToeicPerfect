@@ -69,6 +69,7 @@ public class ChatPresenter extends FragmentPresenter<ChatContract.IViewOps> impl
 
             }
         });
+
     }
 
     @Override

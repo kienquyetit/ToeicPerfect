@@ -5,20 +5,39 @@
     android:layout_height="wrap_content">
 
     <TextView
+        android:id="@+id/tv_time_stamp_sender_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/default_time"
+        android:textSize="10sp"
+        android:layout_below="@+id/text_view_sender_message"
+        android:layout_alignRight="@+id/text_view_sender_message"
+        android:layout_alignEnd="@+id/text_view_sender_message" />
+
+    <TextView
         android:id="@+id/text_view_sender_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginBottom="2dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
         android:background="@drawable/sender_rounded_corners"
         android:padding="8dp"
         android:textColor="#FFFFFF"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:textStyle="bold"
-        tools:text="I am doing ok" />
+        tools:text="I am doing ok"
+        android:layout_alignTop="@+id/iv_avatar_sender_message"
+        android:layout_toLeftOf="@+id/iv_avatar_sender_message"
+        android:layout_toStartOf="@+id/iv_avatar_sender_message" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_avatar_sender_message"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/default_avatar"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

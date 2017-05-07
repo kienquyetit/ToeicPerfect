@@ -3,7 +3,6 @@ package com.app.learningtoeic.ui.fragment.chat;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,12 +87,9 @@ public class RegisterFragment extends MVPFragment<RegisterContract.IPresenterVie
     private void onRegisterUser() {
         if(getUserDisplayName().equals("") || getUserEmail().equals("") || getUserPassword().equals("")){
             showFieldsAreRequired();
-            Log.d("ris", "1");
         }else if(isIncorrectEmail(getUserEmail()) || isIncorrectPassword(getUserPassword())) {
             showIncorrectEmailPassword();
-            Log.d("ris", "2");
         }else {
-            Log.d("ris", "3");
             getPresenter().handleSignUp(getUserDisplayName(), getUserEmail(), getUserPassword());
         }
     }
@@ -116,9 +112,8 @@ public class RegisterFragment extends MVPFragment<RegisterContract.IPresenterVie
 
     @Override
     public void onSignUpSuccess() {
-        SwitchFragment(new ContactsFragment(), false);
+        SwitchFragment(new LoginFragment(), false);
     }
-
 
     public void showAlertDialog(String message, boolean isCancelable){
         dialog = ChatHelper.buildAlertDialog(getString(R.string.login_error_title),message,isCancelable,GetMainAcitivity());
@@ -128,7 +123,6 @@ public class RegisterFragment extends MVPFragment<RegisterContract.IPresenterVie
     public void dismissAlertDialog() {
         dialog.dismiss();
     }
-
 
     public String getUserDisplayName() {
         return mDisplayNameRegister.getText().toString().trim();

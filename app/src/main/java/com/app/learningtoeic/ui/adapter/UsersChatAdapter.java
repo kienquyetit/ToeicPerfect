@@ -27,12 +27,12 @@ public class UsersChatAdapter extends RecyclerView.Adapter<UsersChatAdapter.View
     public static final String OFFLINE = "offline";
     private List<User> mUsers;
     private Context mContext;
-    private String mCurrentUserEmail;
+    private User mCurrentUser;
 
     public Callback callback;
 
     public interface Callback{
-        void OnClickDetailItem(String recipientId, String chatRef);
+        void OnClickDetailItem(String recipientUserId, String chatRef);
     }
 
     public UsersChatAdapter(Context context, List<User> fireChatUsers, UsersChatAdapter.Callback callback) {
@@ -70,7 +70,6 @@ public class UsersChatAdapter extends RecyclerView.Adapter<UsersChatAdapter.View
             // Red color
             holder.getStatusConnection().setTextColor(Color.parseColor("#FF0000"));
         }
-
     }
 
     @Override
@@ -88,14 +87,13 @@ public class UsersChatAdapter extends RecyclerView.Adapter<UsersChatAdapter.View
         notifyDataSetChanged();
     }
 
-    public void setCurrentUserInfo(String email) {
-        mCurrentUserEmail = email;
+    public void setCurrentUserInfo(User currentUser) {
+        mCurrentUser = currentUser;
     }
 
     public void clear() {
         mUsers.clear();
     }
-
 
     /* ViewHolder for RecyclerView */
     public class ViewHolderUsers extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -111,7 +109,6 @@ public class UsersChatAdapter extends RecyclerView.Adapter<UsersChatAdapter.View
             mUserDisplayName = (TextView) itemView.findViewById(R.id.text_view_display_name);
             mStatusConnection = (TextView) itemView.findViewById(R.id.text_view_connection_status);
             mContextViewHolder = context;
-
             itemView.setOnClickListener(this);
         }
 
@@ -127,14 +124,10 @@ public class UsersChatAdapter extends RecyclerView.Adapter<UsersChatAdapter.View
             return mStatusConnection;
         }
 
-
         @Override
         public void onClick(View view) {
-
             User user = mUsers.get(getLayoutPosition());
-
-            String chatRef = user.createUniqueChatRef(mCurrentUserEmail);
-
+            String chatRef = user.createUniqueChatRef(mCurrentUser.getTimeStamp() ,mCurrentUser.getEmail());
             callback.OnClickDetailItem(user.getRecipientId(), chatRef);
         }
     }
