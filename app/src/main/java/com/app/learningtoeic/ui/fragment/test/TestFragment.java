@@ -4,6 +4,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.learningtoeic.R;
 import com.app.learningtoeic.base.BaseFragment;
@@ -43,7 +44,13 @@ public class TestFragment extends MVPFragment<TestContract.IPresenterViewOps> im
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SwitchFragment(new ShowQuestionFragment(topicList),true);
+                if(topicList.size()!=0) {
+                    SwitchFragment(new ShowQuestionFragment(topicList), true);
+                }
+                else
+                {
+                    Toast.makeText(getContext(), "Please choose at least one topic !", Toast.LENGTH_LONG).show();
+                }
             }
         });
         btnCheckAll = (TextView) FindViewById(R.id.checkall_btn);

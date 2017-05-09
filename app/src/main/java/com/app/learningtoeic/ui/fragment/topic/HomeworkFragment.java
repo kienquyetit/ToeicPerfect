@@ -30,7 +30,6 @@ import java.util.List;
 
 public class HomeworkFragment extends MVPFragment<HomeworkContract.IPresenterViewOps> implements HomeworkContract.IViewOps, View.OnClickListener, ReviewQuestionAdapter.CallBack {
     int questionCount = 0;
-    List<Question> listCacheAllQuestion = new ArrayList<>();
     List<Word> listAnsweredQuestion = new ArrayList<>();
     ArrayList<Integer> listTypeAnswerId = new ArrayList<>();
     TextView tvTrueCount, tvFalseCount, tvQuestionNum, tvQuestion;
@@ -76,7 +75,9 @@ public class HomeworkFragment extends MVPFragment<HomeworkContract.IPresenterVie
         tvQuestionNum = (TextView) FindViewById(R.id.number_of_ques);
         tvQuestion = (TextView) FindViewById(R.id.question);
         imgRenewQuestion = (ImageView) FindViewById(R.id.renew_question);
+        imgRenewQuestion.setOnClickListener(this);
         imgSpeechAudio = (ImageView) FindViewById(R.id.audio);
+        imgSpeechAudio.setOnClickListener(this);
         tvAnswer1 = (RadioButton) FindViewById(R.id.radio_1);
         tvAnswer1.setOnClickListener(this);
         tvAnswer2 = (RadioButton) FindViewById(R.id.radio_2);
@@ -114,6 +115,14 @@ public class HomeworkFragment extends MVPFragment<HomeworkContract.IPresenterVie
         for (int i = 0; i < wrapRadio.getChildCount(); i++) {
             wrapRadio.getChildAt(i).setEnabled(false);
         }
+    }
+
+    public void ClearDataToRenewHomework() {
+        questionCount = 0;
+        reviewQuestionAdapter.ClearData();
+        listAnsweredQuestion.clear();
+        listTypeAnswerId.clear();
+        ResetQuestionAndAnswer();
     }
 
     public void showReviewAnswer() {
@@ -180,7 +189,7 @@ public class HomeworkFragment extends MVPFragment<HomeworkContract.IPresenterVie
     }
 
     public void SetCheckRadio(int indexRadio) {
-        switch (indexRadio){
+        switch (indexRadio) {
             case 0:
                 tvAnswer1.setChecked(true);
                 break;
@@ -197,20 +206,19 @@ public class HomeworkFragment extends MVPFragment<HomeworkContract.IPresenterVie
     }
 
 
-
     public void SetColorAnswer(int indexRadio) {
         switch (indexRadio) {
             case 0:
-                tvAnswer1.setTextColor(getResources().getColor(R.color.primary));
+                tvAnswer1.setTextColor(getResources().getColor(R.color.primaryDark));
                 break;
             case 1:
-                tvAnswer2.setTextColor(getResources().getColor(R.color.primary));
+                tvAnswer2.setTextColor(getResources().getColor(R.color.primaryDark));
                 break;
             case 2:
-                tvAnswer3.setTextColor(getResources().getColor(R.color.primary));
+                tvAnswer3.setTextColor(getResources().getColor(R.color.primaryDark));
                 break;
             case 3:
-                tvAnswer4.setTextColor(getResources().getColor(R.color.primary));
+                tvAnswer4.setTextColor(getResources().getColor(R.color.primaryDark));
                 break;
         }
     }
@@ -270,19 +278,28 @@ public class HomeworkFragment extends MVPFragment<HomeworkContract.IPresenterVie
 
     @Override
     public void onClick(View v) {
-        submitTv.setAlpha(1);
         switch (v.getId()) {
             case R.id.radio_1:
+                submitTv.setAlpha(1);
                 indexRadio = 0;
                 break;
             case R.id.radio_2:
+                submitTv.setAlpha(1);
                 indexRadio = 1;
                 break;
             case R.id.radio_3:
+                submitTv.setAlpha(1);
                 indexRadio = 2;
                 break;
             case R.id.radio_4:
+                submitTv.setAlpha(1);
                 indexRadio = 3;
+                break;
+            case R.id.renew_question:
+                getPresenter().renewHomework();
+                break;
+            case R.id.audio:
+                getPresenter().startListening();
                 break;
         }
     }
