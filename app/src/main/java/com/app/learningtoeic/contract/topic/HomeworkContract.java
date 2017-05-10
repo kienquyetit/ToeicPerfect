@@ -36,6 +36,7 @@ public class HomeworkContract {
         void showReviewAnswer();
         void disableQuestion();
         void SetCheckRadio(int indexRadio);
+        void ClearDataToRenewHomework();
     }
     public interface IPresenterViewOps extends IFragmentPresenterViewOps
     {
@@ -43,6 +44,8 @@ public class HomeworkContract {
         void PostAnswer(int indexRadio);
         void GoToReviewQuestion(Question question);
         String getTitle();
+        void renewHomework();
+        void startListening();
         void InitQuestion(String topicId);
     }
 }

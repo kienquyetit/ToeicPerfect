@@ -53,6 +53,12 @@ public class ReviewQuestionAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
+    public void ClearData()
+    {
+        questionList.clear();
+        notifyDataSetChanged();
+    }
+
     public class NormalViewHolder extends RecyclerView.ViewHolder {
         TextView questionIndexTv;
         int questionIndex = 0;
@@ -72,13 +78,13 @@ public class ReviewQuestionAdapter extends RecyclerView.Adapter {
 
         public void BindView(Question item) {
             this.question = item;
-            if(item.rightIndex != item.falseIndex)
+            if(item.falseIndex.get(0) == item.rightIndex)
             {
-                questionIndexTv.setBackgroundResource(R.color.statusRed);
+                questionIndexTv.setBackgroundResource(android.R.color.holo_blue_bright);
             }
             else
             {
-                questionIndexTv.setBackgroundResource(android.R.color.holo_blue_bright);
+                questionIndexTv.setBackgroundResource(R.color.statusRed);
             }
             questionIndex = item.questionIndex;
             questionIndexTv.setText(item.questionIndex + 1 + "");

@@ -8,7 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.app.learningtoeic.entity.HighScore;
 import com.app.learningtoeic.entity.Topic;
 import com.app.learningtoeic.entity.Word;
 
@@ -206,5 +208,24 @@ public class DbHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return word;
+    }
+
+    public void saveScore(HighScore highScore) {
+        opendatabase();
+        myDataBase.execSQL("insert into highscore (name_highscore , number_highscore ,time_highscore,number_question) values('" + highScore.getName() + "'," + highScore.getScore() + ",'" + highScore.getTime() +"'," + highScore.getNumberQuestion() + ")");
+        Toast.makeText(mycontext, "Done ! ", Toast.LENGTH_SHORT).show();
+        GetHighScore();
+    }
+
+    public void GetHighScore() {
+        opendatabase();
+        HighScore word = new HighScore();
+        Cursor cursor = myDataBase.rawQuery("SELECT * FROM highscore ",null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Log.d("HIGHSCORE", cursor.getString(3)+"");
+            cursor.moveToNext();
+        }
+        cursor.close();
     }
 }

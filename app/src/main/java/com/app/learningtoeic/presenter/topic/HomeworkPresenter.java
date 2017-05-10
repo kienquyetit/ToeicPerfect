@@ -1,5 +1,7 @@
 package com.app.learningtoeic.presenter.topic;
 
+import android.content.res.AssetFileDescriptor;
+import android.media.MediaPlayer;
 import android.util.Log;
 
 import com.app.learningtoeic.entity.Question;
@@ -10,6 +12,7 @@ import com.app.learningtoeic.utils.Config;
 import com.app.learningtoeic.utils.Constants;
 import com.app.learningtoeic.utils.SuffleHelper;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -138,7 +141,7 @@ public class HomeworkPresenter extends FragmentPresenter<HomeworkContract.IViewO
             case Constants.EXAMPLE:
                 listIdAnswer = getListAnswer(question.getId());
                 for (int i = 0; i < listIdAnswer.size(); i++) {
-                    listAnswer.add(getWord(listIdAnswer.get(i) + "").getVocabulary());
+                    listAnswer.add(getWord(listIdAnswer.get(i) + "").getExampleTranslate());
                     Log.d("isExampleQues", listAnswer.get(i) + "");
                 }
                 questionText = question.getExample();
@@ -174,7 +177,9 @@ public class HomeworkPresenter extends FragmentPresenter<HomeworkContract.IViewO
             getView().showReviewAnswer();
             return;
         }
-        Question question = new Question(getView().GetQuestionCount(), questionText, listAnswer, correctAnswerIndex, indexRadio, this.question.getVocabulary());
+        List<Integer> listFalseIndex = new ArrayList<>();
+        listFalseIndex.add(indexRadio);
+        Question question = new Question(getView().GetQuestionCount(), questionText, listAnswer, correctAnswerIndex, listFalseIndex, this.question.getVocabulary());
         getView().AddQuestionToCache(question);
         if (indexRadio == correctAnswerIndex) {
             trueCount++;
@@ -193,7 +198,7 @@ public class HomeworkPresenter extends FragmentPresenter<HomeworkContract.IViewO
                     getView().ResetQuestionAndAnswer();
                     ImplementQuestion();
                 }
-            }, 500);
+            }, 1000);
         }
         else {
             getView().disableQuestion();
@@ -214,7 +219,7 @@ public class HomeworkPresenter extends FragmentPresenter<HomeworkContract.IViewO
         getView().SetTvAnswer2(question.getAnswer().get(1));
         getView().SetTvAnswer3(question.getAnswer().get(2));
         getView().SetTvAnswer4(question.getAnswer().get(3));
-        getView().SetCheckRadio(question.getFalseIndex());
+        getView().SetCheckRadio(question.getFalseIndex().size()!=0 ? question.getFalseIndex().get(0): -1);
         getView().SetColorAnswer(question.getRightIndex());
     }
 
@@ -358,5 +363,24 @@ public class HomeworkPresenter extends FragmentPresenter<HomeworkContract.IViewO
     public String getTitle()
     {
         return Config.wordDB.getTopic(topicId).name;
+    }
+
+    @Override
+    public void renewHomework() {
+        getView().ClearDataToRenewHomework();
+        ImplementQuestion();
+    }
+
+    public void startListening() {
+        MediaPlayer player = new MediaPlayer();
+        AssetFileDescriptor afd = null;
+        try {
+            afd = getView().GetActivityContext().getAssets().openFd("vocabulary/" + question.getVocabulary() + ".mp3");
+            player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+            player.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        player.start();
     }
 }

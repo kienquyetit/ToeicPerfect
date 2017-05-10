@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Question {
 
-    public Question(int questionIndex,String question,List<String> answer,int rightIndex,int falseIndex,String imageName)
+    public Question(int questionIndex,String question,List<String> answer,int rightIndex,List<Integer> falseIndex,String imageName)
     {
         this.questionIndex = questionIndex;
         this.question = question;
@@ -23,7 +23,7 @@ public class Question {
     public String question;
     public List<String> answer = new ArrayList<>();
     public int rightIndex;
-    public int falseIndex;
+    public List<Integer> falseIndex = new ArrayList<>();
     public String imageName;
 
     public int getQuestionIndex() {
@@ -58,11 +58,11 @@ public class Question {
         this.rightIndex = rightIndex;
     }
 
-    public int getFalseIndex() {
+    public List<Integer> getFalseIndex() {
         return falseIndex;
     }
 
-    public void setFalseIndex(int falseIndex) {
+    public void setFalseIndex(List<Integer> falseIndex) {
         this.falseIndex = falseIndex;
     }
 }

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.app.learningtoeic.contract.test.ShowQuestionContract;
 import com.app.learningtoeic.contract.test.TestContract;
+import com.app.learningtoeic.entity.Question;
 import com.app.learningtoeic.entity.Topic;
 import com.app.learningtoeic.entity.Word;
 import com.app.learningtoeic.mvp.fragment.FragmentPresenter;
@@ -38,6 +39,9 @@ public class ShowQuestionPresenter extends FragmentPresenter<ShowQuestionContrac
     String correctAnswer = "";
     int typeIndex = 1;
     int correctAnswerIndex = 0;
+    int fullScore = 4;
+    int numberOfQuestion = 0;
+    List<Integer> listUserAnswered = new ArrayList<>();
 
     public ShowQuestionPresenter(List<Topic> listTopic) {
         topicList = listTopic;
@@ -47,142 +51,192 @@ public class ShowQuestionPresenter extends FragmentPresenter<ShowQuestionContrac
         for (int i = 0; i < topicList.size(); i++) {
             listQuestion.addAll(getListWord(topicList.get(i).id + ""));
         }
-
-
+        numberOfQuestion = listQuestion.size();
     }
 
     public void ImplementQuestion() {
-        listAnswer = new ArrayList<>();
-        if (getView().GetQuestionCount() >= (topicList.size() * 12)) {
-            return;
-        }
-        for (int i = 0; i < getView().getAnsweredQuestionList().size(); i++) {
-            for (int j = 0; j < listQuestion.size(); j++) {
-                if (listQuestion.get(j).getId() == getView().getAnsweredQuestionList().get(i).getId()) {
-                    listQuestion.remove(j);
-                }
-            }
-        }
-        SuffleHelper.shuffleWordArray(listQuestion);
-        if (listQuestion.size() != 0) {
-            getView().AddAnsweredQuestionId(listQuestion.get(0));
-        }
-        question = listQuestion.get(0);
-        if (getView().GetQuestionCount() % (listQuestion.size() / 4) == 0) {
-            if (getView().getAnsweredQuestionList().size() > 2) {
-                getView().getAnsweredQuestionList().clear();
-            }
-            for (int i = 0; i < topicList.size(); i++) {
-                listQuestion.addAll(getListWord(topicList.get(i).id + ""));
-            }
-            //random answer type
-            listType.removeAll(getView().GetType());
-            SuffleHelper.shuffleIntArray(listType);
-            getView().AddTypeId(listType.get(0));
-        }
-        if (getView().GetQuestionCount() < (listQuestion.size() / 4)) {
-            typeIndex = getView().GetType().get(0);
-        } else if (getView().GetQuestionCount() < ((listQuestion.size() / 4) * 2)) {
-            typeIndex = getView().GetType().get(1);
-        } else if (getView().GetQuestionCount() < ((listQuestion.size() / 4) * 3)) {
-            typeIndex = getView().GetType().get(2);
-        } else {
-            typeIndex = getView().GetType().get(3);
-        }
+        try {
 
-        //Add answer
-        switch (typeIndex) {
-            case Constants.VOLCALBULARY:
-                int answerIndex = getRandomIndex(1, 2);
-                switch (answerIndex) {
-                    case 1:
-                        isExplanationAns = true;
-                        break;
-                    case 2:
-                        isTranslateAns = true;
-                        break;
-                    default:
-                        isExplanationAns = true;
-                        break;
-                }
-                if (isExplanationAns) {
-                    //shuffleArray(listIndexQuestion);
-                    //listAnswer.add()
-                    listIdAnswer = new ArrayList<>();
-                    listIdAnswer = getListAnswer(question.getId());
-                    for (int i = 0; i < listIdAnswer.size(); i++) {
-                        listAnswer.add(getWord(listIdAnswer.get(i) + "").getExplanation());
-                        Log.d("EXPLANATIONANS", listAnswer.get(i) + "");
-                        isExplanationAns = false;
-                    }
-                } else {
-                    listIdAnswer = getListAnswer(question.getId());
-                    for (int i = 0; i < listIdAnswer.size(); i++) {
-                        listAnswer.add(getWord(listIdAnswer.get(i) + "").getTranslate());
-                        Log.d("TRANSLATEANS", listAnswer.get(i) + "");
-                        isTranslateAns = false;
+            listAnswer = new ArrayList<>();
+            if (getView().GetQuestionCount() >= (topicList.size() * 12)) {
+                return;
+            }
+            for (int i = 0; i < getView().getAnsweredQuestionList().size(); i++) {
+                for (int j = 0; j < listQuestion.size(); j++) {
+                    if (listQuestion.get(j).getId() == getView().getAnsweredQuestionList().get(i).getId()) {
+                        listQuestion.remove(j);
                     }
                 }
-                questionText = question.getVocabulary();
-                Log.d("questionText", question.getVocabulary());
-                isVolcabularyQues = true;
-                break;
-            case Constants.TRANSLATE:
-                listIdAnswer = getListAnswer(question.getId());
-                for (int i = 0; i < listIdAnswer.size(); i++) {
-                    listAnswer.add(getWord(listIdAnswer.get(i) + "").getVocabulary());
-                    Log.d("isTranslateQues", listAnswer.get(i) + "");
+            }
+            SuffleHelper.shuffleWordArray(listQuestion);
+            if (listQuestion.size() != 0) {
+                getView().AddAnsweredQuestionId(listQuestion.get(0));
+            }
+            question = listQuestion.get(0);
+            int userQuestionCount = getView().GetQuestionCount();
+            if (userQuestionCount % (numberOfQuestion / 4) == 0) {
+                if (getView().getAnsweredQuestionList().size() > 2) {
+                    getView().getAnsweredQuestionList().clear();
                 }
-                questionText = question.getTranslate();
-                Log.d("translateques", questionText);
-                break;
-            case Constants.EXAMPLE:
-                listIdAnswer = getListAnswer(question.getId());
-                for (int i = 0; i < listIdAnswer.size(); i++) {
-                    listAnswer.add(getWord(listIdAnswer.get(i) + "").getVocabulary());
-                    Log.d("isExampleQues", listAnswer.get(i) + "");
+                listQuestion.clear();
+                for (int i = 0; i < topicList.size(); i++) {
+                    listQuestion.addAll(getListWord(topicList.get(i).id + ""));
                 }
-                questionText = question.getExample();
-                Log.d("exampleQues", questionText);
-                break;
-            case Constants.EXPLANATION:
-                listIdAnswer = getListAnswer(question.getId());
-                for (int i = 0; i < listIdAnswer.size(); i++) {
-                    listAnswer.add(getWord(listIdAnswer.get(i) + "").getVocabulary());
-                    Log.d("isExplanationAns", listAnswer.get(i) + "");
-                }
-                questionText = question.getExplanation();
-                Log.d("explanationQues", questionText);
-                break;
+                //random answer type
+                listType.removeAll(getView().GetType());
+                SuffleHelper.shuffleIntArray(listType);
+                getView().AddTypeId(listType.get(0));
+            }
+            if (userQuestionCount < (numberOfQuestion / 4)) {
+                typeIndex = getView().GetType().get(0);
+            } else if (userQuestionCount < ((numberOfQuestion / 4) * 2)) {
+                typeIndex = getView().GetType().get(1);
+            } else if (userQuestionCount < ((numberOfQuestion / 4) * 3)) {
+                typeIndex = getView().GetType().get(2);
+            } else {
+                typeIndex = getView().GetType().get(3);
+            }
+
+            //Add answer
+            switch (typeIndex) {
+                case Constants.VOLCALBULARY:
+                    int answerIndex = getRandomIndex(1, 2);
+                    switch (answerIndex) {
+                        case 1:
+                            isExplanationAns = true;
+                            break;
+                        case 2:
+                            isTranslateAns = true;
+                            break;
+                        default:
+                            isExplanationAns = true;
+                            break;
+                    }
+                    if (isExplanationAns) {
+                        //shuffleArray(listIndexQuestion);
+                        //listAnswer.add()
+                        listIdAnswer = new ArrayList<>();
+                        listIdAnswer = getListAnswer(question.getId());
+                        for (int i = 0; i < listIdAnswer.size(); i++) {
+                            listAnswer.add(getWord(listIdAnswer.get(i) + "").getExplanation());
+                            Log.d("EXPLANATIONANS", listAnswer.get(i) + "");
+                            isExplanationAns = false;
+                        }
+                    } else {
+                        listIdAnswer = getListAnswer(question.getId());
+                        for (int i = 0; i < listIdAnswer.size(); i++) {
+                            listAnswer.add(getWord(listIdAnswer.get(i) + "").getTranslate());
+                            Log.d("TRANSLATEANS", listAnswer.get(i) + "");
+                            isTranslateAns = false;
+                        }
+                    }
+                    questionText = question.getVocabulary();
+                    Log.d("questionText", question.getVocabulary());
+                    isVolcabularyQues = true;
+                    break;
+                case Constants.TRANSLATE:
+                    listIdAnswer = getListAnswer(question.getId());
+                    for (int i = 0; i < listIdAnswer.size(); i++) {
+                        listAnswer.add(getWord(listIdAnswer.get(i) + "").getVocabulary());
+                        Log.d("isTranslateQues", listAnswer.get(i) + "");
+                    }
+                    questionText = question.getTranslate();
+                    Log.d("translateques", questionText);
+                    break;
+                case Constants.EXAMPLE:
+                    listIdAnswer = getListAnswer(question.getId());
+                    for (int i = 0; i < listIdAnswer.size(); i++) {
+                        listAnswer.add(getWord(listIdAnswer.get(i) + "").getExampleTranslate());
+                        Log.d("isExampleQues", listAnswer.get(i) + "");
+                    }
+                    questionText = question.getExample();
+                    Log.d("exampleQues", questionText);
+                    break;
+                case Constants.EXPLANATION:
+                    listIdAnswer = getListAnswer(question.getId());
+                    for (int i = 0; i < listIdAnswer.size(); i++) {
+                        listAnswer.add(getWord(listIdAnswer.get(i) + "").getVocabulary());
+                        Log.d("isExplanationAns", listAnswer.get(i) + "");
+                    }
+                    questionText = question.getExplanation();
+                    Log.d("explanationQues", questionText);
+                    break;
+            }
+
+            String namePicture = question.getVocabulary().replace(' ', '_');
+            getView().SetWordImgate(namePicture);
+            getView().SetTvQuestionNum((userQuestionCount + 1) + "/" + (numberOfQuestion));
+            getView().SetTvQuestion(questionText);
+            correctAnswer = listAnswer.get(0);
+            SuffleHelper.suffleStringArray(listAnswer);
+            getView().SetTvAnswer1(listAnswer.get(0));
+            getView().SetTvAnswer2(listAnswer.get(1));
+            getView().SetTvAnswer3(listAnswer.get(2));
+            getView().SetTvAnswer4(listAnswer.get(3));
+            correctAnswerIndex = listAnswer.indexOf(correctAnswer);
+        } catch (Exception e) {
+
         }
 
-        String namePicture = question.getVocabulary().replace(' ', '_');
-        getView().SetWordImgate(namePicture);
-        getView().SetTvQuestionNum((getView().GetQuestionCount() + 1) + "/" + (topicList.size() * 12));
-        getView().SetTvQuestion(questionText);
-        correctAnswer = listAnswer.get(0);
-        SuffleHelper.suffleStringArray(listAnswer);
-        getView().SetTvAnswer1(listAnswer.get(0));
-        getView().SetTvAnswer2(listAnswer.get(1));
-        getView().SetTvAnswer3(listAnswer.get(2));
-        getView().SetTvAnswer4(listAnswer.get(3));
-        correctAnswerIndex = listAnswer.indexOf(correctAnswer);
+    }
+
+    @Override
+    public void renewQuestion() {
+        getView().ClearDataToRenewQuestion();
+        ImplementQuestion();
+    }
+
+    @Override
+    public void listeningWord() {
+
+    }
+
+    @Override
+    public void GoToReviewQuestion(Question question) {
+        getView().ResetQuestion();
+        getView().DisableRadio();
+        getView().SetWordImgate(question.imageName.replace(' ', '_'));
+        getView().SetTvQuestionNum((question.getQuestionIndex() + 1) + "/" + numberOfQuestion);
+        getView().SetTvQuestion(question.getQuestion());
+        getView().SetTvAnswer1(question.getAnswer().get(0));
+        getView().SetTvAnswer2(question.getAnswer().get(1));
+        getView().SetTvAnswer3(question.getAnswer().get(2));
+        getView().SetTvAnswer4(question.getAnswer().get(3));
+        getView().SetCheckRadio(question.getRightIndex());
+        getView().SetColorAnswer(question.getRightIndex());
     }
 
     public void PostAnswer(int indexRadio) {
+        if (getView().GetQuestionCount() >= numberOfQuestion) {
+            getView().showReviewAnswer();
+            return;
+        }
         if (indexRadio != correctAnswerIndex) {
+            fullScore--;
             getView().setFalseAnswer(indexRadio);
+            listUserAnswered.add(indexRadio);
         } else {
+            listUserAnswered.add(indexRadio);
+            Question question = new Question(getView().GetQuestionCount(), questionText, listAnswer, correctAnswerIndex, listUserAnswered, this.question.getVocabulary());
+            getView().AddQuestionToCache(question);
             getView().setRightAnswer(indexRadio);
-            getView().ShowScore();
+            getView().ShowScore(fullScore);
+            getView().DisableRadio();
             final android.os.Handler handler = new android.os.Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    getView().ResetQuestion();
-                    ImplementQuestion();
-                }
-            }, 500);
+            if (getView().GetQuestionCount() < numberOfQuestion - 1) {
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        fullScore = 4;
+                        getView().ResetQuestion();
+                        ImplementQuestion();
+                    }
+                }, 2000);
+            } else {
+                getView().DisableRadio();
+                getView().showReviewAnswer();
+                getView().ShowDialogSaveScore();
+            }
             getView().IncreaseCountQuestion();
         }
     }
@@ -197,18 +251,30 @@ public class ShowQuestionPresenter extends FragmentPresenter<ShowQuestionContrac
 
     public ArrayList<Integer> getListAnswer(int wordId) {
         ArrayList<Integer> listChosenAns = new ArrayList<>();
-        listChosenAns.add(wordId);
-        int ans2 = getRandomAnswer(listChosenAns);
+        int ans1 = wordId;
+        listChosenAns.add(ans1);
+        int ans2 = getAnswerFromRandomAnswer(listChosenAns);
         listChosenAns.add(ans2);
-        int ans3 = getRandomAnswer(listChosenAns);
+        int ans3 = getAnswerFromRandomAnswer(listChosenAns);
         listChosenAns.add(ans3);
-        int ans4 = getRandomAnswer(listChosenAns);
+        int ans4 = getAnswerFromRandomAnswer(listChosenAns);
         listChosenAns.add(ans4);
         return listChosenAns;
     }
 
+    public int getAnswerFromRandomAnswer(ArrayList<Integer> listChosenAns) {
+        int ans = getRandomAnswer(listChosenAns);
+        while (true) {
+            if (ans == -1) {
+                ans = getRandomAnswer(listChosenAns);
+            } else {
+                return ans;
+            }
+        }
+    }
+
     public int getRandomAnswer(List<Integer> listItem) {
-        for (int i = 0; i < listQuestion.size(); i++) {
+        for (int i = 0; i < numberOfQuestion; i++) {
             int newQuesIndex = new Random().nextInt(Constants.NUMBER_OF_WORD) + 1;
             if (listItem.size() == 3) {
                 if (newQuesIndex != listItem.get(0) && newQuesIndex != listItem.get(1) && newQuesIndex != listItem.get(2)) {
@@ -224,7 +290,7 @@ public class ShowQuestionPresenter extends FragmentPresenter<ShowQuestionContrac
                 }
             }
         }
-        return 1;
+        return -1;
     }
 
     public Word getWord(String wordId) {

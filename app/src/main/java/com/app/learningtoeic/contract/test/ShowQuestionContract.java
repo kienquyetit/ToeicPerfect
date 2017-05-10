@@ -1,5 +1,6 @@
 package com.app.learningtoeic.contract.test;
 
+import com.app.learningtoeic.entity.Question;
 import com.app.learningtoeic.entity.Topic;
 import com.app.learningtoeic.entity.Word;
 import com.app.learningtoeic.mvp.fragment.IFragmentPresenterViewOps;
@@ -30,15 +31,22 @@ public class ShowQuestionContract {
         void SetTvAnswer4(String answer);
         void setFalseAnswer(int indexRadio);
         void setRightAnswer(int indexRadio);
-        int GetAnsweredCount();
-        void AddAnsweredCount();
         void ResetQuestion();
-        void ShowScore();
-
+        void ShowScore(int score);
+        void DisableRadio();
+        void ClearDataToRenewQuestion();
+        void AddQuestionToCache(Question item);
+        void showReviewAnswer();
+        void SetCheckRadio(int indexRadio);
+        void SetColorAnswer(int indexRadio);
+        void ShowDialogSaveScore();
     }
     public interface IPresenterViewOps extends IFragmentPresenterViewOps
     {
         void PostAnswer(int indexRadio);
         void ImplementQuestion();
+        void renewQuestion();
+        void listeningWord();
+        void GoToReviewQuestion(Question question);
     }
 }

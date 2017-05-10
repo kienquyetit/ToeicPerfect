@@ -87,7 +87,15 @@ public class TestAdapter extends RecyclerView.Adapter {
             int resID = itemView.getResources().getIdentifier(mImageName, "mipmap", itemView.getContext().getPackageName());
             imgTopic.setImageResource(resID);
             tvTopicEng.setText(item.name);
-            tvTopicVie.setText(item.translateVie);
+            if(item.translateVie.length() > 22)
+            {
+                tvTopicVie.setText(item.translateVie.substring(0,21) +"...");
+            }
+            else
+            {
+                tvTopicVie.setText(item.translateVie);
+            }
+
         }
     }
 }

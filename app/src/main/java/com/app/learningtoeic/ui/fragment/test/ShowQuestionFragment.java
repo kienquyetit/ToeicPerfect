@@ -2,8 +2,14 @@ package com.app.learningtoeic.ui.fragment.test;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -13,10 +19,13 @@ import android.widget.TextView;
 import com.app.learningtoeic.R;
 import com.app.learningtoeic.contract.test.ShowQuestionContract;
 import com.app.learningtoeic.contract.test.TestContract;
+import com.app.learningtoeic.entity.Question;
 import com.app.learningtoeic.entity.Topic;
 import com.app.learningtoeic.entity.Word;
 import com.app.learningtoeic.mvp.fragment.MVPFragment;
+import com.app.learningtoeic.presenter.test.SaveScoreDialogFragment;
 import com.app.learningtoeic.presenter.test.ShowQuestionPresenter;
+import com.app.learningtoeic.ui.adapter.ReviewQuestionAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +34,7 @@ import java.util.List;
  * Created by dell on 5/1/2017.
  */
 
-public class ShowQuestionFragment extends MVPFragment<ShowQuestionContract.IPresenterViewOps> implements ShowQuestionContract.IViewOps, View.OnClickListener {
+public class ShowQuestionFragment extends MVPFragment<ShowQuestionContract.IPresenterViewOps> implements ShowQuestionContract.IViewOps, View.OnClickListener, ReviewQuestionAdapter.CallBack {
     TextView tvScore;
     List<Topic> topicList = new ArrayList<>();
     List<Word> listAnsweredQuestion = new ArrayList<>();
@@ -36,12 +45,18 @@ public class ShowQuestionFragment extends MVPFragment<ShowQuestionContract.IPres
     RadioGroup wrapRadio;
     TextView btnSubmit;
     int countQuestion = 0;
-    int answeredCount = 0;
+    int userScore = 0;
     Chronometer timeCountUp;
+    ReviewQuestionAdapter reviewQuestionAdapter;
+    private BottomSheetBehavior mBottomSheetBehavior;
+    View bottomSheet;
+    RecyclerView rcvReview;
 
     public ShowQuestionFragment(List<Topic> topicList) {
         this.topicList = topicList;
     }
+
+    View reviewBtn;
 
     @Override
     protected ShowQuestionContract.IPresenterViewOps OnRegisterPresenter() {
@@ -50,24 +65,51 @@ public class ShowQuestionFragment extends MVPFragment<ShowQuestionContract.IPres
 
     @Override
     protected void OnViewCreated() {
+        setupUI(FindViewById(R.id.homework_layout));
         getPresenter().ImplementQuestion();
+        reviewQuestionAdapter = new ReviewQuestionAdapter();
+        reviewQuestionAdapter.callBack = this;
+        rcvReview.setAdapter(reviewQuestionAdapter);
+    }
+
+    public void AddQuestionToCache(Question item) {
+        reviewQuestionAdapter.InsertData(item);
+    }
+
+    @Override
+    public void showReviewAnswer() {
+        reviewBtn.setVisibility(View.VISIBLE);
     }
 
     @Override
     protected void OnBindView() {
+        rcvReview = (RecyclerView) FindViewById(R.id.homework_rcv);
+        rcvReview.setLayoutManager(new GridLayoutManager(getContext(), 8));
+        bottomSheet = FindViewById(R.id.bottom_sheet1);
+        mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+        mBottomSheetBehavior.setPeekHeight(0);
+        reviewBtn = FindViewById(R.id.review_tv);
+        reviewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mBottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
+                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                } else {
+                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
+            }
+        });
         timeCountUp = (Chronometer) FindViewById(R.id.time_count);
         timeCountUp.start();
-        Log.d("avav", timeCountUp.getBase() + "");
+        Log.d("avav", timeCountUp.getFormat() + "");
         tvScore = (TextView) FindViewById(R.id.scrore_count);
         tvQuestionNum = (TextView) FindViewById(R.id.number_of_ques);
         tvQuestion = (TextView) FindViewById(R.id.question);
         imgRenewQuestion = (ImageView) FindViewById(R.id.renew_question);
+        imgRenewQuestion.setOnClickListener(this);
         imgSpeechAudio = (ImageView) FindViewById(R.id.audio_question);
+        imgSpeechAudio.setOnClickListener(this);
         imgWord = (ImageView) FindViewById(R.id.img_ques);
-        tvScore = (TextView) FindViewById(R.id.scrore_count);
-        tvScore = (TextView) FindViewById(R.id.scrore_count);
-        tvScore = (TextView) FindViewById(R.id.scrore_count);
-        tvScore = (TextView) FindViewById(R.id.scrore_count);
         tvAnswer1 = (RadioButton) FindViewById(R.id.radio_1);
         tvAnswer1.setOnClickListener(this);
         tvAnswer2 = (RadioButton) FindViewById(R.id.radio_2);
@@ -86,6 +128,25 @@ public class ShowQuestionFragment extends MVPFragment<ShowQuestionContract.IPres
         return R.layout.test_question_fragment;
     }
 
+    public void setupUI(View view) {
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (!(view == bottomSheet)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    return false;
+                }
+            });
+        }
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
+        }
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -101,19 +162,16 @@ public class ShowQuestionFragment extends MVPFragment<ShowQuestionContract.IPres
             case R.id.radio_4:
                 getPresenter().PostAnswer(3);
                 break;
+            case R.id.renew_question:
+                getPresenter().renewQuestion();
+                break;
+            case R.id.audio_question:
+                getPresenter().listeningWord();
+                break;
         }
     }
 
-    public int GetAnsweredCount() {
-        return answeredCount;
-    }
-
-    public void AddAnsweredCount() {
-        answeredCount++;
-    }
-
     public void ResetQuestion() {
-        answeredCount = 0;
         for (int i = 0; i < wrapRadio.getChildCount(); i++) {
             wrapRadio.getChildAt(i).setEnabled(true);
         }
@@ -122,6 +180,12 @@ public class ShowQuestionFragment extends MVPFragment<ShowQuestionContract.IPres
         tvAnswer3.setTextColor(getResources().getColor(R.color.black));
         tvAnswer4.setTextColor(getResources().getColor(R.color.black));
         wrapRadio.clearCheck();
+    }
+
+    public void DisableRadio() {
+        for (int i = 0; i < wrapRadio.getChildCount(); i++) {
+            wrapRadio.getChildAt(i).setEnabled(false);
+        }
     }
 
     @Override
@@ -138,9 +202,18 @@ public class ShowQuestionFragment extends MVPFragment<ShowQuestionContract.IPres
         return listAnsweredQuestion;
     }
 
+    public void ClearDataToRenewQuestion() {
+        countQuestion = 0;
+        reviewBtn.setVisibility(View.GONE);
+        reviewQuestionAdapter.ClearData();
+        listAnsweredQuestion.clear();
+        listTypeAnswerId.clear();
+        ResetQuestion();
+    }
+
     @Override
-    public void AddTypeId(int questionId) {
-        listTypeAnswerId.add(questionId);
+    public void AddTypeId(int typeId) {
+        listTypeAnswerId.add(typeId);
     }
 
     public ArrayList<Integer> GetType() {
@@ -202,32 +275,32 @@ public class ShowQuestionFragment extends MVPFragment<ShowQuestionContract.IPres
     public void setRightAnswer(int indexRadio) {
         switch (indexRadio) {
             case 0:
-                tvAnswer1.setTextColor(getResources().getColor(R.color.primary));
+                tvAnswer1.setTextColor(getResources().getColor(R.color.primaryDark));
                 tvAnswer1.setEnabled(false);
                 break;
             case 1:
-                tvAnswer2.setTextColor(getResources().getColor(R.color.primary));
+                tvAnswer2.setTextColor(getResources().getColor(R.color.primaryDark));
                 tvAnswer2.setEnabled(false);
                 break;
             case 2:
-                tvAnswer3.setTextColor(getResources().getColor(R.color.primary));
+                tvAnswer3.setTextColor(getResources().getColor(R.color.primaryDark));
                 tvAnswer3.setEnabled(false);
                 break;
             case 3:
-                tvAnswer4.setTextColor(getResources().getColor(R.color.primary));
+                tvAnswer4.setTextColor(getResources().getColor(R.color.primaryDark));
                 tvAnswer4.setEnabled(false);
                 break;
         }
     }
 
-    public void ShowScore() {
-        // Prepare the View for the animation
+    public void ShowScore(int score) {
+        btnSubmit.setText("+" + score + "");
+        userScore += score;
+        tvScore.setText(userScore + "");
         btnSubmit.setVisibility(View.VISIBLE);
-
-// Start the animation
         btnSubmit.animate()
-                .translationX(FindViewById(R.id.wrap_score_tv).getWidth()/2)
-                .setDuration(1000)
+                .translationX(FindViewById(R.id.wrap_score_tv).getWidth() / 2)
+                .setDuration(2000)
                 .alpha(1)
                 .withEndAction(new Runnable() {
                     @Override
@@ -237,12 +310,61 @@ public class ShowQuestionFragment extends MVPFragment<ShowQuestionContract.IPres
                                 .translationX(0);
                     }
                 });
-        ////final android.os.Handler handler = new android.os.Handler();
-        // handler.postDelayed(new Runnable() {
-        //    @Override
-        //  public void run() {
+    }
 
-        // }
-        // }, 2000);
+    public void SetCheckRadio(int indexRadio) {
+        switch (indexRadio) {
+            case 0:
+                tvAnswer1.setChecked(true);
+                break;
+            case 1:
+                tvAnswer2.setChecked(true);
+                break;
+            case 2:
+                tvAnswer3.setChecked(true);
+                break;
+            case 3:
+                tvAnswer4.setChecked(true);
+                break;
+        }
+    }
+
+    public void SetColorAnswer(int indexRadio) {
+        switch (indexRadio) {
+            case 0:
+                tvAnswer1.setTextColor(getResources().getColor(R.color.primaryDark));
+                break;
+            case 1:
+                tvAnswer2.setTextColor(getResources().getColor(R.color.primaryDark));
+                break;
+            case 2:
+                tvAnswer3.setTextColor(getResources().getColor(R.color.primaryDark));
+                break;
+            case 3:
+                tvAnswer4.setTextColor(getResources().getColor(R.color.primaryDark));
+                break;
+        }
+    }
+
+    @Override
+    public void ShowDialogSaveScore() {
+        timeCountUp.stop();
+        SaveScoreDialogFragment dialog = new SaveScoreDialogFragment(userScore+"",timeCountUp.getText().toString(),countQuestion+1);
+        dialog.show(getFragmentManager(),ShowQuestionFragment.class.getName());
+    }
+
+    @Override
+    public boolean IsBackButtonVisible() {
+        return true;
+    }
+
+    @Override
+    protected String GetScreenTitle() {
+        return "Test";
+    }
+
+    @Override
+    public void GoToQuestion(Question question) {
+        getPresenter().GoToReviewQuestion(question);
     }
 }
