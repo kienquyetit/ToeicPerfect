@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.app.learningtoeic.base.BaseActivity;
 import com.app.learningtoeic.base.BaseFragment;
 import com.app.learningtoeic.ui.fragment.HomeFragment;
+import com.app.learningtoeic.ui.fragment.chat.ChangePasswordFragment;
 import com.app.learningtoeic.utils.FragmentHelper;
 
 public class MainActivity extends BaseActivity
@@ -30,6 +31,7 @@ public class MainActivity extends BaseActivity
     FloatingActionButton fabListening, fabRecording, fabSliding;
 
     boolean isMenuVisible;
+
     @Override
     protected String GetScreenTitle() {
         return super.GetScreenTitle();
@@ -99,6 +101,16 @@ public class MainActivity extends BaseActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.nav_change_password:
+                SwitchFragment(new ChangePasswordFragment(), true);
+                break;
+            case R.id.nav_log_out:
+                onBackPressed();
+                break;
+            default:
+                break;
+        }
         return isMenuVisible;
     }
 
@@ -130,9 +142,9 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    public void setMenuVisible(boolean visble)
+    public void setMenuVisible(boolean visible)
     {
-        isMenuVisible = visble;
+        isMenuVisible = visible;
         invalidateOptionsMenu();
     }
 
@@ -214,14 +226,6 @@ public class MainActivity extends BaseActivity
         {
             findViewById(R.id.bottomToolbar).setVisibility(View.GONE);
         }
-    }
-
-    public View getImvBack() {
-        return imvBack;
-    }
-
-    public TextView getTvTitle() {
-        return tvTitle;
     }
 
     public ImageView getIvLike() {

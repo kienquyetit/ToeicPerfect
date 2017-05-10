@@ -73,11 +73,6 @@ public class HomeFragment extends MVPFragment<HomeContract.IPresenterViewOps> im
     }
 
     @Override
-    public boolean GetMenuVisible() {
-        return  true;
-    }
-
-    @Override
     public void onTabSelected(TabLayout.Tab tab) {
 
     }

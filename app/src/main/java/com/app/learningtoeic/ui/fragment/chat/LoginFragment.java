@@ -105,7 +105,7 @@ public class LoginFragment extends MVPFragment<LoginContract.IPresenterViewOps> 
 
     @Override
     public void onLoginSuccess() {
-        SwitchFragment(new OptionsFragment(), true);
+        SwitchFragment(new ChatRoomFragment(), true);
     }
 
     @Override
@@ -118,4 +118,5 @@ public class LoginFragment extends MVPFragment<LoginContract.IPresenterViewOps> 
     public void dismissAlertDialog() {
         dialog.dismiss();
     }
+
 }

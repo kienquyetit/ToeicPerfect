@@ -1,27 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <!--<group android:checkableBehavior="single"-->
+        <!--android:id="@+id/group_main">-->
+        <!--<item-->
+            <!--android:id="@+id/nav_600_vocabulary"-->
+            <!--android:icon="@drawable/ic_menu_600_vocabulary"-->
+            <!--android:title="600 Từ vựng" />-->
+        <!--<item-->
+            <!--android:id="@+id/nav_grammar"-->
+            <!--android:icon="@drawable/ic_menu_grammar"-->
+            <!--android:title="Ngữ pháp" />-->
+        <!--<item-->
+            <!--android:id="@+id/nav_practice_toeic"-->
+            <!--android:icon="@drawable/ic_menu_practice_toeic"-->
+            <!--android:title="Luyện thi TOEIC" />-->
+        <!--<item-->
+            <!--android:id="@+id/nav_toeic_exam"-->
+            <!--android:icon="@drawable/ic_menu_toeic_exam"-->
+            <!--android:title="Đề thi TOEIC" />-->
+        <!--<item-->
+            <!--android:id="@+id/nav_toeic_exam_tips"-->
+            <!--android:icon="@drawable/ic_menu_toeic_exam_tips"-->
+            <!--android:title="Mẹo Thi TOEIC" />-->
+    <!--</group>-->
+    <group android:checkableBehavior="single"
+        android:id="@+id/group_chat_room">
         <item
-            android:id="@+id/nav_600_vocabulary"
-            android:icon="@drawable/ic_menu_600_vocabulary"
-            android:title="600 Từ vựng" />
+            android:id="@+id/nav_change_password"
+            android:title="Change Password"/>
         <item
-            android:id="@+id/nav_grammar"
-            android:icon="@drawable/ic_menu_grammar"
-            android:title="Ngữ pháp" />
-        <item
-            android:id="@+id/nav_practice_toeic"
-            android:icon="@drawable/ic_menu_practice_toeic"
-            android:title="Luyện thi TOEIC" />
-        <item
-            android:id="@+id/nav_toeic_exam"
-            android:icon="@drawable/ic_menu_toeic_exam"
-            android:title="Đề thi TOEIC" />
-        <item
-            android:id="@+id/nav_toeic_exam_tips"
-            android:icon="@drawable/ic_menu_toeic_exam_tips"
-            android:title="Mẹo Thi TOEIC" />
+            android:id="@+id/nav_log_out"
+            android:title="Log Out"/>
     </group>
-
 </menu>

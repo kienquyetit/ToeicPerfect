@@ -113,10 +113,6 @@ public abstract class BaseFragment extends Fragment {
         return false;
     }
 
-    public boolean GetMenuVisible() {
-        return false;
-    }
-
     protected String GetScreenTitle() {
         return "";
     }

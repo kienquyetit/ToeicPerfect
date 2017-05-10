@@ -151,7 +151,7 @@ public class ContactsFragment extends MVPFragment<ContactsContract.IPresenterVie
     }
 
     @Override
-    public boolean IsBackButtonVisible() {
+    public boolean IsMenuVisible() {
         return true;
     }
 

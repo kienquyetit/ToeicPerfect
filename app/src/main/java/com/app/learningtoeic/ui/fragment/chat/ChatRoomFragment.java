@@ -127,7 +127,18 @@ public class ChatRoomFragment extends MVPFragment<ChatRoomContract.IPresenterVie
     }
 
     @Override
-    public boolean IsBackButtonVisible() {
+    protected String GetScreenTitle() {
+        return getString(R.string.title_chat);
+    }
+
+    @Override
+    public boolean IsMenuVisible() {
         return true;
     }
+
+    @Override
+    public boolean IsHeaderVisible() {
+        return true;
+    }
+
 }

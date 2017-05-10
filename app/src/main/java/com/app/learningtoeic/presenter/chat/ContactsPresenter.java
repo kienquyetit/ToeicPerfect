@@ -110,14 +110,10 @@ public class ContactsPresenter extends FragmentPresenter<ContactsContract.IViewO
 
     private ChildEventListener getChildEventListener() {
         return new ChildEventListener() {
-
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
                 if(dataSnapshot.exists()){
-
                     String userUid = dataSnapshot.getKey();
-
                     if(dataSnapshot.getKey().equals(mCurrentUserUid)){
                         User currentUser = dataSnapshot.getValue(User.class);
                         getView().setCurrentUserInfo(userUid, currentUser);

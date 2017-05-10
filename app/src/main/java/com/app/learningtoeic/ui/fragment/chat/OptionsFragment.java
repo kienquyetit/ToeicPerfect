@@ -6,7 +6,6 @@ import android.support.v4.view.ViewPager;
 
 import com.app.learningtoeic.R;
 import com.app.learningtoeic.contract.chat.OptionsContract;
-import com.app.learningtoeic.entity.Topic;
 import com.app.learningtoeic.mvp.fragment.MVPFragment;
 import com.app.learningtoeic.presenter.chat.OptionsPresenter;
 import com.app.learningtoeic.ui.adapter.HomePagerAdapter;
@@ -19,11 +18,9 @@ public class OptionsFragment extends MVPFragment<OptionsContract.IPresenterViewO
 
     TabLayout mTabLayout;
     ViewPager mViewPager;
-    Topic mTopic;
 
     public OptionsFragment()
     {
-
     }
 
     @Override
@@ -66,16 +63,6 @@ public class OptionsFragment extends MVPFragment<OptionsContract.IPresenterViewO
     @Override
     public int GetLayoutId() {
         return R.layout.options_fragment;
-    }
-
-    @Override
-    public boolean IsBackButtonVisible() {
-        return true;
-    }
-
-    @Override
-    protected String GetScreenTitle() {
-        return mTopic.name;
     }
 
     @Override
