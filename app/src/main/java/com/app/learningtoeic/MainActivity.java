@@ -1,5 +1,6 @@
 package com.app.learningtoeic;
 
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,8 @@ import com.app.learningtoeic.base.BaseActivity;
 import com.app.learningtoeic.base.BaseFragment;
 import com.app.learningtoeic.ui.fragment.HomeFragment;
 import com.app.learningtoeic.ui.fragment.chat.ChangePasswordFragment;
+import com.app.learningtoeic.ui.fragment.chat.LoginFragment;
+import com.app.learningtoeic.utils.Config;
 import com.app.learningtoeic.utils.FragmentHelper;
 
 public class MainActivity extends BaseActivity
@@ -106,12 +109,21 @@ public class MainActivity extends BaseActivity
                 SwitchFragment(new ChangePasswordFragment(), true);
                 break;
             case R.id.nav_log_out:
-                onBackPressed();
+                onCheckRememberPassword();
+                SwitchFragment(new LoginFragment(), true);
                 break;
             default:
                 break;
         }
         return isMenuVisible;
+    }
+
+    private void onCheckRememberPassword() {
+        SharedPreferences pref = this.getSharedPreferences(Config.KEY_USER_INFO, MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.clear();
+        editor.putBoolean(Config.KEY_CHECK_REMEMBER_PASS, false);
+        editor.commit();
     }
 
     public void SetScreenTitle(String title)

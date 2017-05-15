@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/log_in_margin"
         android:layout_marginRight="@dimen/log_in_margin"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="36dp"
         android:hint="Email"
         android:inputType="textEmailAddress"
         android:textColor="@color/white"
@@ -39,6 +39,25 @@
         android:inputType="textPassword"
         android:textColor="@color/white"
         android:textColorHint="@color/white" />
+
+    <CheckBox
+        android:id="@+id/check_box_remember_pass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Remember password"
+        android:layout_marginLeft="@dimen/log_in_margin"
+        android:layout_marginTop="6dp"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/text_view_forgot_pass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="8dp"
+        android:textColor="@color/orange"
+        android:layout_marginLeft="@dimen/log_in_margin"
+        android:text="Forgot your password?"/>
 
     <Button
         android:id="@+id/btn_login"

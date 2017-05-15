@@ -10,8 +10,13 @@ import com.app.learningtoeic.mvp.fragment.IFragmentViewOps;
 public class ChangePasswordContract {
     public interface IViewOps extends IFragmentViewOps
     {
+        void showAlertDialog(String message, boolean isCancelable);
+        void onChangePasswordSuccess();
+        void onChangePasswordFailed();
+
     }
     public interface IPresenterViewOps extends IFragmentPresenterViewOps
     {
+        void handleChangePassword(String currentPassword, String newPassword);
     }
 }

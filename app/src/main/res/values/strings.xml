@@ -15,5 +15,12 @@
     <string name="error_incorrect_email_pass">Provide correct email and password with more than 6 characters.</string>
     <string name="title_chat">English Chat Perfect</string>
     <string name="default_time">12:12 5/5/2017</string>
-    <string name="title_dialog_login">Enter Your UserName Here</string>
+    <string name="title_dialog_login">Enter your email address here</string>
+
+    <!-- ChangePassword -->
+    <string name="error_pass_fields_empty">Please make sure you enter current password, new password and verify password!</string>
+    <string name="error_incorrect_pass">Provide correct password with more than 6 characters.</string>
+    <string name="error_incorrect_verify_pass">Please make sure you enter correct verify password.</string>
+    <string name="error_change_password_failed">Change password failed!</string>
+    <string name="error_incorrect_current_pass">You have entered the wrong existing current password.</string>
 </resources>

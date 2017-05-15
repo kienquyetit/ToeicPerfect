@@ -43,4 +43,18 @@ public class LoginPresenter extends FragmentPresenter<LoginContract.IViewOps> im
             }
         });
     }
+
+    @Override
+    public void handleForgotPassword(String userEmail) {
+        mAuth.sendPasswordResetEmail(userEmail).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                getView().dismissAlertDialog();
+                if(task.isSuccessful())
+                    getView().showAlertDialog("Send password to Email successfully!", true);
+                else
+                    getView().showAlertDialog("Send password to Email failed!", true);
+            }
+        });
+    }
 }

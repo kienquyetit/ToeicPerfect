@@ -16,13 +16,13 @@ import com.google.firebase.auth.UserProfileChangeRequest;
  * Created by QUYET on 4/22/2017.
  */
 
-public class RegisterPresenter extends FragmentPresenter<RegisterContract.IViewOps> implements RegisterContract.IPresenterViewOps  {
+public class RegisterPresenter extends FragmentPresenter<RegisterContract.IViewOps> implements RegisterContract.IPresenterViewOps {
 
     private FirebaseAuth mAuth;
 
     private Activity mActivity;
 
-    public RegisterPresenter(Activity activity){
+    public RegisterPresenter(Activity activity) {
         setAuthInstance();
         this.mActivity = activity;
     }
@@ -33,21 +33,21 @@ public class RegisterPresenter extends FragmentPresenter<RegisterContract.IViewO
 
     @Override
     public void handleSignUp(final String userDisplayName, String userEmailRegister, String userPasswordRegister) {
-        getView().showAlertDialog("Registering...",true);
+        getView().showAlertDialog("Registering...", true);
         mAuth.createUserWithEmailAndPassword(userEmailRegister, userPasswordRegister).addOnCompleteListener(mActivity, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 getView().dismissAlertDialog();
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     onAuthSuccess(task.getResult().getUser(), userDisplayName);
-                }else {
+                } else {
                     getView().showAlertDialog(task.getException().getMessage(), true);
                 }
             }
         });
     }
 
-    private void onAuthSuccess(FirebaseUser user, String userDisplayName){
+    private void onAuthSuccess(FirebaseUser user, String userDisplayName) {
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(userDisplayName)
                 .build();
@@ -55,10 +55,9 @@ public class RegisterPresenter extends FragmentPresenter<RegisterContract.IViewO
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             getView().onSignUpSuccess();
-                        }
-                        else {
+                        } else {
                             getView().onSignUpFailed();
                         }
                     }

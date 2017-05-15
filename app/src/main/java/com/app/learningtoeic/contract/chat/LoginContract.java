@@ -18,5 +18,6 @@ public class LoginContract {
     public interface IPresenterViewOps extends IFragmentPresenterViewOps
     {
         void handleLogin(String userEmail, String userPassword);
+        void handleForgotPassword(String userEmail);
     }
 }
