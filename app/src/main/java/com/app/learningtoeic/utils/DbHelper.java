@@ -7,7 +7,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.app.learningtoeic.entity.HighScore;
@@ -125,7 +124,6 @@ public class DbHelper extends SQLiteOpenHelper {
             Word word = new Word(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2), cursor.getString(3), cursor.getString(4),
                     cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getInt(9));
             listWord.add(word);
-            Log.d("DbHelper", word.getId() + "");
             cursor.moveToNext();
         }
         cursor.close();
@@ -170,7 +168,6 @@ public class DbHelper extends SQLiteOpenHelper {
             Word word = new Word(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2), cursor.getString(3), cursor.getString(4),
                     cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getInt(9));
             listWord.add(word);
-            Log.d("DbHelper", word.getId() + "");
             cursor.moveToNext();
         }
         cursor.close();
@@ -203,7 +200,6 @@ public class DbHelper extends SQLiteOpenHelper {
         while (!cursor.isAfterLast()) {
             word = new Word(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2), cursor.getString(3), cursor.getString(4),
                     cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getInt(9));
-            Log.d("DbHelper", word.getId() + "");
             cursor.moveToNext();
         }
         cursor.close();
@@ -223,7 +219,6 @@ public class DbHelper extends SQLiteOpenHelper {
         Cursor cursor = myDataBase.rawQuery("SELECT * FROM highscore ",null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            Log.d("HIGHSCORE", cursor.getString(3)+"");
             cursor.moveToNext();
         }
         cursor.close();

@@ -4,12 +4,10 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_chat_room"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/divider" />
+        android:layout_height="match_parent" />
 
     <View
         android:id="@+id/divider_chat_room"
@@ -23,12 +21,14 @@
         android:id="@+id/senderContainer_chat_room"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:background="@color/white"
         android:paddingBottom="4dp"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:paddingTop="8dp">
+        android:paddingTop="8dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <EditText
             android:id="@+id/edit_text_message_chat_room"

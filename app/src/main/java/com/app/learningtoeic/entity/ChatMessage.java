@@ -9,32 +9,20 @@ import com.google.firebase.database.Exclude;
 public class ChatMessage {
 
     private String message;
-    private String sender;
-    private String recipient;
+    private String userId;
+    private String userName;
     private String timeStamp;
-    private String senderName;
-    private int urlAvatarImage;
 
     private int mRecipientOrSenderStatus;
 
     public ChatMessage() {
     }
 
-    public ChatMessage(String message, String sender, String recipient,String senderName, int urlAvatarImage, String timeStamp) {
+    public ChatMessage(String message, String userId,String userName, String timeStamp) {
         this.message = message;
-        this.recipient = recipient;
-        this.sender = sender;
-        this.senderName = senderName;
-        this.urlAvatarImage = urlAvatarImage;
+        this.userId = userId;
+        this.userName = userName;
         this.timeStamp = timeStamp;
-    }
-
-    public ChatMessage(String message, String sender, String senderName, int urlAvatarImage, String timeStamp) {
-        this.message = message;
-        this.sender = sender;
-        this.timeStamp = timeStamp;
-        this.senderName = senderName;
-        this.urlAvatarImage = urlAvatarImage;
     }
 
     public void setRecipientOrSenderStatus(int recipientOrSenderStatus) {
@@ -49,20 +37,12 @@ public class ChatMessage {
         return message;
     }
 
-    public String getRecipient(){
-        return recipient;
+    public String getUserId() {
+        return userId;
     }
 
-    public String getSender(){
-        return sender;
-    }
-
-    public String getSenderName() {
-        return senderName;
-    }
-
-    public int getUrlAvatarImage() {
-        return urlAvatarImage;
+    public String getUserName() {
+        return userName;
     }
 
     @Exclude

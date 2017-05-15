@@ -13,6 +13,7 @@ public class RegisterContract {
         void onSignUpSuccess();
         void showAlertDialog(String message, boolean isCancelable);
         void dismissAlertDialog();
+        void onSignUpFailed();
     }
     public interface IPresenterViewOps extends IFragmentPresenterViewOps
     {

@@ -15,4 +15,5 @@
     <string name="error_incorrect_email_pass">Provide correct email and password with more than 6 characters.</string>
     <string name="title_chat">English Chat Perfect</string>
     <string name="default_time">12:12 5/5/2017</string>
+    <string name="title_dialog_login">Enter Your UserName Here</string>
 </resources>

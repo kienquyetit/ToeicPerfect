@@ -8,12 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.app.learningtoeic.R;
 import com.app.learningtoeic.contract.chat.RegisterContract;
 import com.app.learningtoeic.mvp.fragment.MVPFragment;
 import com.app.learningtoeic.presenter.chat.RegisterPresenter;
-import com.app.learningtoeic.utils.ChatHelper;
+import com.app.learningtoeic.utils.Config;
 
 /**
  * Created by QUYET on 4/22/2017.
@@ -116,12 +117,17 @@ public class RegisterFragment extends MVPFragment<RegisterContract.IPresenterVie
     }
 
     public void showAlertDialog(String message, boolean isCancelable){
-        dialog = ChatHelper.buildAlertDialog(getString(R.string.login_error_title),message,isCancelable,GetMainAcitivity());
+        dialog = Config.buildAlertDialog(getString(R.string.login_error_title),message,isCancelable,GetMainAcitivity());
         dialog.show();
     }
 
     public void dismissAlertDialog() {
         dialog.dismiss();
+    }
+
+    @Override
+    public void onSignUpFailed() {
+        Toast.makeText(GetMainAcitivity(), "Sign Up failed!", Toast.LENGTH_SHORT).show();
     }
 
     public String getUserDisplayName() {

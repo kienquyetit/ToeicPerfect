@@ -1,10 +1,9 @@
 package com.app.learningtoeic.ui.adapter;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 
 import com.app.learningtoeic.R;
 import com.app.learningtoeic.entity.ChatMessage;
-import com.app.learningtoeic.utils.ChatHelper;
 
 import java.util.List;
 
@@ -84,24 +82,21 @@ public class MessageChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         ChatMessage senderFireMessage = mChatList.get(position);
         viewHolderSender.getSenderMessageTextView().setText(senderFireMessage.getMessage());
         viewHolderSender.getmSenderTimeStampTextView().setText(convertTimeStamp(senderFireMessage.getTimeStamp()));
-        viewHolderSender.getSenderAvatarCircleImageView().setImageDrawable(getAvatarDrawable(senderFireMessage.getUrlAvatarImage()));
+        viewHolderSender.getmSenderNameTextView().setText(senderFireMessage.getUserName());
+        viewHolderSender.getSenderAvatarCircleImageView().setImageResource(R.mipmap.ic_avatar_blue);
     }
 
     private void configureRecipientView(ViewHolderRecipient viewHolderRecipient, int position) {
         ChatMessage recipientFireMessage = mChatList.get(position);
+        Log.d("Mesa", mChatList.get(position).getUserName());
         viewHolderRecipient.getRecipientMessageTextView().setText(recipientFireMessage.getMessage());
         viewHolderRecipient.getmRecipientTimeStampTextView().setText(convertTimeStamp(recipientFireMessage.getTimeStamp()));
-        viewHolderRecipient.getRecipientAvatarCircleImageView().setImageDrawable(getAvatarDrawable(recipientFireMessage.getUrlAvatarImage()));
+        viewHolderRecipient.getmRecipientNameTextView().setText(recipientFireMessage.getUserName());
+        viewHolderRecipient.getRecipientAvatarCircleImageView().setImageResource(R.mipmap.ic_avatar_green);
     }
 
     private CharSequence convertTimeStamp(String timeMillis){
         return DateUtils.getRelativeTimeSpanString(Long.parseLong(timeMillis),System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
-    }
-
-    private Drawable getAvatarDrawable(int avatarId){
-        int userAvatarId = ChatHelper.getDrawableAvatarId(avatarId);
-        Drawable avatarDrawable = ContextCompat.getDrawable(mContext, userAvatarId);
-        return avatarDrawable;
     }
 
     @Override
@@ -129,13 +124,14 @@ public class MessageChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public class ViewHolderSender extends RecyclerView.ViewHolder {
 
-        private TextView mSenderMessageTextView, mSenderTimeStampTextView;
+        private TextView mSenderMessageTextView, mSenderTimeStampTextView, mSenderNameTextView;
         private CircleImageView mSenderAvatarCircleImageView;
 
         public ViewHolderSender(View itemView) {
             super(itemView);
             mSenderMessageTextView = (TextView) itemView.findViewById(R.id.text_view_sender_message);
             mSenderTimeStampTextView = (TextView) itemView.findViewById(R.id.tv_time_stamp_sender_message);
+            mSenderNameTextView = (TextView) itemView.findViewById(R.id.text_view_display_sender_name);
             mSenderAvatarCircleImageView = (CircleImageView) itemView.findViewById(R.id.iv_avatar_sender_message);
         }
 
@@ -150,18 +146,23 @@ public class MessageChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         public CircleImageView getSenderAvatarCircleImageView() {
             return mSenderAvatarCircleImageView;
         }
+
+        public TextView getmSenderNameTextView() {
+            return mSenderNameTextView;
+        }
     }
 
     /*ViewHolder for Recipient*/
     public class ViewHolderRecipient extends RecyclerView.ViewHolder {
 
-        private TextView mRecipientMessageTextView, mRecipientTimeStampTextView;
+        private TextView mRecipientMessageTextView, mRecipientTimeStampTextView, mRecipientNameTextView;
         private CircleImageView mRecipientAvatarCircleImageView;
 
         public ViewHolderRecipient(View itemView) {
             super(itemView);
             mRecipientMessageTextView = (TextView) itemView.findViewById(R.id.text_view_recipient_message);
             mRecipientTimeStampTextView = (TextView) itemView.findViewById(R.id.tv_time_stamp_recipient_message);
+            mRecipientNameTextView = (TextView) itemView.findViewById(R.id.text_view_display_recipient_name);
             mRecipientAvatarCircleImageView = (CircleImageView) itemView.findViewById(R.id.iv_avatar_recipient_message);
         }
 
@@ -175,6 +176,10 @@ public class MessageChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         public CircleImageView getRecipientAvatarCircleImageView() {
             return mRecipientAvatarCircleImageView;
+        }
+
+        public TextView getmRecipientNameTextView() {
+            return mRecipientNameTextView;
         }
     }
 }

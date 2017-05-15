@@ -1,8 +1,11 @@
 package com.app.learningtoeic.ui.fragment.chat;
 
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +16,8 @@ import com.app.learningtoeic.R;
 import com.app.learningtoeic.contract.chat.LoginContract;
 import com.app.learningtoeic.mvp.fragment.MVPFragment;
 import com.app.learningtoeic.presenter.chat.LoginPresenter;
-import com.app.learningtoeic.utils.ChatHelper;
+import com.app.learningtoeic.utils.Config;
+import com.google.firebase.auth.FirebaseUser;
 
 /**
  * Created by QUYET on 4/22/2017.
@@ -64,7 +68,6 @@ public class LoginFragment extends MVPFragment<LoginContract.IPresenterViewOps> 
     protected LoginContract.IPresenterViewOps OnRegisterPresenter() {
         return new LoginPresenter(GetMainAcitivity());
     }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -104,13 +107,24 @@ public class LoginFragment extends MVPFragment<LoginContract.IPresenterViewOps> 
     }
 
     @Override
-    public void onLoginSuccess() {
+    public void onLoginSuccess(FirebaseUser user) {
+        saveSharedPreferencesOfUser(user);
         SwitchFragment(new ChatRoomFragment(), true);
+    }
+
+    private void saveSharedPreferencesOfUser(FirebaseUser user) {
+        SharedPreferences pref = GetMainAcitivity().getSharedPreferences(Config.KEY_USER_INFO, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString(Config.KEY_USER_ID, user.getUid());
+        editor.putString(Config.KEY_DISPLAY_NAME, user.getDisplayName());
+        editor.putString(Config.KEY_EMAIL, user.getEmail());
+        editor.commit();
+        Log.d("login", pref.getString(Config.KEY_DISPLAY_NAME, ""));
     }
 
     @Override
     public void showAlertDialog(String message, boolean isCancelable) {
-        dialog = ChatHelper.buildAlertDialog(getString(R.string.login_error_title), message,isCancelable, GetActivityContext());
+        dialog = Config.buildAlertDialog(getString(R.string.login_error_title), message,isCancelable, GetActivityContext());
         dialog.show();
     }
 

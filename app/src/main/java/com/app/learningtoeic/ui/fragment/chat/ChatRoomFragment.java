@@ -11,7 +11,6 @@ import android.widget.EditText;
 import com.app.learningtoeic.R;
 import com.app.learningtoeic.contract.chat.ChatRoomContract;
 import com.app.learningtoeic.entity.ChatMessage;
-import com.app.learningtoeic.entity.User;
 import com.app.learningtoeic.mvp.fragment.MVPFragment;
 import com.app.learningtoeic.presenter.chat.ChatRoomPresenter;
 import com.app.learningtoeic.ui.adapter.MessageChatAdapter;
@@ -32,8 +31,15 @@ public class ChatRoomFragment extends MVPFragment<ChatRoomContract.IPresenterVie
 
     private MessageChatAdapter messageChatAdapter;
 
+    SharedPreferences sharedPreferences;
+
+    public ChatRoomFragment(){
+
+    }
+
     @Override
     protected void OnViewCreated() {
+        sharedPreferences = GetMainAcitivity().getSharedPreferences(Config.KEY_USER_INFO, Context.MODE_PRIVATE);
         setDatabaseInstance();
         setChatRoomRecyclerView();
         btnSendMessage.setOnClickListener(this);
@@ -72,16 +78,6 @@ public class ChatRoomFragment extends MVPFragment<ChatRoomContract.IPresenterVie
         return pref.getString(Config.KEY_USER_ID, "");
     }
 
-    private User getCurrentUserInfo() {
-        SharedPreferences sharedPreferences = GetMainAcitivity().getSharedPreferences(Config.KEY_USER_INFO, Context.MODE_PRIVATE);
-        int avatarId = sharedPreferences.getInt(Config.KEY_AVATAR_ID, 0);
-        String connection = sharedPreferences.getString(Config.KEY_CONNECTION, "");
-        String displayName = sharedPreferences.getString(Config.KEY_DISPLAY_NAME, "");
-        String email = sharedPreferences.getString(Config.KEY_EMAIL, "");
-        long timeStamp = sharedPreferences.getLong(Config.KEY_TIME_STAMP, 0);
-        return new User(avatarId, connection, displayName, email, timeStamp);
-    }
-
     @Override
     public void onStop() {
         super.onStop();
@@ -110,11 +106,10 @@ public class ChatRoomFragment extends MVPFragment<ChatRoomContract.IPresenterVie
         }
     }
 
-    public void handleSendMessage(){
+    private void handleSendMessage(){
         String senderMessage = mUserMessageChatText.getText().toString().trim();
         if(!senderMessage.isEmpty()){
-            ChatMessage newMessage = new ChatMessage(senderMessage, getCurrentUserId(), getCurrentUserInfo().getDisplayName(),
-                    getCurrentUserInfo().getAvatarId(),Calendar.getInstance().getTime().getTime() + "");
+            ChatMessage newMessage = new ChatMessage(senderMessage, getCurrentUserId(), getDisplayName(), Calendar.getInstance().getTime().getTime() + "");
             getPresenter().pushMessageChatDatabase(newMessage);
             mUserMessageChatText.setText("");
         }
@@ -141,4 +136,7 @@ public class ChatRoomFragment extends MVPFragment<ChatRoomContract.IPresenterVie
         return true;
     }
 
+    public String getDisplayName() {
+        return sharedPreferences.getString(Config.KEY_DISPLAY_NAME, "");
+    }
 }

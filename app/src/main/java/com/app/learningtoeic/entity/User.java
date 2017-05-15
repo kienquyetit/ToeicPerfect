@@ -19,6 +19,10 @@ public class User {
     public User() {
     }
 
+    public User(String displayName) {
+        this.displayName = displayName;
+    }
+
     public User(int avatarId, String connection, String displayName, String email, long timeStamp){
         this.avatarId = avatarId;
         this.connection = connection;

@@ -31,7 +31,7 @@ public class ChatRoomPresenter extends FragmentPresenter<ChatRoomContract.IViewO
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if(dataSnapshot.exists()){
                     ChatMessage chatMessage = dataSnapshot.getValue(ChatMessage.class);
-                    if(chatMessage.getSender().equals(currentUserId)){
+                    if(chatMessage.getUserId().equals(currentUserId)){
                         chatMessage.setRecipientOrSenderStatus(MessageChatAdapter.SENDER);
                     }
                     else{
