@@ -24,7 +24,7 @@ import java.util.ArrayList;
 public class DbHelper extends SQLiteOpenHelper {
 
     private Context mycontext;
-    private String TABLE_NAME = "mytoeic600";
+    private String TABLE_NAME = "word";
     private String DB_PATH = "data/data/com.app.learningtoeic/databases/";
     private static String DB_NAME = "toeic600.db";
     public SQLiteDatabase myDataBase;
@@ -118,7 +118,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public ArrayList<Word> getListWord() {
         opendatabase();
         ArrayList<Word> listWord = new ArrayList<>();
-        Cursor cursor = myDataBase.rawQuery("SELECT * FROM mytoeic600", null);
+        Cursor cursor = myDataBase.rawQuery("SELECT * FROM word", null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Word word = new Word(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2), cursor.getString(3), cursor.getString(4),
@@ -162,7 +162,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public ArrayList<Word> getListWordForTopic(String topicId) {
         opendatabase();
         ArrayList<Word> listWord = new ArrayList<>();
-        Cursor cursor = myDataBase.rawQuery("SELECT * FROM mytoeic600 WHERE topicid='" + topicId + "'", null);
+        Cursor cursor = myDataBase.rawQuery("SELECT * FROM word WHERE topicid='" + topicId + "'", null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Word word = new Word(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2), cursor.getString(3), cursor.getString(4),
@@ -195,7 +195,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public Word getWord(String wordId) {
         opendatabase();
         Word word = new Word();
-        Cursor cursor = myDataBase.rawQuery("SELECT * FROM mytoeic600 WHERE id='" + wordId + "'", null);
+        Cursor cursor = myDataBase.rawQuery("SELECT * FROM word WHERE id='" + wordId + "'", null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             word = new Word(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2), cursor.getString(3), cursor.getString(4),
