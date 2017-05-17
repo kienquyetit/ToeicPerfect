@@ -1,33 +1,35 @@
-package com.app.learningtoeic.ui.fragment.dictionary;
+package com.app.learningtoeic.ui.fragment.topic;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.app.learningtoeic.R;
-import com.app.learningtoeic.contract.dictionary.DictionaryContract;
+import com.app.learningtoeic.contract.topic.TopicItemListContract;
+import com.app.learningtoeic.entity.Topic;
 import com.app.learningtoeic.entity.Word;
 import com.app.learningtoeic.mvp.fragment.MVPFragment;
-import com.app.learningtoeic.presenter.dictionary.DictionaryPresenter;
-import com.app.learningtoeic.ui.adapter.DictionaryAdapter;
+import com.app.learningtoeic.presenter.topic.TopicItemListPresenter;
+import com.app.learningtoeic.ui.adapter.TopicItemListAdapter;
 
 import java.util.ArrayList;
 
 /**
- * Created by dell on 3/31/2017.
+ * Created by QUYET on 5/16/2017.
  */
 
-public class DictionaryFragment extends MVPFragment<DictionaryContract.IPresenterViewOps> implements DictionaryContract.IViewOps, DictionaryAdapter.Callback {
+public class TopicItemListFragment  extends MVPFragment<TopicItemListContract.IPresenterViewOps> implements TopicItemListContract.IViewOps, TopicItemListAdapter.Callback {
 
     private RecyclerView recyclerView;
-    public DictionaryAdapter adapter;
+    public TopicItemListAdapter adapter;
+    Topic mTopic;
 
-    public DictionaryFragment() {
-        // Required empty public constructor
+    public TopicItemListFragment(Topic topic) {
+        this.mTopic = topic;
     }
 
     @Override
     protected void OnViewCreated() {
-        adapter = new DictionaryAdapter();
+        adapter = new TopicItemListAdapter();
         adapter.callback = this;
         recyclerView.setAdapter(adapter);
     }
@@ -42,7 +44,7 @@ public class DictionaryFragment extends MVPFragment<DictionaryContract.IPresente
     @Override
     public void onResume() {
         super.onResume();
-        getPresenter().ExcuteDictionaryTask();
+        getPresenter().ExcuteTopicItemListTask(String.valueOf(mTopic.id));
     }
 
     @Override
@@ -56,8 +58,8 @@ public class DictionaryFragment extends MVPFragment<DictionaryContract.IPresente
     }
 
     @Override
-    protected DictionaryContract.IPresenterViewOps OnRegisterPresenter() {
-        return new DictionaryPresenter();
+    protected TopicItemListContract.IPresenterViewOps OnRegisterPresenter() {
+        return new TopicItemListPresenter();
     }
 
     @Override
@@ -67,7 +69,7 @@ public class DictionaryFragment extends MVPFragment<DictionaryContract.IPresente
     }
 
     @Override
-    public void OnClickDetailItem(Word word) {
-        SwitchFragment(new DetailWordFragment(word), true);
+    public void OnClickDetailItem(Word word, int adapterPosition) {
+        SwitchFragment(new DetailWordOfTopicFragment(mTopic, adapterPosition), true);
     }
 }

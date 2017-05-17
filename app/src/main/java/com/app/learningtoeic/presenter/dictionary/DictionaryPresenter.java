@@ -16,12 +16,17 @@ import java.util.ArrayList;
 public class DictionaryPresenter extends FragmentPresenter<DictionaryContract.IViewOps> implements DictionaryContract.IPresenterViewOps {
 
     public ArrayList<Word> wordsList;
-    String topicId = "";
+    public String newText;
 
     @Override
-    public void ExcuteDictionaryTask(String topicId) {
-        this.topicId = topicId;
+    public void ExcuteDictionaryTask() {
         new DictionaryPresenter.DictionaryAsyncTask().execute(100000);
+    }
+
+    @Override
+    public void ReadRecordsSearch(String newText) {
+        this.newText = newText;
+        new DictionaryPresenter.DictionarySearchAsyncTask().execute(100000);
     }
 
     private class DictionaryAsyncTask extends AsyncTask<Integer, Integer, Void> {
@@ -33,13 +38,32 @@ public class DictionaryPresenter extends FragmentPresenter<DictionaryContract.IV
 
         @Override
         protected Void doInBackground(Integer... params) {
-            if(topicId.length()!=0)
-            {
-                wordsList = Config.wordDB.getListWordForTopic(topicId);
-            }
-            else {
-                wordsList = Config.wordDB.getListWord();
-            }
+            wordsList = Config.wordDB.getListWord();
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            getView().InsertData(wordsList);
+        }
+    }
+
+    private class DictionarySearchAsyncTask extends AsyncTask<Integer, Integer, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Integer... params) {
+            wordsList = Config.wordDB.readRecordsSearch(newText);
             return null;
         }
 

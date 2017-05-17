@@ -4,9 +4,9 @@ import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.util.Log;
 
+import com.app.learningtoeic.contract.topic.HomeworkContract;
 import com.app.learningtoeic.entity.Question;
 import com.app.learningtoeic.entity.Word;
-import com.app.learningtoeic.contract.topic.HomeworkContract;
 import com.app.learningtoeic.mvp.fragment.FragmentPresenter;
 import com.app.learningtoeic.utils.Config;
 import com.app.learningtoeic.utils.Constants;
@@ -14,10 +14,8 @@ import com.app.learningtoeic.utils.SuffleHelper;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Handler;
 
 /**
  * Created by dell on 4/15/2017.

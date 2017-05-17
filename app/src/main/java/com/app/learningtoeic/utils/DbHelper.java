@@ -223,4 +223,22 @@ public class DbHelper extends SQLiteOpenHelper {
         }
         cursor.close();
     }
+
+    // Read records related to the search term
+    public ArrayList<Word> readRecordsSearch(String searchTerm) {
+        opendatabase();
+        ArrayList<Word> recordsList = new ArrayList<Word>();
+        String sql = "SELECT * FROM word WHERE vocabulary LIKE '%" + searchTerm + "%' ORDER BY id DESC LIMIT 0,5";
+        Cursor cursor = myDataBase.rawQuery(sql, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()){
+            Word word = new Word(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2), cursor.getString(3), cursor.getString(4),
+                    cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getInt(9));
+            recordsList.add(word);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        // return the list of records
+        return recordsList;
+    }
 }

@@ -14,20 +14,20 @@ import com.app.learningtoeic.utils.Config;
 import java.util.ArrayList;
 
 /**
- * Created by dell on 4/8/2017.
+ * Created by QUYET on 5/16/2017.
  */
 
-public class DictionaryAdapter extends RecyclerView.Adapter {
+public class TopicItemListAdapter extends RecyclerView.Adapter {
 
     public Callback callback;
 
     public interface Callback {
-        void OnClickDetailItem(Word word);
+        void OnClickDetailItem(Word word, int adapterPosition);
     }
 
     private ArrayList<Word> mWordsList;
 
-    public DictionaryAdapter() {
+    public TopicItemListAdapter() {
         mWordsList = new ArrayList<>();
     }
 
@@ -87,7 +87,7 @@ public class DictionaryAdapter extends RecyclerView.Adapter {
             ivDetail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    callback.OnClickDetailItem(word);
+                    callback.OnClickDetailItem(word, getAdapterPosition());
                 }
             });
         }
