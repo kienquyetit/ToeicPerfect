@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class DbHelper extends SQLiteOpenHelper {
@@ -207,21 +208,32 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     public void saveScore(HighScore highScore) {
-        opendatabase();
-        myDataBase.execSQL("insert into highscore (name_highscore , number_highscore ,time_highscore,number_question) values('" + highScore.getName() + "'," + highScore.getScore() + ",'" + highScore.getTime() +"'," + highScore.getNumberQuestion() + ")");
+        try {
+            opendatabase();
+            myDataBase.execSQL("INSERT INTO highscore (name_highscore , number_highscore ,time_highscore,number_question) values('" + highScore.getName() + "'," + highScore.getScore() + ",'" + highScore.getTime() + "'," + highScore.getNumberQuestion() + ")");
+        } catch (Exception e) {
+
+        }
         Toast.makeText(mycontext, "Done ! ", Toast.LENGTH_SHORT).show();
-        GetHighScore();
     }
 
-    public void GetHighScore() {
+    public List<HighScore> GetListHighScore() {
         opendatabase();
-        HighScore word = new HighScore();
-        Cursor cursor = myDataBase.rawQuery("SELECT * FROM highscore ",null);
+        List<HighScore> highScores = new ArrayList<>();
+        Cursor cursor = myDataBase.rawQuery("SELECT * FROM highscore ORDER BY number_highscore DESC,number_question DESC,time_highscore", null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
+            HighScore item = new HighScore();
+            item.setId(cursor.getString(0));
+            item.setName(cursor.getString(1));
+            item.setScore(cursor.getInt(2));
+            item.setTime(cursor.getString(3));
+            item.setNumberQuestion(cursor.getInt(4));
+            highScores.add(item);
             cursor.moveToNext();
         }
         cursor.close();
+        return highScores;
     }
 
     // Read records related to the search term
@@ -231,7 +243,7 @@ public class DbHelper extends SQLiteOpenHelper {
         String sql = "SELECT * FROM word WHERE vocabulary LIKE '%" + searchTerm + "%' ORDER BY id DESC LIMIT 0,5";
         Cursor cursor = myDataBase.rawQuery(sql, null);
         cursor.moveToFirst();
-        while (!cursor.isAfterLast()){
+        while (!cursor.isAfterLast()) {
             Word word = new Word(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2), cursor.getString(3), cursor.getString(4),
                     cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getInt(9));
             recordsList.add(word);

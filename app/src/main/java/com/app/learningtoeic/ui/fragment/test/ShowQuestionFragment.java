@@ -1,9 +1,6 @@
 package com.app.learningtoeic.ui.fragment.test;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.support.design.widget.BottomSheetBehavior;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,12 +15,10 @@ import android.widget.TextView;
 
 import com.app.learningtoeic.R;
 import com.app.learningtoeic.contract.test.ShowQuestionContract;
-import com.app.learningtoeic.contract.test.TestContract;
 import com.app.learningtoeic.entity.Question;
 import com.app.learningtoeic.entity.Topic;
 import com.app.learningtoeic.entity.Word;
 import com.app.learningtoeic.mvp.fragment.MVPFragment;
-import com.app.learningtoeic.presenter.test.SaveScoreDialogFragment;
 import com.app.learningtoeic.presenter.test.ShowQuestionPresenter;
 import com.app.learningtoeic.ui.adapter.ReviewQuestionAdapter;
 
@@ -366,5 +361,11 @@ public class ShowQuestionFragment extends MVPFragment<ShowQuestionContract.IPres
     @Override
     public void GoToQuestion(Question question) {
         getPresenter().GoToReviewQuestion(question);
+    }
+
+    public CallBack Callback;
+    public interface CallBack
+    {
+         void GoToHighScoreFragment();
     }
 }
