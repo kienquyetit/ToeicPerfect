@@ -8,6 +8,7 @@ import android.speech.RecognizerIntent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.learningtoeic.R;
 import com.app.learningtoeic.contract.dictionary.DetailWordContract;
@@ -155,7 +156,10 @@ public class DetailWordFragment extends MVPFragment<DetailWordContract.IPresente
                     setLikeStatus(mWord);
                 break;
             case R.id.fab_listening:
-                startListening();
+                if(mTopic != null)
+                    callback.startListening();
+                else
+                    startListening(mWord.getVocabulary());
                 break;
             case R.id.fab_recording:
                 startRecording();
@@ -188,19 +192,31 @@ public class DetailWordFragment extends MVPFragment<DetailWordContract.IPresente
             case REQ_CODE_SPEECH_OUTPUT:
                 if(resultCode == RESULT_OK && data != null){
                     ArrayList<String> voiceText = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-
+                    if(mTopic != null)
+                        callback.compareText(voiceText.get(0));
+                    else
+                        compareText(voiceText.get(0), mWord.getVocabulary());
                 }
                 break;
         }
     }
 
+    public void compareText(String voiceText, String vocabularyName){
+        if(vocabularyName.equals(voiceText)){
+            startListening("yes");
+            Toast.makeText(GetMainAcitivity(), "Your speaking: Right", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            startListening("no");
+            Toast.makeText(GetMainAcitivity(), "Your speaking: Wrong", Toast.LENGTH_SHORT).show();
+        }
+    }
 
-
-    private void startListening() {
+    public void startListening(String fileName) {
         MediaPlayer player = new MediaPlayer();
         AssetFileDescriptor afd = null;
         try {
-            afd = GetMainAcitivity().getAssets().openFd("vocabulary/" + mWord.getVocabulary() + ".mp3");
+            afd = GetMainAcitivity().getAssets().openFd("vocabulary/" + fileName + ".mp3");
             player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
             player.prepare();
         } catch (IOException e) {

@@ -23,5 +23,7 @@ public class DetailWordOfTopicContract {
     public interface CallBack{
         void setSlidingViewPager();
         void setLikeStatus(Word word);
+        void compareText(String voiceText);
+        void startListening();
     }
 }

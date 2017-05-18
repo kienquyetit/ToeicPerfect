@@ -130,4 +130,14 @@ public class DetailWordOfTopicFragment extends MVPFragment<DetailWordOfTopicCont
     public void setLikeStatus(Word word) {
         ((DetailWordFragment)homePagerAdapter.getItem(mPosition)).setLikeStatus(listWord.get(mPosition));
     }
+
+    @Override
+    public void compareText(String voiceText) {
+        ((DetailWordFragment)homePagerAdapter.getItem(mPosition)).compareText(voiceText, listWord.get(mPosition).getVocabulary());
+    }
+
+    @Override
+    public void startListening() {
+        ((DetailWordFragment)homePagerAdapter.getItem(mPosition)).startListening(listWord.get(mPosition).getVocabulary());
+    }
 }
