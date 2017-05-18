@@ -96,7 +96,7 @@ public class DetailWordOfTopicFragment extends MVPFragment<DetailWordOfTopicCont
 
     @Override
     public void onPageSelected(int position) {
-       this.mPosition = position;
+        this.mPosition = position;
         ((DetailWordFragment)homePagerAdapter.getItem(mPosition)).ChangeLikeStatus();
     }
 
@@ -126,4 +126,8 @@ public class DetailWordOfTopicFragment extends MVPFragment<DetailWordOfTopicCont
         mViewPager.setPagingEnabled(isPagingEnabled = !isPagingEnabled);
     }
 
+    @Override
+    public void setLikeStatus(Word word) {
+        ((DetailWordFragment)homePagerAdapter.getItem(mPosition)).setLikeStatus(listWord.get(mPosition));
+    }
 }

@@ -149,7 +149,10 @@ public class DetailWordFragment extends MVPFragment<DetailWordContract.IPresente
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_favourite:
-                setLikeStatus(mWord);
+                if(mTopic != null)
+                    callback.setLikeStatus(mWord);
+                else
+                    setLikeStatus(mWord);
                 break;
             case R.id.fab_listening:
                 startListening();
@@ -185,10 +188,13 @@ public class DetailWordFragment extends MVPFragment<DetailWordContract.IPresente
             case REQ_CODE_SPEECH_OUTPUT:
                 if(resultCode == RESULT_OK && data != null){
                     ArrayList<String> voiceText = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+
                 }
                 break;
         }
     }
+
+
 
     private void startListening() {
         MediaPlayer player = new MediaPlayer();
