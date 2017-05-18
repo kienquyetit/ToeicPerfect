@@ -11,6 +11,7 @@ import com.app.learningtoeic.presenter.MorePresenter;
 import com.app.learningtoeic.ui.adapter.MoreAdapter;
 import com.app.learningtoeic.ui.fragment.chat.SplashFragment;
 import com.app.learningtoeic.ui.fragment.grammar.GrammarFragment;
+import com.app.learningtoeic.ui.fragment.test.HighScoreFragment;
 
 import java.util.ArrayList;
 
@@ -73,6 +74,8 @@ public class MoreFragment extends MVPFragment<MoreContract.IPresenterViewOps> im
             case 1:
                 SwitchFragment(new SplashFragment(),true);
                 break;
+            case 2:
+                SwitchFragment(new HighScoreFragment(),true);
             default:
                 break;
         }

@@ -1,4 +1,4 @@
-package com.app.learningtoeic.presenter.test;
+package com.app.learningtoeic.ui.fragment.test;
 
 import android.app.Dialog;
 import android.graphics.Color;
@@ -17,6 +17,8 @@ import com.app.learningtoeic.R;
 import com.app.learningtoeic.entity.HighScore;
 import com.app.learningtoeic.utils.Config;
 import com.app.learningtoeic.utils.DbHelper;
+
+import java.io.IOException;
 
 /**
  * Created by dell on 5/9/2017.
@@ -63,7 +65,11 @@ public class SaveScoreDialogFragment extends DialogFragment {
                 highScore.setScore(Integer.parseInt(dialogDescriptionTV.getText().toString()));
                 highScore.setTime(time);
                 highScore.setNumberQuestion(countQues);
-                Config.wordDB.saveScore(highScore);
+                try {
+                    new DbHelper(getContext()).saveScore(highScore);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 getDialog().dismiss();
             }
         });

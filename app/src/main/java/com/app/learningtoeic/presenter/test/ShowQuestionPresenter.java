@@ -1,5 +1,8 @@
 package com.app.learningtoeic.presenter.test;
 
+import android.app.Activity;
+import android.content.res.AssetFileDescriptor;
+import android.media.MediaPlayer;
 import android.util.Log;
 
 import com.app.learningtoeic.contract.test.ShowQuestionContract;
@@ -12,6 +15,7 @@ import com.app.learningtoeic.utils.Config;
 import com.app.learningtoeic.utils.Constants;
 import com.app.learningtoeic.utils.SuffleHelper;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -188,7 +192,16 @@ public class ShowQuestionPresenter extends FragmentPresenter<ShowQuestionContrac
 
     @Override
     public void listeningWord() {
-
+        MediaPlayer player = new MediaPlayer();
+        AssetFileDescriptor afd = null;
+        try {
+            afd = getView().GetActivityContext().getAssets().openFd("vocabulary/" + question.getVocabulary() + ".mp3");
+            player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+            player.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        player.start();
     }
 
     @Override

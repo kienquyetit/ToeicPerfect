@@ -6,10 +6,19 @@ package com.app.learningtoeic.entity;
 
 public class HighScore {
     private String id;
+    private int rank;
     private String name;
     private int score;
     private String time;
     private int numberQuestion;
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
+    }
 
     public int getNumberQuestion() {
         return numberQuestion;
