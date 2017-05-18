@@ -46,22 +46,9 @@ public class LoginFragment extends MVPFragment<LoginContract.IPresenterViewOps> 
 
     @Override
     protected void OnViewCreated() {
-        if (isCheckRememberPassword()){
-            onLogInUser(getUserEmailPref(), getUserPasswordPref());
-        }
         btnLogin.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
         tvForgotPass.setOnClickListener(this);
-    }
-
-    private String getUserEmailPref(){
-        return GetMainAcitivity().getSharedPreferences(Config.KEY_USER_INFO, Context.MODE_PRIVATE)
-                .getString(Config.KEY_EMAIL, "");
-    }
-
-    private String getUserPasswordPref(){
-        return GetMainAcitivity().getSharedPreferences(Config.KEY_USER_INFO, Context.MODE_PRIVATE)
-                .getString(Config.KEY_PASSWORD, "");
     }
 
     @Override
@@ -149,11 +136,6 @@ public class LoginFragment extends MVPFragment<LoginContract.IPresenterViewOps> 
 
     private String getUserPassword() {
         return mUserPassWord.getText().toString().trim();
-    }
-
-    public boolean isCheckRememberPassword() {
-        return GetMainAcitivity().getSharedPreferences(Config.KEY_USER_INFO, Context.MODE_PRIVATE)
-                .getBoolean(Config.KEY_CHECK_REMEMBER_PASS, false);
     }
 
     @Override

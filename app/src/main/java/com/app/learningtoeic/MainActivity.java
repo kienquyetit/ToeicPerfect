@@ -110,7 +110,7 @@ public class MainActivity extends BaseActivity
                 break;
             case R.id.nav_log_out:
                 onCheckRememberPassword();
-                SwitchFragment(new LoginFragment(), true);
+                SwitchFragment(new LoginFragment(), false);
                 break;
             default:
                 break;

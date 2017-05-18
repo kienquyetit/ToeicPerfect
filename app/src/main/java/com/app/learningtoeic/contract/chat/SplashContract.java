@@ -1,19 +1,20 @@
-package com.app.learningtoeic.contract;
+package com.app.learningtoeic.contract.chat;
 
 import com.app.learningtoeic.mvp.fragment.IFragmentPresenterViewOps;
 import com.app.learningtoeic.mvp.fragment.IFragmentViewOps;
 
 /**
- * Created by dell on 4/4/2017.
+ * Created by QUYET on 5/19/2017.
  */
 
-public class HomeContract {
+public class SplashContract {
     public interface IViewOps extends IFragmentViewOps
     {
-
+        void onLoginSuccess();
+        void onLoginFailed();
     }
     public interface IPresenterViewOps extends IFragmentPresenterViewOps
     {
-
+        void handleLogin(String userEmail, String userPassword);
     }
 }
