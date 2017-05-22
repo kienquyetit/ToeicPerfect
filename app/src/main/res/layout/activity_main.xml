@@ -107,7 +107,7 @@
             android:layout_marginLeft="30dp"
             android:clickable="true"
             app:fabSize="mini"
-            app:srcCompat="@drawable/refresh_48"
+            app:srcCompat="@drawable/start_48"
             android:id="@+id/fab_sliding" />
     </LinearLayout>
 

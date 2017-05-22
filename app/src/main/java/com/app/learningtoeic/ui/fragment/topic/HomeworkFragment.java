@@ -1,17 +1,17 @@
 package com.app.learningtoeic.ui.fragment.topic;
 
-import android.os.Handler;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.app.learningtoeic.R;
 import com.app.learningtoeic.contract.topic.HomeworkContract;
@@ -296,6 +296,8 @@ public class HomeworkFragment extends MVPFragment<HomeworkContract.IPresenterVie
                 indexRadio = 3;
                 break;
             case R.id.renew_question:
+                Animation animation = AnimationUtils.loadAnimation(GetMainAcitivity(), R.anim.rotate_animation);
+                imgRenewQuestion.startAnimation(animation);
                 getPresenter().renewHomework();
                 break;
             case R.id.audio:

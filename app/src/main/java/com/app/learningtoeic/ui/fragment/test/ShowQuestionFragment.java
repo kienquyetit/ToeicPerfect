@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -158,6 +160,8 @@ public class ShowQuestionFragment extends MVPFragment<ShowQuestionContract.IPres
                 getPresenter().PostAnswer(3);
                 break;
             case R.id.renew_question:
+                Animation animation = AnimationUtils.loadAnimation(GetMainAcitivity(), R.anim.rotate_animation);
+                imgRenewQuestion.startAnimation(animation);
                 getPresenter().renewQuestion();
                 break;
             case R.id.audio_question:
