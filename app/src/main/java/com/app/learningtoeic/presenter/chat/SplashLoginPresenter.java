@@ -3,7 +3,7 @@ package com.app.learningtoeic.presenter.chat;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 
-import com.app.learningtoeic.contract.chat.SplashContract;
+import com.app.learningtoeic.contract.chat.SplashLoginContract;
 import com.app.learningtoeic.mvp.fragment.FragmentPresenter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -14,12 +14,12 @@ import com.google.firebase.auth.FirebaseAuth;
  * Created by QUYET on 5/19/2017.
  */
 
-public class SplashPresenter extends FragmentPresenter<SplashContract.IViewOps> implements SplashContract.IPresenterViewOps {
+public class SplashLoginPresenter extends FragmentPresenter<SplashLoginContract.IViewOps> implements SplashLoginContract.IPresenterViewOps {
 
     private FirebaseAuth mAuth;
     private Activity mActivity;
 
-    public SplashPresenter(Activity activity) {
+    public SplashLoginPresenter(Activity activity) {
         setAuthInstance();
         this.mActivity = activity;
     }

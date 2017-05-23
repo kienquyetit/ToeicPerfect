@@ -9,7 +9,7 @@ import com.app.learningtoeic.entity.MoreItem;
 import com.app.learningtoeic.mvp.fragment.MVPFragment;
 import com.app.learningtoeic.presenter.MorePresenter;
 import com.app.learningtoeic.ui.adapter.MoreAdapter;
-import com.app.learningtoeic.ui.fragment.chat.SplashFragment;
+import com.app.learningtoeic.ui.fragment.chat.SplashLoginFragment;
 import com.app.learningtoeic.ui.fragment.grammar.GrammarFragment;
 import com.app.learningtoeic.ui.fragment.test.HighScoreFragment;
 
@@ -72,10 +72,12 @@ public class MoreFragment extends MVPFragment<MoreContract.IPresenterViewOps> im
                 SwitchFragment(new GrammarFragment(),true);
                 break;
             case 1:
-                SwitchFragment(new SplashFragment(),true);
+                SwitchFragment(new SplashLoginFragment(),true);
                 break;
             case 2:
                 SwitchFragment(new HighScoreFragment(),true);
+            case 3:
+                SwitchFragment(new FavouriteFragment(), true);
             default:
                 break;
         }

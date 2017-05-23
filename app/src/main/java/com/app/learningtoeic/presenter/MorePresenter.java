@@ -23,8 +23,9 @@ public class MorePresenter extends FragmentPresenter<MoreContract.IViewOps> impl
     }
 
     public void createMoreList(){
-        itemList.add(new MoreItem(R.drawable.ic_menu_grammar, "Grammar"));
-        itemList.add(new MoreItem(R.drawable.ic_menu_chat, "Chat Room"));
-        itemList.add(new MoreItem(R.drawable.ic_menu_chat, "High Score"));
+        itemList.add(new MoreItem(R.drawable.ic_grammar, "Grammar"));
+        itemList.add(new MoreItem(R.drawable.ic_chat_menu, "Chat room"));
+        itemList.add(new MoreItem(R.drawable.ic_high_score, "High score"));
+        itemList.add(new MoreItem(R.drawable.ic_favourite_green, "Favourite"));
     }
 }

@@ -7,7 +7,7 @@ import com.app.learningtoeic.mvp.fragment.IFragmentViewOps;
  * Created by QUYET on 5/19/2017.
  */
 
-public class SplashContract {
+public class SplashLoginContract {
     public interface IViewOps extends IFragmentViewOps
     {
         void onLoginSuccess();

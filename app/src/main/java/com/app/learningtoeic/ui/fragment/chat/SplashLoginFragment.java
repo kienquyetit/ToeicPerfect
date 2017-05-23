@@ -3,16 +3,16 @@ package com.app.learningtoeic.ui.fragment.chat;
 import android.content.Context;
 
 import com.app.learningtoeic.R;
-import com.app.learningtoeic.contract.chat.SplashContract;
+import com.app.learningtoeic.contract.chat.SplashLoginContract;
 import com.app.learningtoeic.mvp.fragment.MVPFragment;
-import com.app.learningtoeic.presenter.chat.SplashPresenter;
+import com.app.learningtoeic.presenter.chat.SplashLoginPresenter;
 import com.app.learningtoeic.utils.Config;
 
 /**
  * Created by QUYET on 5/19/2017.
  */
 
-public class SplashFragment extends MVPFragment<SplashContract.IPresenterViewOps> implements SplashContract.IViewOps {
+public class SplashLoginFragment extends MVPFragment<SplashLoginContract.IPresenterViewOps> implements SplashLoginContract.IViewOps {
 
     @Override
     protected void OnViewCreated() {
@@ -46,12 +46,12 @@ public class SplashFragment extends MVPFragment<SplashContract.IPresenterViewOps
 
     @Override
     public int GetLayoutId() {
-        return R.layout.splash_fragment;
+        return R.layout.splash_login_fragment;
     }
 
     @Override
-    protected SplashContract.IPresenterViewOps OnRegisterPresenter() {
-        return new SplashPresenter(GetMainAcitivity());
+    protected SplashLoginContract.IPresenterViewOps OnRegisterPresenter() {
+        return new SplashLoginPresenter(GetMainAcitivity());
     }
 
     @Override

@@ -9,8 +9,6 @@ import android.widget.TextView;
 import com.app.learningtoeic.R;
 import com.app.learningtoeic.entity.HighScore;
 
-import org.w3c.dom.ls.LSException;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,14 +53,15 @@ public class HighScoreAdapter extends RecyclerView.Adapter {
 
     public class HighScoreViewHolder extends RecyclerView.ViewHolder {
         Callback callback;
-        TextView tvRank,tvName,tvNumOfQues,tvTime;
+        TextView tvLevel, tvName, tvScore, tvTotal, tvCompleteTime;
         public HighScoreViewHolder(View itemView, Callback callback) {
             super(itemView);
             this.callback = callback;
-            tvRank = (TextView) itemView.findViewById(R.id.rank);
-            tvName = (TextView) itemView.findViewById(R.id.name);
-            tvNumOfQues = (TextView) itemView.findViewById(R.id.number_of_ques);
-            tvTime = (TextView) itemView.findViewById(R.id.time);
+            tvLevel = (TextView) itemView.findViewById(R.id.tv_level);
+            tvName = (TextView) itemView.findViewById(R.id.tv_name);
+            tvScore = (TextView) itemView.findViewById(R.id.tv_score);
+            tvTotal = (TextView) itemView.findViewById(R.id.tv_total);
+            tvCompleteTime = (TextView) itemView.findViewById(R.id.tv_time);
         }
 
         public void BindView(HighScore item) {
@@ -70,23 +69,24 @@ public class HighScoreAdapter extends RecyclerView.Adapter {
             {
                 if(item.getRank() == 0 )
                 {
-                    tvRank.setText("1st");
+                    tvLevel.setText("1st");
                 }
                 else if(item.getRank() == 1)
                 {
-                    tvRank.setText("2nd");
+                    tvLevel.setText("2nd");
                 }
                 else if(item.getRank() == 2)
                 {
-                    tvRank.setText("3rd");
+                    tvLevel.setText("3rd");
                 }
                 else
                 {
-                    tvRank.setText(item.getRank()+1 +"th");
+                    tvLevel.setText(item.getRank()+1);
                 }
                 tvName.setText(item.getName());
-                tvNumOfQues.setText(item.getNumberQuestion()+"");
-                tvTime.setText(item.getTime());
+                tvScore.setText(item.getScore()+"");
+                tvTotal.setText(item.getNumberQuestion()+"");
+                tvCompleteTime.setText(item.getTime());
             }
         }
     }

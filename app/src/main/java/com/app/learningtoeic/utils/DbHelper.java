@@ -253,4 +253,19 @@ public class DbHelper extends SQLiteOpenHelper {
         // return the list of records
         return recordsList;
     }
+
+    public ArrayList<Word> getFavouriteList() {
+        opendatabase();
+        ArrayList<Word> favouriteList = new ArrayList<Word>();
+        Cursor cursor = myDataBase.rawQuery("SELECT * FROM word WHERE favourite=1", null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Word word = new Word(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2), cursor.getString(3), cursor.getString(4),
+                    cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getInt(9));
+            favouriteList.add(word);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return favouriteList;
+    }
 }

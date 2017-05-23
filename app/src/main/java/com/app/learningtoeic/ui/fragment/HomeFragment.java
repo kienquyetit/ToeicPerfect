@@ -32,15 +32,12 @@ public class HomeFragment extends MVPFragment<HomeContract.IPresenterViewOps> im
     }
 
     void initToolBarWithTab() {
-        tabLayout = (TabLayout) FindViewById(R.id.tab_layout);
-        mainViewPager = (ViewPager) FindViewById(R.id.tab_viewpager);
-        mainViewPager.addOnPageChangeListener(this);
         setupViewPager();
         tabLayout.setupWithViewPager(mainViewPager);
         initTab();
     }
 
-    void  setupViewPager()
+    void setupViewPager()
     {
         mainViewPager.setOffscreenPageLimit(1);
         HomePagerAdapter homePagerAdapter = new HomePagerAdapter(getChildFragmentManager());
@@ -49,7 +46,6 @@ public class HomeFragment extends MVPFragment<HomeContract.IPresenterViewOps> im
         homePagerAdapter.addFrag(new DictionaryFragment(),"Dictionary");
         homePagerAdapter.addFrag(new MoreFragment(),"More");
         mainViewPager.setAdapter(homePagerAdapter);
-
     }
 
     void initTab()
@@ -64,7 +60,13 @@ public class HomeFragment extends MVPFragment<HomeContract.IPresenterViewOps> im
 
     @Override
     protected void OnBindView() {
+        bindView();
+    }
 
+    private void bindView() {
+        tabLayout = (TabLayout) FindViewById(R.id.tab_layout);
+        mainViewPager = (ViewPager) FindViewById(R.id.tab_viewpager);
+        mainViewPager.addOnPageChangeListener(this);
     }
 
     @Override

@@ -29,7 +29,7 @@
                 android:layout_height="90dp"
                 android:layout_gravity="fill"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_menu_grammar" />
+                android:src="@drawable/ic_grammar" />
 
             <TextView
                 android:id="@+id/topic_name"
