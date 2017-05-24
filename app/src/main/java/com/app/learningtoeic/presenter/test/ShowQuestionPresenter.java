@@ -60,7 +60,7 @@ public class ShowQuestionPresenter extends FragmentPresenter<ShowQuestionContrac
 
     public void ImplementQuestion() {
         try {
-
+            getView().DisablePronounceWord(false);
             listAnswer = new ArrayList<>();
             if (getView().GetQuestionCount() >= (topicList.size() * 12)) {
                 return;
@@ -139,6 +139,7 @@ public class ShowQuestionPresenter extends FragmentPresenter<ShowQuestionContrac
                     isVolcabularyQues = true;
                     break;
                 case Constants.TRANSLATE:
+                    getView().DisablePronounceWord(true);
                     listIdAnswer = getListAnswer(question.getId());
                     for (int i = 0; i < listIdAnswer.size(); i++) {
                         listAnswer.add(getWord(listIdAnswer.get(i) + "").getVocabulary());
@@ -157,6 +158,7 @@ public class ShowQuestionPresenter extends FragmentPresenter<ShowQuestionContrac
                     Log.d("exampleQues", questionText);
                     break;
                 case Constants.EXPLANATION:
+                    getView().DisablePronounceWord(true);
                     listIdAnswer = getListAnswer(question.getId());
                     for (int i = 0; i < listIdAnswer.size(); i++) {
                         listAnswer.add(getWord(listIdAnswer.get(i) + "").getVocabulary());

@@ -70,4 +70,13 @@ public class DictionaryFragment extends MVPFragment<DictionaryContract.IPresente
     public void OnClickDetailItem(Word word) {
         SwitchFragment(new DetailWordFragment(word), true);
     }
+
+    @Override
+    public void OnSearchWord(String text) {
+        if (text.length() == 0) {
+            getPresenter().ExcuteDictionaryTask();
+        } else {
+            getPresenter().ReadRecordsSearch(text);
+        }
+    }
 }

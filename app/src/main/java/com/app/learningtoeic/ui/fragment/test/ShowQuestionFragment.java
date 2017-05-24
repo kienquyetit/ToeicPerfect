@@ -33,6 +33,7 @@ import java.util.List;
 
 public class ShowQuestionFragment extends MVPFragment<ShowQuestionContract.IPresenterViewOps> implements ShowQuestionContract.IViewOps, View.OnClickListener, ReviewQuestionAdapter.CallBack {
     TextView tvScore;
+    TextView tvHowQuestion;
     List<Topic> topicList = new ArrayList<>();
     List<Word> listAnsweredQuestion = new ArrayList<>();
     ArrayList<Integer> listTypeAnswerId = new ArrayList<>();
@@ -80,6 +81,7 @@ public class ShowQuestionFragment extends MVPFragment<ShowQuestionContract.IPres
 
     @Override
     protected void OnBindView() {
+        tvHowQuestion = (TextView) FindViewById(R.id.how_question);
         rcvReview = (RecyclerView) FindViewById(R.id.homework_rcv);
         rcvReview.setLayoutManager(new GridLayoutManager(getContext(), 8));
         bottomSheet = FindViewById(R.id.bottom_sheet1);
@@ -120,6 +122,14 @@ public class ShowQuestionFragment extends MVPFragment<ShowQuestionContract.IPres
         btnSubmit.setVisibility(View.GONE);
     }
 
+    public void DisablePronounceWord(boolean isDisable) {
+        if (isDisable) {
+            imgSpeechAudio.setOnClickListener(null);
+        } else {
+            imgSpeechAudio.setOnClickListener(this);
+        }
+    }
+
     @Override
     public int GetLayoutId() {
         return R.layout.test_question_fragment;
@@ -142,6 +152,10 @@ public class ShowQuestionFragment extends MVPFragment<ShowQuestionContract.IPres
                 setupUI(innerView);
             }
         }
+    }
+
+    public void SetTextHowQuestion(String text) {
+        tvHowQuestion.setText(text);
     }
 
     @Override
@@ -208,6 +222,8 @@ public class ShowQuestionFragment extends MVPFragment<ShowQuestionContract.IPres
         listAnsweredQuestion.clear();
         listTypeAnswerId.clear();
         ResetQuestion();
+        tvScore.setText(0+"");
+        userScore = 0;
     }
 
     @Override
@@ -348,8 +364,8 @@ public class ShowQuestionFragment extends MVPFragment<ShowQuestionContract.IPres
     @Override
     public void ShowDialogSaveScore() {
         timeCountUp.stop();
-        SaveScoreDialogFragment dialog = new SaveScoreDialogFragment(userScore+"",timeCountUp.getText().toString(),countQuestion+1);
-        dialog.show(getFragmentManager(),ShowQuestionFragment.class.getName());
+        SaveScoreDialogFragment dialog = new SaveScoreDialogFragment(userScore + "", timeCountUp.getText().toString(), countQuestion + 1);
+        dialog.show(getFragmentManager(), ShowQuestionFragment.class.getName());
     }
 
     @Override
@@ -368,8 +384,8 @@ public class ShowQuestionFragment extends MVPFragment<ShowQuestionContract.IPres
     }
 
     public CallBack Callback;
-    public interface CallBack
-    {
-         void GoToHighScoreFragment();
+
+    public interface CallBack {
+        void GoToHighScoreFragment();
     }
 }

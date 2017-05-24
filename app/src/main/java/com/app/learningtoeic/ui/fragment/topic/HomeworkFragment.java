@@ -123,6 +123,8 @@ public class HomeworkFragment extends MVPFragment<HomeworkContract.IPresenterVie
         listAnsweredQuestion.clear();
         listTypeAnswerId.clear();
         ResetQuestionAndAnswer();
+        tvTrueCount.setText(0+"");
+        tvFalseCount.setText(0+"");
     }
 
     public void showReviewAnswer() {
