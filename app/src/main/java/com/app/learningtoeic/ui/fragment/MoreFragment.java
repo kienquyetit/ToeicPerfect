@@ -76,8 +76,10 @@ public class MoreFragment extends MVPFragment<MoreContract.IPresenterViewOps> im
                 break;
             case 2:
                 SwitchFragment(new HighScoreFragment(),true);
+                break;
             case 3:
                 SwitchFragment(new FavouriteFragment(), true);
+                break;
             default:
                 break;
         }

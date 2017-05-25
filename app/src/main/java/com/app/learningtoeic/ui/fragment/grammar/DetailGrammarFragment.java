@@ -18,6 +18,10 @@ public class DetailGrammarFragment extends MVPFragment<DetailGrammarContract.IPr
 
     private WebView webView;
 
+    public DetailGrammarFragment(){
+
+    }
+
     public DetailGrammarFragment(String fileName, String title){
         this.mFileName = fileName;
         this.mTitleName = title;
