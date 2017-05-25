@@ -5,6 +5,7 @@ import com.app.learningtoeic.mvp.fragment.IFragmentPresenterViewOps;
 import com.app.learningtoeic.mvp.fragment.IFragmentViewOps;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by QUYET on 4/22/2017.
@@ -17,6 +18,6 @@ public class TestContract {
     }
     public interface IPresenterViewOps extends IFragmentPresenterViewOps
     {
-        void InitListTopic();
+        List<Topic> InitListTopic(boolean isCheckAll);
     }
 }

@@ -30,6 +30,7 @@ public class TestAdapter extends RecyclerView.Adapter {
         if (listItem.size() == 0) {
             return;
         }
+        topicList.clear();
         topicList.addAll(listItem);
         notifyDataSetChanged();
     }

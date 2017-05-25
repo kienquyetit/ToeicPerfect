@@ -26,14 +26,14 @@ public class TestFragment extends MVPFragment<TestContract.IPresenterViewOps> im
     TestAdapter adapterTest;
     TextView btnStart;
     TextView btnCheckAll;
-
+    boolean isCheckAll = false;
     protected List<Topic> topicList = new ArrayList<>();
     @Override
     protected void OnViewCreated() {
         adapterTest = new TestAdapter();
         adapterTest.callBack = this;
         rcvTest.setAdapter(adapterTest);
-        getPresenter().InitListTopic();
+        getPresenter().InitListTopic(false);
     }
 
     @Override
@@ -54,6 +54,24 @@ public class TestFragment extends MVPFragment<TestContract.IPresenterViewOps> im
             }
         });
         btnCheckAll = (TextView) FindViewById(R.id.checkall_btn);
+        btnCheckAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!isCheckAll) {
+                    btnCheckAll.setText("Uncheck All");
+                    isCheckAll = true;
+                    topicList.clear();
+                    topicList.addAll(getPresenter().InitListTopic(isCheckAll));
+                }
+                else
+                {
+                    btnCheckAll.setText("Check All");
+                    isCheckAll = false;
+                    topicList.clear();
+                    getPresenter().InitListTopic(isCheckAll);
+                }
+            }
+        });
     }
 
     @Override

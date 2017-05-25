@@ -8,6 +8,7 @@ import com.app.learningtoeic.utils.DbHelper;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by QUYET on 4/22/2017.
@@ -16,13 +17,28 @@ import java.util.ArrayList;
 public class TestPresenter extends FragmentPresenter<TestContract.IViewOps> implements TestContract.IPresenterViewOps {
 
     @Override
-    public void InitListTopic() {
+    public List<Topic> InitListTopic(boolean isCheckAll) {
         ArrayList<Topic> topicList = new ArrayList<>();
         try {
             topicList = new DbHelper(getView().GetActivityContext()).getListTopic();
+            if(isCheckAll)
+            {
+                for (Topic topic : topicList
+                     ) {
+                    topic.isChecked= true;
+                }
+            }
+            else
+            {
+                for (Topic topic : topicList
+                        ) {
+                    topic.isChecked= false;
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
         getView().InsertDataToAdapter(topicList);
+        return topicList;
     }
 }

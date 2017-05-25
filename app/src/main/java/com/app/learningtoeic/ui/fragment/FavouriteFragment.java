@@ -9,6 +9,7 @@ import com.app.learningtoeic.entity.Word;
 import com.app.learningtoeic.mvp.fragment.MVPFragment;
 import com.app.learningtoeic.presenter.FavouritePresenter;
 import com.app.learningtoeic.ui.adapter.DictionaryAdapter;
+import com.app.learningtoeic.ui.adapter.TopicItemListAdapter;
 import com.app.learningtoeic.ui.fragment.dictionary.DetailWordFragment;
 
 import java.util.ArrayList;
@@ -17,14 +18,14 @@ import java.util.ArrayList;
  * Created by QUYET on 5/23/2017.
  */
 
-public class FavouriteFragment extends MVPFragment<FavouriteContract.IPresenterViewOps> implements FavouriteContract.IViewOps, DictionaryAdapter.Callback {
+public class FavouriteFragment extends MVPFragment<FavouriteContract.IPresenterViewOps> implements FavouriteContract.IViewOps, TopicItemListAdapter.Callback {
 
     private RecyclerView recyclerView;
-    public DictionaryAdapter adapter;
+    public TopicItemListAdapter adapter;
 
     @Override
     protected void OnViewCreated() {
-        adapter = new DictionaryAdapter();
+        adapter = new TopicItemListAdapter();
         adapter.callback = this;
         recyclerView.setAdapter(adapter);
     }
@@ -59,17 +60,12 @@ public class FavouriteFragment extends MVPFragment<FavouriteContract.IPresenterV
     }
 
     @Override
-    public void OnClickDetailItem(Word word) {
-        SwitchFragment(new DetailWordFragment(word), true);
-    }
-
-    @Override
-    public void OnSearchWord(String text) {
-
-    }
-
-    @Override
     protected String GetScreenTitle() {
         return "Favourite";
+    }
+
+    @Override
+    public void OnClickDetailItem(Word word, int adapterPosition) {
+        SwitchFragment(new DetailWordFragment(word), true);
     }
 }
