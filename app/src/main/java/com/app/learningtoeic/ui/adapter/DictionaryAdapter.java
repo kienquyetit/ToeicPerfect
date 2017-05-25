@@ -1,11 +1,16 @@
 package com.app.learningtoeic.ui.adapter;
 
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.learningtoeic.R;
 import com.app.learningtoeic.entity.Word;
@@ -19,10 +24,26 @@ import java.util.ArrayList;
 
 public class DictionaryAdapter extends RecyclerView.Adapter {
 
+    public final int HEADER_VIEW = 0;
+    public final int NORMAL_VIEW = 1;
+
     public Callback callback;
 
     public interface Callback {
         void OnClickDetailItem(Word word);
+        void OnSearchWord(String text);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (IsPositionHeader(position)) {
+            return HEADER_VIEW;
+        }
+        return NORMAL_VIEW;
+    }
+
+    boolean IsPositionHeader(int position) {
+        return position == 0;
     }
 
     private ArrayList<Word> mWordsList;
@@ -33,15 +54,26 @@ public class DictionaryAdapter extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View viewItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.vocabulary_row, parent, false);
-        return new ViewHolderItem(viewItem, callback);
+        View v;
+        if (viewType == HEADER_VIEW) {
+            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_dictionary_header, parent, false);
+            return new HeaderViewHolder(v,callback);
+        }
+        if (viewType == NORMAL_VIEW) {
+            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.vocabulary_row, parent, false);
+            return new ViewHolderItem(v, callback);
+        }
+        return null;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ViewHolderItem) {
             ViewHolderItem viewHolder = (ViewHolderItem) holder;
-            viewHolder.BindView(mWordsList.get(position));
+            viewHolder.BindView(mWordsList.get(position-1));
+        } else if (holder instanceof HeaderViewHolder) {
+            HeaderViewHolder viewHolder = (HeaderViewHolder) holder;
+            viewHolder.BindView();
         }
     }
 
@@ -51,14 +83,64 @@ public class DictionaryAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return mWordsList.size();
+        return mWordsList.size() + 1;
     }
+
+    public class HeaderViewHolder extends RecyclerView.ViewHolder {
+        EditText edtSearch;
+        Callback callBack;
+        String keyword = "";
+        public HeaderViewHolder(final View itemView, final Callback callBack) {
+            super(itemView);
+            this.callBack= callBack;
+            edtSearch = (EditText) itemView.findViewById(R.id.search_et);
+            edtSearch.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if(edtSearch.getText().length()>=1) {
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (edtSearch.getText().length() >= 1 && edtSearch.getText().length() != keyword.length())
+                                {
+                                    callBack.OnSearchWord(edtSearch.getText().toString());
+                                }
+                                keyword = edtSearch.getText().toString();
+                            }
+                        }, 1500);
+                    }
+                    else
+                    {
+                        callBack.OnSearchWord("");
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
+        }
+
+        public void BindView()
+        {
+            edtSearch.requestFocus();
+            edtSearch.requestFocusFromTouch();
+        }
+    }
+
 
     public class ViewHolderItem extends RecyclerView.ViewHolder {
         ImageView ivDescriptivePicture, ivFavourite, ivDetail;
         TextView tvVocabulary, tvVocalization, tvExplanation, tvTranslate;
         Word word;
         Callback callback;
+
         public ViewHolderItem(final View itemView, final Callback callback) {
             super(itemView);
             this.callback = callback;

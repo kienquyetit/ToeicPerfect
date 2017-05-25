@@ -53,6 +53,11 @@ public class HomeworkPresenter extends FragmentPresenter<HomeworkContract.IViewO
     }
 
     public void ImplementQuestion() {
+        if(getView().GetQuestionCount() == 0)
+        {
+            trueCount = 0;
+            falseCount = 0;
+        }
         listAnswer = new ArrayList<>();
         if (getView().GetQuestionCount() >= 32) {
             return;
@@ -317,17 +322,28 @@ public class HomeworkPresenter extends FragmentPresenter<HomeworkContract.IViewO
     public ArrayList<Integer> getListAnswer(int wordId) {
         ArrayList<Integer> listChosenAns = new ArrayList<>();
         listChosenAns.add(wordId);
-        int ans2 = getRandomAnswer(listChosenAns);
+        int ans2 = getAnswerFromRandomAnswer(listChosenAns);
         listChosenAns.add(ans2);
-        int ans3 = getRandomAnswer(listChosenAns);
+        int ans3 = getAnswerFromRandomAnswer(listChosenAns);
         listChosenAns.add(ans3);
-        int ans4 = getRandomAnswer(listChosenAns);
+        int ans4 = getAnswerFromRandomAnswer(listChosenAns);
         listChosenAns.add(ans4);
         return listChosenAns;
     }
 
     public int getRandomIndex(int startNumber, int endNumber) {
         return new Random().nextInt(endNumber) + startNumber;
+    }
+
+    public int getAnswerFromRandomAnswer(ArrayList<Integer> listChosenAns) {
+        int ans = getRandomAnswer(listChosenAns);
+        while (true) {
+            if (ans == -1) {
+                ans = getRandomAnswer(listChosenAns);
+            } else {
+                return ans;
+            }
+        }
     }
 
     public int getRandomAnswer(List<Integer> listItem) {

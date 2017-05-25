@@ -64,6 +64,11 @@ public class FavouriteFragment extends MVPFragment<FavouriteContract.IPresenterV
     }
 
     @Override
+    public void OnSearchWord(String text) {
+
+    }
+
+    @Override
     protected String GetScreenTitle() {
         return "Favourite";
     }
