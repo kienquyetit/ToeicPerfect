@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -15,6 +16,8 @@ import com.app.learningtoeic.mvp.fragment.MVPFragment;
 import com.app.learningtoeic.presenter.chat.ChatRoomPresenter;
 import com.app.learningtoeic.ui.adapter.MessageChatAdapter;
 import com.app.learningtoeic.utils.Config;
+import com.app.learningtoeic.utils.KeyboardHelper;
+import com.app.learningtoeic.utils.WrapContentLinearLayoutManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -50,7 +53,7 @@ public class ChatRoomFragment extends MVPFragment<ChatRoomContract.IPresenterVie
     }
 
     private void setChatRoomRecyclerView() {
-        mChatRoomRecyclerView.setLayoutManager(new LinearLayoutManager(GetMainAcitivity()));
+        mChatRoomRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(GetMainAcitivity(),LinearLayoutManager.VERTICAL,false));
         mChatRoomRecyclerView.setHasFixedSize(true);
         messageChatAdapter = new MessageChatAdapter(GetActivityContext(), new ArrayList<ChatMessage>());
         mChatRoomRecyclerView.setAdapter(messageChatAdapter);
@@ -112,6 +115,7 @@ public class ChatRoomFragment extends MVPFragment<ChatRoomContract.IPresenterVie
             ChatMessage newMessage = new ChatMessage(senderMessage, getCurrentUserId(), getDisplayName(), Calendar.getInstance().getTime().getTime() + "");
             getPresenter().pushMessageChatDatabase(newMessage);
             mUserMessageChatText.setText("");
+            KeyboardHelper.HideKeyboard(mUserMessageChatText,getContext());
         }
     }
 

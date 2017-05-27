@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:text="Do Kien Quyet"
-            android:textColor="@color/red1"
+            android:textColor="@color/primary"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -45,9 +45,9 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_avatar_sender_message"
-        android:layout_width="52dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="6dp"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="25dp"
         android:src="@drawable/default_avatar" />
 
 </LinearLayout>

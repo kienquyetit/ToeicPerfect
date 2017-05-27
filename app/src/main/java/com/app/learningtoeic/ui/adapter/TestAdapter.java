@@ -75,7 +75,7 @@ public class TestAdapter extends RecyclerView.Adapter {
             cbTopic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    topic.isChecked = true;
+                    topic.isChecked = topic.isChecked?false:true;
                     callBack.HandlingCheckBox(topic);
                 }
             });

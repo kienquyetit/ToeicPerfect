@@ -49,6 +49,7 @@ public class ShowQuestionFragment extends MVPFragment<ShowQuestionContract.IPres
     private BottomSheetBehavior mBottomSheetBehavior;
     View bottomSheet;
     RecyclerView rcvReview;
+    boolean isNesscessary = false;
 
     public ShowQuestionFragment(List<Topic> topicList) {
         this.topicList = topicList;
@@ -222,7 +223,7 @@ public class ShowQuestionFragment extends MVPFragment<ShowQuestionContract.IPres
         listAnsweredQuestion.clear();
         listTypeAnswerId.clear();
         ResetQuestion();
-        tvScore.setText(0+"");
+        tvScore.setText(0 + "");
         userScore = 0;
     }
 
@@ -320,11 +321,19 @@ public class ShowQuestionFragment extends MVPFragment<ShowQuestionContract.IPres
                 .withEndAction(new Runnable() {
                     @Override
                     public void run() {
-                        btnSubmit.setVisibility(View.GONE);
-                        btnSubmit.animate()
-                                .translationX(0);
+                        if (!isNesscessary) {
+                            btnSubmit.setVisibility(View.GONE);
+                            btnSubmit.animate()
+                                    .translationX(0);
+                        }
                     }
                 });
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        isNesscessary = true;
     }
 
     public void SetCheckRadio(int indexRadio) {

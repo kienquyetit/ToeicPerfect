@@ -74,9 +74,10 @@ public class LoginFragment extends MVPFragment<LoginContract.IPresenterViewOps> 
     protected LoginContract.IPresenterViewOps OnRegisterPresenter() {
         return new LoginPresenter(GetMainAcitivity());
     }
+
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_login:
                 onLogInUser(getUserEmail(), getUserPassword());
                 break;
@@ -115,15 +116,15 @@ public class LoginFragment extends MVPFragment<LoginContract.IPresenterViewOps> 
     }
 
     private void onLogInUser(String userEmail, String userPassword) {
-        if(userEmail.equals("") || userPassword.equals("")){
+        if (userEmail.equals("") || userPassword.equals("")) {
             showFieldsAreRequired();
-        }else {
+        } else {
             getPresenter().handleLogin(userEmail, userPassword);
         }
     }
 
     private void showFieldsAreRequired() {
-        showAlertDialog(getString(R.string.error_incorrect_email_pass),true);
+        showAlertDialog(getString(R.string.error_incorrect_email_pass), true);
     }
 
     private void goToRegisterFragment() {
@@ -141,10 +142,7 @@ public class LoginFragment extends MVPFragment<LoginContract.IPresenterViewOps> 
     @Override
     public void onLoginSuccess(FirebaseUser user) {
         saveSharedPreferencesOfUser(user);
-        if(chkRememberPassword.isChecked())
-            SwitchFragment(new ChatRoomFragment(), false);
-        else
-            SwitchFragment(new ChatRoomFragment(), true);
+        SwitchFragment(new ChatRoomFragment(), false);
     }
 
     private void saveSharedPreferencesOfUser(FirebaseUser user) {
@@ -154,7 +152,7 @@ public class LoginFragment extends MVPFragment<LoginContract.IPresenterViewOps> 
         editor.putString(Config.KEY_PASSWORD, mUserPassWord.getText().toString());
         editor.putString(Config.KEY_DISPLAY_NAME, user.getDisplayName());
         editor.putString(Config.KEY_EMAIL, user.getEmail());
-        if(chkRememberPassword.isChecked())
+        if (chkRememberPassword.isChecked())
             editor.putBoolean(Config.KEY_CHECK_REMEMBER_PASS, true);
         else
             editor.putBoolean(Config.KEY_CHECK_REMEMBER_PASS, false);
@@ -163,7 +161,7 @@ public class LoginFragment extends MVPFragment<LoginContract.IPresenterViewOps> 
 
     @Override
     public void showAlertDialog(String message, boolean isCancelable) {
-        dialog = Config.buildAlertDialog(getString(R.string.login_error_title), message,isCancelable, GetActivityContext());
+        dialog = Config.buildAlertDialog(getString(R.string.login_error_title), message, isCancelable, GetActivityContext());
         dialog.show();
     }
 

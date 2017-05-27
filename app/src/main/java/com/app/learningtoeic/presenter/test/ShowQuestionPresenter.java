@@ -46,6 +46,7 @@ public class ShowQuestionPresenter extends FragmentPresenter<ShowQuestionContrac
     int fullScore = 4;
     int numberOfQuestion = 0;
     List<Integer> listUserAnswered = new ArrayList<>();
+    boolean isNesscessary = false;
 
     public ShowQuestionPresenter(List<Topic> listTopic) {
         topicList = listTopic;
@@ -239,14 +240,16 @@ public class ShowQuestionPresenter extends FragmentPresenter<ShowQuestionContrac
             getView().DisableRadio();
             final android.os.Handler handler = new android.os.Handler();
             if (getView().GetQuestionCount() < numberOfQuestion - 1) {
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        fullScore = 4;
-                        getView().ResetQuestion();
-                        ImplementQuestion();
-                    }
-                }, 2000);
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(!isNesscessary) {
+                                fullScore = 4;
+                                getView().ResetQuestion();
+                                ImplementQuestion();
+                            }
+                        }
+                    }, 2000);
             } else {
                 getView().DisableRadio();
                 getView().showReviewAnswer();
@@ -254,6 +257,24 @@ public class ShowQuestionPresenter extends FragmentPresenter<ShowQuestionContrac
             }
             getView().IncreaseCountQuestion();
         }
+    }
+
+    @Override
+    public void OnResume() {
+        super.OnResume();
+        isNesscessary = false;
+    }
+
+    @Override
+    public void OnPause() {
+        super.OnPause();
+        isNesscessary = true;
+    }
+
+    @Override
+    public void OnDestroy() {
+        super.OnDestroy();
+        isNesscessary = true;
     }
 
     public List<Word> getListWord(String topicId) {

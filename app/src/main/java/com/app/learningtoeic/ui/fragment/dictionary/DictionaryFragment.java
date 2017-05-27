@@ -30,6 +30,7 @@ public class DictionaryFragment extends MVPFragment<DictionaryContract.IPresente
         adapter = new DictionaryAdapter();
         adapter.callback = this;
         recyclerView.setAdapter(adapter);
+        getPresenter().ExcuteDictionaryTask();
     }
 
     @Override
@@ -42,7 +43,6 @@ public class DictionaryFragment extends MVPFragment<DictionaryContract.IPresente
     @Override
     public void onResume() {
         super.onResume();
-        getPresenter().ExcuteDictionaryTask();
     }
 
     @Override

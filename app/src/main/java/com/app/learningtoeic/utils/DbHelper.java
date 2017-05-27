@@ -240,7 +240,9 @@ public class DbHelper extends SQLiteOpenHelper {
     public ArrayList<Word> readRecordsSearch(String searchTerm) {
         opendatabase();
         ArrayList<Word> recordsList = new ArrayList<Word>();
-        String sql = "SELECT * FROM word WHERE vocabulary LIKE '%" + searchTerm + "%' ORDER BY id DESC LIMIT 0,5";
+        String sql = "SELECT * FROM word WHERE vocabulary LIKE '%" + searchTerm +
+                "%' OR " + "explanation LIKE '%" + searchTerm + "%'" + "OR " + "translate LIKE '%" +
+                searchTerm + "%'" + " ORDER BY id DESC LIMIT 0,5";
         Cursor cursor = myDataBase.rawQuery(sql, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
