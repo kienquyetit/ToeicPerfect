@@ -58,9 +58,17 @@ public class TopicItemListAdapter extends RecyclerView.Adapter {
         ImageView ivDescriptivePicture, ivFavourite, ivDetail;
         TextView tvVocabulary, tvVocalization, tvExplanation, tvTranslate;
         Word word;
+        View wrapView;
         Callback callback;
         public ViewHolderItem(final View itemView, final Callback callback) {
             super(itemView);
+            wrapView = itemView.findViewById(R.id.wrap_word_layout);
+            wrapView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Config.wordDB.ListeningWord(word,itemView.getContext());
+                }
+            });
             this.callback = callback;
             ivDescriptivePicture = (ImageView) itemView.findViewById(R.id.ivDescriptivePicture);
             ivDetail = (ImageView) itemView.findViewById(R.id.iv_detail);

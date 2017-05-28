@@ -2,14 +2,17 @@ package com.app.learningtoeic.utils;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.media.MediaPlayer;
 import android.widget.Toast;
 
 import com.app.learningtoeic.entity.HighScore;
+import com.app.learningtoeic.entity.Question;
 import com.app.learningtoeic.entity.Topic;
 import com.app.learningtoeic.entity.Word;
 
@@ -269,5 +272,19 @@ public class DbHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return favouriteList;
+    }
+
+    public void ListeningWord(Word question,Context context)
+    {
+        MediaPlayer player = new MediaPlayer();
+        AssetFileDescriptor afd = null;
+        try {
+            afd = context.getAssets().openFd("vocabulary/" + question.getVocabulary() + ".mp3");
+            player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+            player.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        player.start();
     }
 }

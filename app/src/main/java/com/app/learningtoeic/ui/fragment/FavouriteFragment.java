@@ -11,6 +11,7 @@ import com.app.learningtoeic.presenter.FavouritePresenter;
 import com.app.learningtoeic.ui.adapter.DictionaryAdapter;
 import com.app.learningtoeic.ui.adapter.TopicItemListAdapter;
 import com.app.learningtoeic.ui.fragment.dictionary.DetailWordFragment;
+import com.app.learningtoeic.utils.Config;
 
 import java.util.ArrayList;
 

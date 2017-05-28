@@ -9,6 +9,7 @@ import com.app.learningtoeic.entity.Word;
 import com.app.learningtoeic.mvp.fragment.MVPFragment;
 import com.app.learningtoeic.presenter.dictionary.DictionaryPresenter;
 import com.app.learningtoeic.ui.adapter.DictionaryAdapter;
+import com.app.learningtoeic.utils.Config;
 
 import java.util.ArrayList;
 

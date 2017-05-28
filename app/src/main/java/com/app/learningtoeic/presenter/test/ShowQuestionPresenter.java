@@ -13,6 +13,7 @@ import com.app.learningtoeic.entity.Word;
 import com.app.learningtoeic.mvp.fragment.FragmentPresenter;
 import com.app.learningtoeic.utils.Config;
 import com.app.learningtoeic.utils.Constants;
+import com.app.learningtoeic.utils.DbHelper;
 import com.app.learningtoeic.utils.SuffleHelper;
 
 import java.io.IOException;
@@ -195,16 +196,7 @@ public class ShowQuestionPresenter extends FragmentPresenter<ShowQuestionContrac
 
     @Override
     public void listeningWord() {
-        MediaPlayer player = new MediaPlayer();
-        AssetFileDescriptor afd = null;
-        try {
-            afd = getView().GetActivityContext().getAssets().openFd("vocabulary/" + question.getVocabulary() + ".mp3");
-            player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-            player.prepare();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        player.start();
+        Config.wordDB.ListeningWord(question,getView().GetActivityContext());
     }
 
     @Override

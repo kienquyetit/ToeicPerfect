@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -140,10 +141,18 @@ public class DictionaryAdapter extends RecyclerView.Adapter {
         TextView tvVocabulary, tvVocalization, tvExplanation, tvTranslate;
         Word word;
         Callback callback;
+        RelativeLayout wrapWord;
 
         public ViewHolderItem(final View itemView, final Callback callback) {
             super(itemView);
             this.callback = callback;
+            wrapWord = (RelativeLayout)itemView.findViewById(R.id.wrap_word_layout);
+            wrapWord.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Config.wordDB.ListeningWord(word,itemView.getContext());
+                }
+            });
             ivDescriptivePicture = (ImageView) itemView.findViewById(R.id.ivDescriptivePicture);
             ivDetail = (ImageView) itemView.findViewById(R.id.iv_detail);
             ivFavourite = (ImageView) itemView.findViewById(R.id.iv_favourite);

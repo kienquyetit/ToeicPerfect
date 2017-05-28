@@ -10,6 +10,7 @@ import com.app.learningtoeic.entity.Word;
 import com.app.learningtoeic.mvp.fragment.MVPFragment;
 import com.app.learningtoeic.presenter.topic.TopicItemListPresenter;
 import com.app.learningtoeic.ui.adapter.TopicItemListAdapter;
+import com.app.learningtoeic.utils.Config;
 
 import java.util.ArrayList;
 
