@@ -118,7 +118,6 @@ public class DbHelper extends SQLiteOpenHelper {
 
     }
 
-
     public ArrayList<Word> getListWord() {
         opendatabase();
         ArrayList<Word> listWord = new ArrayList<>();

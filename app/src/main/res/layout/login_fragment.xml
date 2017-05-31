@@ -25,8 +25,9 @@
         android:layout_marginTop="36dp"
         android:hint="Email"
         android:inputType="textEmailAddress"
+        android:paddingLeft="10dp"
         android:textColor="@color/white"
-        android:textColorHint="@color/white" />
+        android:textColorHint="@color/grey" />
 
     <EditText
         android:id="@+id/edit_text_password_log_in"
@@ -37,8 +38,9 @@
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
+        android:paddingLeft="10dp"
         android:textColor="@color/white"
-        android:textColorHint="@color/white" />
+        android:textColorHint="@color/grey" />
 
     <CheckBox
         android:id="@+id/check_box_remember_pass"
@@ -47,16 +49,17 @@
         android:text="Remember password"
         android:layout_marginLeft="@dimen/log_in_margin"
         android:layout_marginTop="6dp"
-        android:textColor="@color/white" />
+        android:buttonTint="@color/brown2"
+        android:textColor="@color/blue1" />
 
     <TextView
         android:id="@+id/text_view_forgot_pass"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:layout_marginBottom="8dp"
         android:textColor="@color/orange"
-        android:layout_marginLeft="@dimen/log_in_margin"
+        android:layout_marginLeft="48dp"
         android:text="Forgot your password?"/>
 
     <Button
@@ -66,9 +69,9 @@
         android:layout_marginLeft="@dimen/log_in_margin"
         android:layout_marginRight="@dimen/log_in_margin"
         android:layout_marginTop="10dp"
-        android:background="@color/white"
+        android:background="@drawable/custom_login_button"
         android:text="LogIn"
-        android:textColor="@color/primary" />
+        android:textColor="@color/white" />
 
     <Button
         android:id="@+id/btn_register"
@@ -77,8 +80,8 @@
         android:layout_marginLeft="@dimen/log_in_margin"
         android:layout_marginRight="@dimen/log_in_margin"
         android:layout_marginTop="8dp"
-        android:background="@color/white"
+        android:background="@drawable/custom_login_button"
         android:text="Register"
-        android:textColor="@color/primary" />
+        android:textColor="@color/white" />
 
 </LinearLayout>
